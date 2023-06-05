@@ -1,0 +1,10 @@
+/*******************************************************************************
+
+  Copyright (c) 2023 "%inject:project.provider%. All rights reserved.
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "Eclipse Platform 2021-06"
+

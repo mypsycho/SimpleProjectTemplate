@@ -1,0 +1,16 @@
+/*******************************************************************************
+
+  Copyright (c) 2023 "%inject:project.provider%. All rights reserved.
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "JavaSE-%inject:project.java% - Runtime"
+
+with requirements
+environment JavaSE-%inject:project.java%
+
+include "runtime_platform.tpd"
+
+include "capella_cdo.tpd"

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='2'>
+  <artifact classifier='org.eclipse.update.feature' id='fr.irt_systemx.confianceai.capella.oax.feature' version='1.0.0.v20230526-0953'>
+    <properties size='7'>
+      <property name='artifact.size' value='1190'/>
+      <property name='download.size' value='1190'/>
+      <property name='maven-groupId' value='fr.irt_systemx.confianceai.capella.oax'/>
+      <property name='maven-artifactId' value='fr.irt_systemx.confianceai.capella.oax.feature'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      <property name='maven-type' value='eclipse-feature'/>
+      <property name='download.contentType' value='application/zip'/>
+    </properties>
+  </artifact>
+  <artifact classifier='org.eclipse.update.feature' id='fr.irt_systemx.confianceai.capella.oax.feature.source' version='1.0.0.v20230526-0953'>
+    <properties size='8'>
+      <property name='artifact.size' value='3037'/>
+      <property name='download.size' value='3037'/>
+      <property name='maven-groupId' value='fr.irt_systemx.confianceai.capella.oax'/>
+      <property name='maven-artifactId' value='fr.irt_systemx.confianceai.capella.oax.feature'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      <property name='maven-classifier' value='sources-feature'/>
+      <property name='maven-type' value='eclipse-feature'/>
+      <property name='download.contentType' value='application/zip'/>
+    </properties>
+  </artifact>
+</artifacts>

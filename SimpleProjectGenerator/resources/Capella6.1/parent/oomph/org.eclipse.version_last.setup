@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup:ProductVersion xmi:version="2.0" 
+	xmlns:xmi="http://www.omg.org/XMI"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
+	xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0" 
+	xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
+    xsi:schemaLocation="
+    http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore
+    "
+	name="capella_6_1" label="Capella 6.1" requiredJavaVersion="14"
+>
+
+<!-- Capella 6 requires Java 11 but is bundled with Java 17 -->
+
+	<description><![CDATA[
+	P2Tasks can be very messy.<br/>
+	Try to keep requirements and associated repository close like in Target Platform Definitions.<br/>
+	Organize groups of features by theme using different P2Task.
+	]]></description>
+	<setupTask xsi:type="setup:CompoundTask" name="User Preferences">
+		<annotation source="http://www.eclipse.org/oomph/setup/UserPreferences">
+			<detail key="/instance/org.eclipse.pde.ds.annotations/validationErrorLevel">
+				<value>record</value>
+			</detail>
+			<detail key="/instance/org.eclipse.pde.ds.annotations/enabled">
+				<value>record</value>
+			</detail>
+			<detail key="/instance/org.eclipse.pde.ds.annotations/path">
+				<value>record</value>
+			</detail>
+			<detail key="/instance/org.eclipse.pde.ds.annotations/validationErrorLevel.missingImplicitUnbindMethod">
+				<value>record</value>
+			</detail>
+			<detail key="/instance/org.eclipse.pde.ds.annotations/generateBundleActivationPolicyLazy">
+				<value>record</value>
+			</detail>
+		</annotation>
+		<setupTask xsi:type="setup:CompoundTask" name="org.eclipse.pde.ds.annotations">
+			<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.pde.ds.annotations/enabled" value="true" />
+			<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.pde.ds.annotations/generateBundleActivationPolicyLazy"  value="true" />
+			<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.pde.ds.annotations/path" value="OSGI-INF" />
+			<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.pde.ds.annotations/validationErrorLevel" value="error" />
+			<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.pde.ds.annotations/validationErrorLevel.missingImplicitUnbindMethod" value="error" />
+		</setupTask>
+	</setupTask>
+	
+	<setupTask xsi:type="setup.p2:P2Task" id="eclipse" label="Eclipse basic">
+		
+		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<repository url="https://download.eclipse.org/technology/epp/packages/2020-06" />
+
+		<requirement name="epp.package.modeling" versionRange="[4.6.0,5.0.0)" />
+		<requirement name="org.eclipse.platform.feature.group" versionRange="[4.6.0,5.0.0)" />
+		<requirement name="org.eclipse.rcp.feature.group" versionRange="[4.6.0,5.0.0)" />
+		<requirement name="org.eclipse.sdk.feature.group" />
+		<requirement name="org.eclipse.e4.core.tools.feature.feature.group" />
+		<requirement name="org.eclipse.egit.feature.group" />
+		<requirement name="org.eclipse.m2e.feature.feature.group" />
+		<!-- 
+		<requirement name="org.eclipse.oomph.setup.ui.ide.feature.group" />
+ -->
+		<requirement name="org.eclipse.oomph.workingsets.feature.group" />
+		<requirement name="org.eclipse.oomph.preferences.feature.group" />
+		<requirement name="org.eclipse.oomph.projectconfig.feature.group" />
+		<requirement name="org.eclipse.oomph.setup.sdk.feature.group" />
+		<requirement name="org.eclipse.oomph.targlets.feature.group" />
+		<requirement name="org.eclipse.oomph.version.feature.group" />
+
+
+ 
+     	<!--  java dev -->
+		<requirement name="org.eclipse.jdt.feature.group" />
+		<requirement name="org.eclipse.pde.feature.group" />
+
+  		<!-- P2 Target platform editor -->
+		<requirement name="org.eclipse.epp.mpc.feature.group" /> <!-- no transivity ?? -->
+		<requirement name="org.eclipse.equinox.p2.discovery.feature.feature.group" />
+		<requirement name="org.eclipse.userstorage.feature.group" />
+		<!-- market place is fine to search, but use oomph to trace installation -->
+		<repository url="https://download.eclipse.org/cbi/tpd/3.0.0-SNAPSHOT/" />
+		<requirement name="org.eclipse.cbi.targetplatform-feature.feature.group" />
+		
+  		<!-- Team work -->
+		<requirement name="org.eclipse.mylyn.bugzilla_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.context_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.ide_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.java_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.pde_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.wikitext_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn_feature.feature.group" />
+		<requirement name="org.eclipse.egit.mylyn.feature.group" />
+
+     	<!--  xml and web -->
+		<requirement name="org.eclipse.xsd.sdk.feature.group" />
+		<requirement name="org.eclipse.wst.web_ui.feature.feature.group" />
+		<requirement name="org.eclipse.wst.xml_ui.feature.feature.group" />
+		<requirement name="org.eclipse.pde.api.tools.ee.feature.feature.group" />
+		      
+	</setupTask>
+	
+
+	<setupTask xsi:type="setup.p2:P2Task" id="docs" label="Documentating">
+		<!-- YAML: used by github -->
+		<repository url="https://de-jcup.github.io/update-site-eclipse-yaml-editor/update-site" />
+		<requirement name="de.jcup.yamleditor.feature.group" />
+	
+	    <!-- Doc -->
+		<repository url="https://de-jcup.github.io/update-site-eclipse-asciidoctor-editor/update-site/" />
+		<requirement name="de.jcup.asciidoctoreditor.feature.group" />
+	    
+	    <!-- Image browser
+		<repository url="http://manu26.manufrog.com/~psnetnu/eclipse/updates/" />
+		<requirement name="nu.psnet.quickimage.feature.group" />
+		 -->
+	</setupTask>
+	
+	<!-- Devstyle (provide Darkest theme) -->
+	<setupTask xsi:type="setup.p2:P2Task" id="themes" label="IDE themes">
+		<repository url="http://www.genuitec.com/updates/devstyle/ci/" />
+		<requirement name="com.genuitec.eclipse.theming.core.feature.feature.group" />
+	</setupTask>
+	
+	<setupTask xsi:type="setup.p2:P2Task" id="ui" label="UI designer">
+			
+      	<!-- javafx -->
+		<repository url="https://download.eclipse.org/efxclipse/updates-released/3.6.0/site/" />
+		<requirement name="org.eclipse.fx.ide.feature.feature.group" />
+		
+		<!-- swt or swing -->
+		<repository url="https://download.eclipse.org/windowbuilder/latest/" />
+		<requirement name="org.eclipse.wb.core.feature.feature.group" />
+		<requirement name="org.eclipse.wb.core.java.feature.feature.group" />
+		<requirement name="org.eclipse.wb.core.ui.feature.feature.group" />
+		<requirement name="org.eclipse.wb.core.xml.feature.feature.group" />
+		<requirement name="org.eclipse.wb.doc.user.feature.feature.group" />
+		<requirement name="org.eclipse.wb.layout.group.feature.feature.group" />
+		<requirement name="org.eclipse.wb.rcp.doc.user.feature.feature.group" />
+		<requirement name="org.eclipse.wb.rcp.feature.feature.group" />
+		<requirement name="org.eclipse.wb.rcp.SWT_AWT_support.feature.group" />
+		<requirement name="org.eclipse.wb.swing.doc.user.feature.feature.group" />
+		<requirement name="org.eclipse.wb.swing.feature.feature.group" />
+		<requirement name="org.eclipse.wb.swt.feature.feature.group" />
+		<requirement name="org.eclipse.wb.xwt.feature.feature.group" />
+	</setupTask>
+	
+	<setupTask xsi:type="setup.p2:P2Task" id="langs" label="Language">
+		<repository url="https://download.eclipse.org/releases/2021-06" />
+	
+		<!-- Java language -->
+		<requirement name="org.eclipse.xtend.sdk.feature.group" />
+		<requirement name="org.eclipse.xtext.sdk.feature.group" />
+		
+		<!-- No release of kotlin eclipse (2020-03) -->
+		
+		<!-- THIS VERSION IS Out of order:
+		interacts with jdt and fails 
+		java.lang.NoClassDefFoundError: org/eclipse/jdt/internal/ui/javaeditor/CompilationUnitEditor
+			at org.jetbrains.kotlin.ui.commands.psiVisualization.PsiVisualization.setEnabled(PsiVisualization.java:54)
+			at org.eclipse.ui.internal.handlers.HandlerProxy.setEnabled(HandlerProxy.java:229)
+		 
+		<repository url="https://dl.bintray.com/jetbrains/kotlin/eclipse-plugin/0.8.9/" />
+     
+		<requirement name="org.eclipse.equinox.weaving.sdk.feature.group" />
+		<requirement name="org.jetbrains.kotlin.feature.feature.group" />
+	 	-->
+	
+	</setupTask>
+	
+	<setupTask xsi:type="setup.p2:P2Task" id="quality" label="Quality tool">
+
+		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<requirement name="org.eclipse.eclemma.feature.feature.group" /> <!-- from eclipse dist -->
+
+		<repository url="https://checkstyle.org/eclipse-cs-update-site" />
+		<requirement name="net.sf.eclipsecs.feature.group" />
+
+		<!-- Spotbugs replaces findbugs -->
+		<repository url="https://spotbugs.github.io/eclipse/" />
+	    <requirement name="com.github.spotbugs.plugin.eclipse.feature.group" />
+
+		<!-- Decompiler -->
+		<repository url="https://ecd-plugin.github.io/update/" />
+		
+		<requirement name="org.sf.feeling.decompiler.feature.group" /> <!-- required -->
+		<requirement name="org.sf.feeling.decompiler.cfr.feature.group" />
+		<requirement name="org.sf.feeling.decompiler.jd.feature.group" />
+		<requirement name="org.sf.feeling.decompiler.procyon.feature.group" />
+		<requirement name="org.sf.feeling.decompiler.quiltflower.feature.group" />
+
+	</setupTask>
+			
+	<setupTask xsi:type="setup.p2:P2Task" id="modeling" label="Eclipse Modeling">
+		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<requirement name="org.eclipse.emf.sdk.feature.group" />
+		<requirement name="org.eclipse.emf.query.sdk.feature.group" />
+		<requirement name="org.eclipse.emf.transaction.sdk.feature.group" />
+		<requirement name="org.eclipse.emf.validation.sdk.feature.group" />
+		<requirement name="org.eclipse.gef.sdk.feature.group" />
+
+		<requirement name="org.eclipse.emf.ecoretools.design.feature.group" />
+		<requirement name="org.eclipse.xtext.sdk.feature.group" />
+		<requirement name="org.eclipse.emf.ecore.xcore.sdk.feature.group" />
+		
+		<!-- We do not reference Sirius from Eclipse release as source in not available -->
+		<repository url="https://download.eclipse.org/sirius/updates/releases/7.1.0/2021-06/" />
+		<requirement name="org.eclipse.sirius.specifier.ide.ui.source.feature.group" />
+		<requirement name="org.eclipse.sirius.diagram.elk.sdk.feature.feature.group" />
+		<requirement name="org.eclipse.acceleo.ui.interpreter.feature.group" />
+		<requirement name="org.eclipse.eef.ext.widgets.reference.feature.source.feature.group" />
+		<requirement name="org.eclipse.eef.sdk.feature.source.feature.group" />
+		<requirement name="org.eclipse.sirius.runtime.ide.xtext.source.feature.group" />
+		
+		<repository url="https://download.eclipse.org/modeling/gmp/gmf-runtime/updates/releases/R202211041032/" />
+		<!-- Not needed; requires org.eclipse.gef.sdk.feature.group:3.14
+		<requirement name="org.eclipse.gmf.runtime.sdk.feature.group" />
+		 -->
+		<requirement name="org.eclipse.gmf.feature.group" versionRange="[1.15.3,1.16)"/>
+         
+		<repository url="https://download.eclipse.org/modeling/gmp/gmf-notation/updates/releases/R202211151334/" />
+		<requirement name="org.eclipse.gmf.runtime.notation.feature.group" versionRange="1.13.1"/>
+         
+        <repository url="https://download.eclipse.org/elk/updates/releases/0.7.1/" />
+		<requirement name="org.eclipse.elk.feature.feature.group" />
+		<requirement name="org.eclipse.elk.algorithms.feature.feature.group" />
+         
+	</setupTask>
+	
+	<setupTask xsi:type="setup.p2:P2Task" id="modeling-extras" label="Eclipse Modeling extra">
+
+		<!-- Editing Acceleo -->
+		<repository url="https://download.eclipse.org/sirius/updates/releases/7.1.0/2021-06/" />
+	    <requirement name="org.eclipse.sirius.runtime.ide.ui.acceleo.feature.group" />
+		<requirement name="org.eclipse.sirius.runtime.acceleo.feature.group" />
+		<requirement name="org.eclipse.sirius.specifier.ide.ui.acceleo.feature.group" />
+
+		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<requirement name="org.eclipse.xtext.sdk.feature.group" />
+
+		<!-- Tools for ELK debugging -->
+		<repository url="https://download.eclipse.org/elk/updates/releases/0.7.1/" />
+		<requirement name="org.eclipse.elk.sdk.feature.feature.group" />
+		
+	</setupTask>
+	
+	
+	<setupTask xsi:type="setup.p2:P2Task" id="capella" label="Capella">
+		
+		<!-- include org.polarsys.kitalpha.sdk.feature.feature.group -->
+		<!-- 
+			expected:
+		    org.polarsys.kitalpha.emde.sdk, 
+			org.polarsys.kitalpha.ad.sdk, 
+			org.polarsys.kitalpha.ad.integration.amalgam,
+			org.polarsys.kitalpha.representation,
+			org.polarsys.kitalpha.richtext.widget.tools.ext -->
+
+		<repository url="https://download.eclipse.org/kitalpha/updates/releases/runtime/6.1.0" /> <!-- runtime includes runtimecore and more -->
+
+		<!-- Capella is required by Studio: Only qualified name in release -->
+		<repository url="https://download.eclipse.org/capella/core/updates/releases/6.1.0/org.polarsys.capella.rcp.site/" />
+
+		<requirement name="org.polarsys.capella.rcp.feature.group" /> <!-- Tested -->
+		<!-- Capella RCP requires -->
+		
+		<repository url="https://download.eclipse.org/modeling/amalgam/updates/releases/1.13.0/capella/" /> <!-- amalgam is added in 6.x -->
+		
+		<repository url="https://download.eclipse.org/kitalpha/updates/releases/sdk/6.1.0/" /> <!-- org.polarsys.kitalpha.doc -->
+		
+		<repository url="https://download.eclipse.org/diffmerge/releases/0.14.1/emf-diffmerge-site/" />
+		<repository url="https://download.eclipse.org/diffmerge/releases/0.14.1/edm-patterns-site/" />
+
+		<repository url="https://download.eclipse.org/nebula/releases/2.3.0/" /> <!-- richtext:1.3 -->
+		<repository url="https://download.eclipse.org/nattable/releases/2.0.1/repository/" />
+		
+		<!-- widgets.nattable.extension.glazedlists:2.0.1 -->
+		<!-- Also depends of Sirius, but brought by <P2Task>"modeling" -->
+
+		<!-- CDO is present in Studio even with CDO generation 
+		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<requirement name="org.eclipse.emf.cdo.epp.feature.group" />
+		 -->
+		 
+		<repository url="https://archive.eclipse.org/egit/updates-4.1.1/" /> <!-- unexpected blocking stuff -->
+
+	</setupTask>
+
+	<setupTask xsi:type="setup.p2:P2Task" id="capella_studio" label="Capella Studio">
+		<repository url="https://download.eclipse.org/capella/core/updates/releases/6.1.0/org.polarsys.capella.egf.site/" />	
+		<repository url="https://download.eclipse.org/capella/studio/updates/releases/6.1.0/" />
+		<repository url="https://download.eclipse.org/cbi/updates/license" />
+
+		<requirement name="org.eclipse.egf.sdk.feature.feature.group" />
+	
+		<requirement name="org.polarsys.capella.studio.product.feature.feature.group" />
+		<requirement name="org.polarsys.capella.ta.viewpoint.dsl.feature.feature.group" /><!-- include viewpoint.dsl.generation.ui -->
+		
+		<requirement name="org.polarsys.capella.cdo.ta.definition.feature.feature.group" />
+		<requirement name="org.polarsys.capella.cdoxml.ta.definition.feature.feature.group" />
+	
+		<requirement name="org.polarsys.capella.extension.sdk.feature.feature.group" />
+		
+		<!-- 
+		Issue with compare ?
+		<requirement name="org.polarsys.capella.cdo.mock.feature.feature.group" /> 
+		 -->
+	</setupTask>
+	
+
+</setup:ProductVersion>
+ 

@@ -1,0 +1,65 @@
+== Eclipse Preferences Files
+
+// TODO: Define application on projects and deploy.
+
+Configuration files for Eclipse to ensure a common coding style. +
+Import them in _Preferences_.
+
+[IMPORTANT]
+====
+Take care for generated sources:
+
+* Either formatters must be applied on each generation.
+* or projects with generation are isolated and no configured (simpler).
+====
+
+
+`checkstyle.%inject:project.profile%.xml` (v5) :: 
+Reference it in each Projects but ones with code generation
+
+
+`java_code-style_cleanup.xml` :: 
+Import it in _Preferences > Java > Code Style > Clean Up_. Reference it in 
+Projects. +
+Warning: "Java Clean-up" is not "Save actions" even if most elements are
+duplicated. +
+Java Clean-up is driven by profiles but not "Save actions". +
+Configuring "Save actions" is usually what developer want to do. +
+Impacted file in Projects for "Save actions" are :
+* _org.eclipse.jdt.ui.prefs_: with "sp_cleanup" prefix. +
+See _java-editor_save-actions.properties_ to reuse current configuration.
+
+
+`java_code-style.importorder` :: 
+Import it from _Preferences > Java > Code Style > Organize Imports_. +
+Impacted file in Projects are :
+* _org.eclipse.jdt.ui.prefs_
+
+
+`java_code-style_formatter.xml` :: 
+Import it from _Preferences > Java > Code Style > Formatter_. +
+When used as specific configuration, it is saved in Workspace preferences. +
+When preferences is modified, all concerned projects are updated: +
+This *may* be a issue when all projects are not in Workspace, different versions 
+of the preferences will collide. It is import to export any modification to fix 
+it. +
+Impacted file in Projects are :
+* _org.eclipse.jdt.core.prefs_: all formatter properties
+* _org.eclipse.jdt.ui.prefs_: formatter definition
+
+
+`java_code-style_templates.xml` ::
+Import it from _Preferences > Java > Code Style > Code Templates_. +
+⚠️ Template import consider spaces and newline in XML file, so direct 
+file editing is not possible. +
+Impacted file in Projects are :
+* _org.eclipse.jdt.ui.prefs_ : on a single line.
+
+
+Java 'import static' (no export)::
+Configure _Preferences > Java > Editor > Content Assist > Favorites_ to 
+automatically use `import static` in Java.
+* *New Type...*:
+** java.util.Stream
+** java.util.stream.Collector
+No project preferences.

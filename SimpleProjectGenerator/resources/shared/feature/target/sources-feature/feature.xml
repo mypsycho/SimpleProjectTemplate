@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="fr.irt_systemx.confianceai.capella.oax.feature.source" version="1.0.0.v20230526-0953" label="OaExtension Feature Developer Resources">
+  <description url="%descriptionURL">
+      %description
+   </description>
+  <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+  <license url="%licenseURL">
+      %license
+   </license>
+  <includes id="fr.irt_systemx.confianceai.capella.oax.feature" version="1.0.0.v20230526-0953"/>
+  <plugin id="fr.irt_systemx.confianceai.capella.oax.vpdsl.source" version="1.0.0.v20230526-0953" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="fr.irt_systemx.confianceai.capella.oax.model.source" version="1.0.0.v20230526-0953" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="fr.irt_systemx.confianceai.capella.oax.model.edit.source" version="1.0.0.v20230526-0953" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="fr.irt_systemx.confianceai.capella.oax.contextual.explorer.source" version="1.0.0.v20230526-0953" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="fr.irt_systemx.confianceai.capella.oax.design.source" version="1.0.0.v20230526-0953" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="fr.irt_systemx.confianceai.capella.oax.rules.validation.source" version="1.0.0.v20230526-0953" download-size="0" install-size="0" unpack="false"/>
+</feature>

@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+  Copyright (c) 2023 "%inject:project.provider%. All rights reserved.
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>%inject:project.fullname%</groupId>
+	<artifactId>parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<!-- 
+	  pom parent must always set version, 
+	  but module can use implicit value as long as: 
+		- child as the same version, 
+		- parent.version is set, 
+		- parent.relativePath is set. Thus children can use ${project.version} for all siblings.
+	-->
+	<packaging>pom</packaging>
+
+	<name>POM Parent</name>
+
+	<licenses>
+	    <!-- TODO: Confirm
+		<license>
+			<name>EPL 2</name>
+		</license>
+		-->
+	</licenses>
+
+	<properties>
+	
+	    <tp.version>1.0.0-SNAPSHOT</tp.version>
+		<tp.mode>build</tp.mode>
+
+		<tycho.version>2.7.5</tycho.version>
+		<xtend.version>2.25.0</xtend.version>
+
+		<!-- Xtend plugin does not take source version from TPD  -->
+		<maven.compiler.source>11</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- TODO turn into UTF-8 -->
+
+		<!-- supported: warning|error|ignore -->
+		<git.dirty>error</git.dirty>
+		
+		<!-- 
+        This is the default pattern: 
+        Tycho does not provide a shortcut to launch 1 test.
+        To force a specific test also set -DfailIfNoTests=false
+        -->
+		<tycho.tests.patterns>**/Test*.java,**/*Test.java,**/*Tests.java,**/*TestCase.java</tycho.tests.patterns>
+	</properties>
+	
+	<modules>
+		<module>tpd</module>
+	</modules>
+	
+	<build>
+		<sourceDirectory>src</sourceDirectory> 
+	    <!-- 
+	    when sourceDirectory not set, 
+	    xtend fails (at least): it search src/main/java; not tycho.
+	    -->
+
+		<plugins>
+		
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+		
+		<pluginManagement>
+			<plugins>
+				<!-- Classic plugins -->
+			    <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jarsigner-plugin</artifactId>
+					<version>1.3.2</version>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.2.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.7</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.6.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.0.0</version>
+				</plugin>
+				
+				<!-- Tycho plugins -->
+				
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-maven-plugin</artifactId>
+					<version>${tycho.version}</version>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>target-platform-configuration</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<target>
+							<artifact>
+								<groupId>%inject:project.fullname%</groupId>
+								<artifactId>tpd</artifactId>
+								<version>${tp.version}</version>
+								<classifier>${tp.mode}</classifier>
+							</artifact>
+						</target>
+						<resolver>p2</resolver>
+						
+						<!-- 
+						If we are going to use Maven dependencies
+						we'll need this to resolve the OSGi bundles.
+						This can only be used for test scope 
+						as classes will not be available at runtime
+						<pomDependencies>consider</pomDependencies> 
+						
+						-->
+						
+						<environments>
+						<!-- 
+						Generic cannot be used: swt.widgets are in a fragment.
+						May be only 1 env is required 
+						as produced plugins do not depend of them ?
+							<environment> 
+							<os>*</os>
+							<ws>*</ws>
+							<arch>*</arch>
+							</environment>
+						 -->
+						 <!-- 'x86' is no more supported.  -->
+							<environment>
+								<os>win32</os>
+								<ws>win32</ws>
+								<arch>x86_64</arch>
+							</environment>
+							<environment>
+								<os>linux</os>
+								<ws>gtk</ws>
+								<arch>x86_64</arch>
+							</environment>
+							<environment>
+								<os>macosx</os>
+								<ws>cocoa</ws>
+								<arch>x86_64</arch>
+							</environment>
+						</environments>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-p2-repository-plugin</artifactId>
+					<version>${tycho.version}</version>
+				</plugin>
+
+				<!-- 
+				Force the timespan of each build to use the UTC of the last commit
+				on the repo 
+				-->
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-packaging-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.eclipse.tycho.extras</groupId>
+							<artifactId>tycho-buildtimestamp-jgit</artifactId>
+							<version>${tycho.version}</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<strictBinIncludes>false</strictBinIncludes>
+						<!-- 'v' prefix in common usage in eclipse -->
+						<format>'v'yyyyMMdd-HHmm</format>
+						<timestampProvider>jgit</timestampProvider>
+						<!-- No expression supported for git.dirty; Use property. -->
+						<jgit.dirtyWorkingTree>${git.dirty}</jgit.dirtyWorkingTree>
+						<!-- Ignore files eclipse may update. -->
+						<jgit.ignore> 
+						.*
+						.settings/
+						</jgit.ignore>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-source-plugin</artifactId>
+					<version>${tycho.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<systemProperties> 
+						<!-- 
+						not sure why...
+						Possibly: as a test write output file, default encoding.
+						-->
+							<file.encoding>${project.build.sourceEncoding}</file.encoding>
+						</systemProperties>
+						
+						<includes>
+                            <include>${tycho.tests.patterns}</include>
+                        </includes>
+                        <!-- Many Capella modules requires UI -->
+                        <useUIHarness>true</useUIHarness>
+         				<useUIThread>false</useUIThread>
+         				<application>org.polarsys.capella.core.platform.sirius.ui.perspective.id</application>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-compiler-plugin</artifactId>
+					<version>${tycho.version}</version>
+					
+					<!-- Suspicious configuration:
+										<configuration>
+						<meminitial>256m</meminitial>
+						<maxmem>1500m</maxmem>
+						<compilerArgument>-err:-forbidden</compilerArgument>
+					</configuration>
+					 -->
+				</plugin>
+			    <plugin>
+			      <groupId>org.eclipse.tycho</groupId>
+			      <artifactId>tycho-p2-plugin</artifactId>
+			      <version>${tycho.version}</version>
+				</plugin>
+			    <plugin>
+			      <groupId>org.eclipse.tycho</groupId>
+			      <artifactId>tycho-p2-director-plugin</artifactId>
+			      <version>${tycho.version}</version>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.eclipse.xtend</groupId>
+					<artifactId>xtend-maven-plugin</artifactId>
+					<version>${xtend.version}</version>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+
+	</build>
+
+	<profiles>
+
+		<profile>
+			<id>tycho-plugin-source</id> <!-- By default, there is no source in tycho -->
+			<activation>
+				<!-- Active for bundle and tests, neither feature, site nor product -->
+				<file>
+					<exists>META-INF/MANIFEST.MF</exists>
+				</file>
+				<property>
+					<name>tycho.releng.skip</name>
+					<value>!true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+				<!-- 
+				Obeo:
+					NO KEY STORE available
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<configuration>
+								<!- - TODO deal with pom parent reference - ->
+							<keystore>../../parent/XXXXKeyStore</keystore>
+							<storepass>XXXX</storepass>
+							<alias>XXXX</alias>
+							<keypass>XXXX</keypass>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<goals><goal>sign</goal></goals>
+							</execution>
+						</executions>
+					</plugin>
+				 -->
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>plugin-source</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>tycho-feature-source</id>
+			<activation>
+				<file><!-- Active for feature only -->
+					<exists>feature.xml</exists>
+				</file>
+			</activation>
+			
+			<properties>
+				<!-- 
+				When a feature does not need source (only dependencies).
+				-->
+				<source.feature.skip>false</source.feature.skip>
+			</properties>
+			
+			<build>
+				<plugins>
+
+				    <plugin>
+				      <groupId>org.eclipse.tycho</groupId>
+				      <artifactId>tycho-source-plugin</artifactId>
+				      <executions>
+				        <execution>
+				          <!-- Bug on id name: https://github.com/eclipse-tycho/tycho/issues/85 -->
+				          <id>feature-source</id>
+				          <goals>
+				            <goal>feature-source</goal>
+				          </goals>
+				        </execution>
+				      </executions>
+				      <configuration>
+				      	<skip>${source.feature.skip}</skip>
+				      </configuration>
+				    </plugin>
+
+<!-- 
+See https://wiki.eclipse.org/Tycho/Reference_Card#Source_Features
+for p2-metadata in feature
+ -->
+					<plugin>
+				      <groupId>org.eclipse.tycho</groupId>
+				      <artifactId>tycho-p2-plugin</artifactId>
+				      <executions>
+				        <execution>
+				          <id>attach-p2-metadata</id>
+				          <phase>package</phase>
+				          <goals>
+				            <goal>p2-metadata</goal>
+				          </goals>
+				        </execution>
+				      </executions>
+				    </plugin>
+
+    			</plugins>
+			</build>
+		</profile>
+		
+		<profile>
+			<id>xtend-nature</id>
+			<activation>
+				<file>
+					<exists>.settings/org.eclipse.xtend.core.Xtend.prefs</exists>
+				</file>
+			</activation>
+			<build>
+			
+				<pluginManagement>
+					<plugins>
+						
+						<plugin>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>tycho-compiler-plugin</artifactId>
+						
+							<configuration>
+								<excludeResources>  <!-- xtend is part of sources -->
+									<excludeResource>**/*.xtend</excludeResource>
+									<!-- xtend files only used at generation -->
+									<excludeResource>**/.*.xtendbin</excludeResource>
+									<excludeResource>**/.*.java._trace</excludeResource>
+								</excludeResources>
+							</configuration>
+						</plugin>
+
+						<plugin>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>tycho-source-plugin</artifactId>
+							<configuration>
+								<excludes>
+									<!-- xtend files only used at generation -->
+									<excludes>**/.*.xtendbin</excludes>
+									<!-- We keep **/.*.java._trace, used by debugger -->
+								</excludes>
+							</configuration>
+						</plugin>
+
+					</plugins>
+				</pluginManagement>
+				
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.xtend</groupId>
+						<artifactId>xtend-maven-plugin</artifactId>
+						<executions>
+							<!-- About Xtend+tycho : Build.properties must be aligned with output.properties -->
+							<execution>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+				
+			</build>
+		</profile>
+
+		<profile>
+			<id>RCPTT-nature</id>
+			<activation>
+				<file>
+					<exists>rcptt.properties</exists>
+				</file>
+			</activation>
+			
+			<properties>
+				<rcptt.version>2.5.1-M3</rcptt.version>
+				
+				<!-- RCPTT Suite is identified by its name, not its filename -->
+				<rcptt.suite.name>_suite.name:undefined_</rcptt.suite.name>
+				
+				<product.name>%inject:project.fullname%.aut-rcptt</product.name>
+				<product.archive>%inject:project.project%Rcptt</product.archive>
+				
+				<!-- rcptt tests should be in: tests/rcptt/<project_name> -->
+				<rcptt.root.path>../../..</rcptt.root.path>
+				<product.build.path>${rcptt.root.path}/releng/${product.name}/target/products</product.build.path>
+				
+				<!-- 
+				Unfortunately, Tycho properties for OSGI are not available in RCPTT extension.
+				Thus RCPTT can only deal with archive classifier (not path).
+				Reminder: Archive of products are all 'zip' for any platform.
+				[platform] tag is substituted by RCPTT execution plugin (hard-coded, not maven-based).
+				 -->
+				<rcptt.build.target>${product.archive}-[platform].zip</rcptt.build.target>
+				<rcptt.aut.path>${product.build.path}/${rcptt.build.target}</rcptt.aut.path>
+				
+				<!-- Run every RCPTT for the time being: This requires 'no failure' -->
+				<rcptt.failure.ignore>true</rcptt.failure.ignore>
+				<rcptt.exec.timeout>240</rcptt.exec.timeout>
+			</properties>
+			
+			<!-- 
+			Note : 
+			Reference doc: https://www.eclipse.org/rcptt/documentation/userguide/maven/
+			
+			Warning :
+			Chapter on 'Extra projects' is deprecated.
+			Only chapter on 'Dependent projects' is applicable.
+			
+			Src:
+			https://eclipse.googlesource.com/rcptt/org.eclipse.rcptt/+/refs/heads/master/
+			-->
+			
+			<pluginRepositories>
+				<pluginRepository> <!-- RCPTT is not in Maven Central -->
+					<id>rcptt-releases</id>
+					<name>RCPTT Maven repository</name>
+					<url>https://repo.eclipse.org/content/repositories/rcptt-releases/</url>
+				</pluginRepository>
+			</pluginRepositories>
+			
+			<dependencies>
+				<!-- This circular dependency may lead to extract a specific pom parent -->
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>${product.name}</artifactId>
+					<version>${project.version}</version>
+					<!-- 
+					As OSGI properties are not accessible
+					we cannot target proper classifier
+					 -->
+					<type>pom</type>
+				</dependency>
+			
+			</dependencies>
+			
+			<build>
+			
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.rcptt</groupId>
+						<artifactId>rcptt-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<configuration>
+							<runner>
+								<version>${rcptt.version}</version>
+								<vmArgs>
+									<vmArg>-Xms512m</vmArg>
+									<vmArg>-Xmx3072m</vmArg>
+								</vmArgs>
+							</runner>
+		
+							<aut>
+								<explicit>${rcptt.aut.path}</explicit>
+								
+								<injections>
+        							<injection>
+        							<!-- RCPTT requires nebula but fails to inject it -->
+        								<site>http://download.eclipse.org/nebula/releases/2.5.0/</site>
+        								<features>
+        									<feature>org.eclipse.nebula.feature.feature.group</feature>
+        								</features>
+       								</injection>
+  								</injections>
+							</aut>
+							
+							<testOptions>
+								<testExecTimeout>${rcptt.exec.timeout}</testExecTimeout>
+							</testOptions>
+							
+							<suites>
+								<suite>${rcptt.suite.name}</suite>
+							</suites>
+							
+							<testFailureIgnore>${rcptt.failure.ignore}</testFailureIgnore>
+						</configuration>
+					</plugin>
+				</plugins>
+			
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.eclipse.rcptt</groupId>
+							<artifactId>rcptt-maven-plugin</artifactId>
+							<version>${rcptt.version}</version>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+				
+			</build>
+		</profile>
+
+	</profiles>
+
+<!-- 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>commons-cli</groupId>
+				<artifactId>commons-cli</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>org.eclipse.xtend.standalone</artifactId>
+				<version>${xtext-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>10.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.inject</groupId>
+				<artifactId>guice</artifactId>
+				<version>3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr-runtime</artifactId>
+				<version>3.2</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	 -->
+</project>

@@ -1,0 +1,24 @@
+/*******************************************************************************
+
+  Copyright (c) 2023 %inject:project.provider%. All rights reserved.
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "%inject:project.profile% %inject:project.label% - SDK" 
+
+//
+// Target platform for development
+// 
+
+// It includes source of dependencies and plugins to launch a client runtime
+
+with requirements, source
+// Source is transitive to all included elements.
+
+environment JavaSE-%inject:project.java%
+
+include "build.tpd"
+
+include "dev.tpd"

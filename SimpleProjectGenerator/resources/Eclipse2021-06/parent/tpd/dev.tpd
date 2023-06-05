@@ -1,0 +1,48 @@
+/*******************************************************************************
+
+  Copyright (c) 2023 "%inject:project.provider%. All rights reserved.
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "JavaSE-%inject:project.java% - Dev" 
+
+//
+// Components used only in development env.
+// 
+
+with requirements
+
+location eclipse "https://download.eclipse.org/releases/2021-06" {
+// Following dependencies are already required by runtime or tests
+// But they are also required for tools.
+
+	org.eclipse.pde.feature.group 
+	// +-> *.layout.spy
+	org.eclipse.xtext.sdk.feature.group
+	org.eclipse.emf.mwe2.launcher.feature.group
+	org.eclipse.xpand.feature.group
+	org.eclipse.xtend.feature.group
+	
+	org.eclipse.xsd.sdk.feature.group // TODO limit to: org.eclipse.xsd 
+	
+}
+
+// org.eclipse.sirius.editor
+location sirius "https://download.eclipse.org/sirius/updates/releases/7.1.0/2021-06/" {
+	
+	// Includes Odesign edit, Sirius interpreter view and Odesign reload 
+	org.eclipse.sirius.specifier.ide.ui.feature.group
+	org.eclipse.sirius.specifier.ide.ui.aql.feature.group
+	org.eclipse.sirius.specifier.properties.feature.feature.group
+	// Include 'Export diagram as ELK'
+	org.eclipse.sirius.diagram.elk.sdk.feature.feature.group
+}
+
+
+location modit "https://mypsycho.github.io/ModIt/releases/v0.9.3" {
+	org.mypsycho.emf.modit_feature.feature.group
+	org.mypsycho.emf.modit.sirius_feature.feature.group
+}
+

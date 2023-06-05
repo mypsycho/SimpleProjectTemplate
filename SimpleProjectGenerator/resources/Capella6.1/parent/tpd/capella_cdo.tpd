@@ -1,0 +1,36 @@
+/*******************************************************************************
+
+  Copyright (c) 2023 "%inject:project.provider%. All rights reserved.
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "Capella CDO 6.1"
+
+// include "http://update.obeo.fr/release/auriga/common-target-platform/5.2.0/capella-5.2.0-common.tpd"
+
+// Missing (at least):
+//   subsystemtransition : not p2 only zip @ capella/addons
+// location "sirius" uses a forward, P2 works even if bowser does not.
+
+
+// From T4C compliant plugins.
+//location "https://download.eclipse.org/modeling/emf/cdo/drops/R20180613-0111/" {
+//    org.eclipse.emf.cdo.sdk.feature.group
+//}
+location capella "https://download.eclipse.org/capella/core/updates/releases/6.1.0/org.polarsys.capella.rcp.site" {
+	
+	// Specific for T4C support
+	org.polarsys.capella.cdo.mock.feature.feature.group
+}
+
+
+location EMFCDO "https://download.eclipse.org/modeling/emf/cdo/updates/releases/4.7/" {
+	org.eclipse.emf.cdo
+}
+
+//location eclipse "https://download.eclipse.org/releases/2021-06" {
+//	org.eclipse.emf.cdo // 4.14
+//	// Avoid feature: it drags to many elements.
+//}

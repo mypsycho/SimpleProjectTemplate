@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup:Product xmi:version="2.0" 
+	xmlns:xmi="http://www.omg.org/XMI"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
+	xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0" 
+	xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
+    xsi:schemaLocation="
+    http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore
+    "
+	name="%inject:project.profile%"
+	label="Developping %inject:project.name% for %inject:project.provider%"
+>
+
+	<!-- product name is used in the installation path -->
+
+	<annotation source="http://www.eclipse.org/oomph/setup/BrandingInfo">
+		<detail key="folderName"><value>eclipse</value></detail>
+		<detail key="folderName.macosx"><value>Eclipse</value></detail>
+	</annotation>
+	
+	<setupTask xsi:type="setup.p2:P2Task">
+		<requirement name="org.eclipse.oomph.setup.feature.group" />
+		<repository url="${oomph.update.url}" />
+	</setupTask>
+
+	<!-- Java does not support an high value of memory start -->
+	<setupTask xsi:type="setup:EclipseIniTask" option="-Xms" value="512m" vm="true" />	
+	<setupTask xsi:type="setup:EclipseIniTask" option="-Xmx" value="4096m" vm="true" />
+	<setupTask xsi:type="setup:InstallationTask" id="installation" />
+	<setupTask xsi:type="setup:CompoundTask" name="preferences">
+		<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.ui.editors/lineNumberRuler" value="true" />
+		<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.core.resources/refresh.enabled" value="true" />
+		<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.typefilter.enabled" value="java.awt.*;" />
+		<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.core.resources/encoding" value="UTF-8" />
+		<setupTask xsi:type="setup:PreferenceTask" key="/instance/org.eclipse.pde.ui/Preferences.MainPage.addToJavaSearch" value="true" />
+	</setupTask>
+	<setupTask xsi:type="setup:ResourceCreationTask" excludedTriggers="STARTUP MANUAL"
+		filter="(osgi.os=linux)"
+		content="[Desktop Entry]&#xA;Type=Application&#xA;Name=${scope.product.label} - ${scope.product.version.label}&#xA;Exec=${product.location/}eclipse&#xA;Icon=${product.location/}icon.xpm&#xA;Terminal=false&#xA;Categories=Development;IDE;"
+		targetURL="${product.location|uri}/eclipse.desktop" />
+	<setupTask xsi:type="setup:VariableTask" name="product.location"
+		value="${installation.location/}${installation.relativeProductFolder}" />
+    
+    <!-- sub-file should be edited using Copy/Paste of 'Dynamic Working Set' in "MENU/Windows/Preferences" -->
+    <setupTask xsi:type="setup.workingsets:WorkingSetTask" href="org.eclipse.worksets.setup#/"/>
+
+    <version href="org.eclipse.version_last.setup#/"/>
+	
+	<description><![CDATA[
+	    Configuration for advanced Java developers.<br/>
+	    It includes:
+	    <ul>
+	    <li>SDK for different target environment: J2EE and Eclipse.</li>
+	    <li>Team tools: Git, maven, oomph, mylyn</li>
+	    <li>Documentation and quality: Asciidoc, Checkstyle.</li>
+	    <li>Capella Studio</li>
+	    </ul>
+	    <br/>
+		Thanks to EclipseSource for providing the base of this configuration.<br/>
+		Check following page for more info.<br/>
+		<a href='http://eclipsesource.com/blogs/2015/08/17/introducing-the-eclipsesource-oomph-profile/' >Oomph by eclipsesource</a>
+	]]></description>
+</setup:Product>
