@@ -81,8 +81,11 @@ public class SgSubstitutions {
         unsafe(() -> {
             if (Files.isDirectory(src)) {
                 Files.createDirectories(realTarget);
-                Files.list(src).forEach(child -> 
-                    substitue(src, target.resolve(src.getFileName()), config));
+                Files.list(src).forEach(child -> {
+                    substitue(child, 
+                        target.resolve(child.getFileName()), 
+                        config);
+                });
             } else {
                 Files.createDirectories(realTarget.getParent());
                 substitueFile(src, target, config);
@@ -91,7 +94,7 @@ public class SgSubstitutions {
     }
     
     public static void substitueFile(Path src, Path target, Properties config) {
-        
+        // TODO substitute UTF-8
     }
 }
 

@@ -10,7 +10,6 @@ target "Capella Product 6.1"
 
 include "capella_build.tpd"
 
-
 location capella "https://download.eclipse.org/capella/core/updates/releases/6.1.0/org.polarsys.capella.rcp.site" {
 	org.polarsys.capella.rcp.feature.group
 }

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.irt_systemx.confianceai.capella.oax.feature"
+      id="%inject:project.fullname%%inject:param.variant%.feature"
+      
+      id="com.myclient.mydemo.editor.cdo.feature"
+      
+      
       label="OaExtension Feature"
       version="1.0.0.qualifier">
 
