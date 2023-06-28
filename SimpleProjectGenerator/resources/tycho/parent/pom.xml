@@ -460,7 +460,7 @@ for p2-metadata in feature
 				<rcptt.suite.name>_suite.name:undefined_</rcptt.suite.name>
 				
 				<product.name>%inject:project.fullname%.aut-rcptt</product.name>
-				<product.archive>%inject:project.project%Rcptt</product.archive>
+				<product.archive>%inject:project.root%Rcptt</product.archive>
 				
 				<!-- rcptt tests should be in: tests/rcptt/<project_name> -->
 				<rcptt.root.path>../../..</rcptt.root.path>

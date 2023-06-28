@@ -1,0 +1,24 @@
+
+== Authoring syntax
+
+Simple Menu Item: *Window > Perspective*
+
+=== Plugin-help
+Detail at https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/guide/ua_help_content_command_authoring.htm
+
+=== Interactive link
+
+For header, create a `docinfo.html` and add:
+<script type="text/javascript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js" />
+
+More at https://docs.asciidoctor.org/asciidoc/latest/docinfo/
+
+Opening help: 
+link:javascript:executeCommand('org.eclipse.ui.help.aboutAction')[Open Help]
+
+Show perpectives:
+link:javascript:executeCommand('org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=org.eclipse.ui.resourcePerspective)')[Window > Perspective > Open Perspective > Other... > Resource]
+
+Show Preferences:
+link:javascript:executeCommand('org.eclipse.ui.window.preferences(preferencePageId=org.eclipse.ui.preferencePages.Views)')[Show a preference page]
+

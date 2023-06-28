@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="%inject:project.fullname%%inject:param.variant%.feature"
-      label="%inject:project.label% Feature"
+      id="%inject:project.fullname%.%inject:param.name%.feature"
+      
+      label="Feature"
       version="1.0.0.qualifier">
 
    <description url="%descriptionURL">
@@ -17,13 +18,10 @@
    </license>
 
    <plugin
-         id="%inject:project.fullname%.%inject:param.plugin%"
+         id="%inject:project.fullname%.%inject:param.name%.extension"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-
-
 
 </feature>

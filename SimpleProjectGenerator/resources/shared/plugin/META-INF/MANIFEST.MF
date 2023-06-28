@@ -9,5 +9,5 @@ Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: %inject:param.requiredbundles%
 Export-Package: %inject:project.fullname%.%inject:param.name%

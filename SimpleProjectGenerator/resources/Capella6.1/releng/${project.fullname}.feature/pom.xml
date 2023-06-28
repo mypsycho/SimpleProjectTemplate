@@ -5,7 +5,6 @@
     Contributors: 
       Obeo - initial API and implementation.
 -->
-
 <project>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -19,5 +18,23 @@
 	<artifactId>%inject:project.fullname%%inject:param.variant%.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
 	<name>%inject:project.label% Feature</name>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-source-plugin</artifactId>
+
+					<configuration>
+						<!-- This exclusion aims to remove ueseless warning. -->
+						<excludes>
+							<!-- Following plugins only contain descriptors -->
+							<!-- TODO add model, fc and af plugin -->
+						</excludes>
+					</configuration>
+        
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

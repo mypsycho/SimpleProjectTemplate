@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<feature id="%inject:project.fullname%.common.feature">
+      <category name="%inject:project.fullname%.default.category"/>
+   </feature>
+   <feature id="%inject:project.fullname%.rcp.feature">
+      <category name="%inject:project.fullname%.default.category"/>
+   </feature>
+   <feature id="%inject:project.fullname%.server.feature">
+      <category name="%inject:project.fullname%.default.category"/>
+   </feature>
+   
+    <category-def name="%inject:project.fullname%.default.category" label="%inject:project.label% by %inject:project.provider%">
+      <description>
+        %inject:project.label%
+      </description>
+   </category-def>
+</site>

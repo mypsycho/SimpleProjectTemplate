@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Copyright (c) 2023 Obeo. All rights reserved. 
+    Contributors: 
+      Obeo - initial API and implementation.
+-->
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>%inject:project.fullname%</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../parent</relativePath>
+	</parent>
+
+	<artifactId>%inject:project.fullname%.update</artifactId>
+	<packaging>eclipse-repository</packaging>
+	<name>%inject:project.label% Update-Site</name>
+
+
+  <properties>
+  	<root.path>../..</root.path>
+  	<!--  >help.plugin>fr.irt_systemx.confianceai.capella.oax.help</help.plugin>  	
+  	<help.res.path>plugins/${help.plugin}/html</help.res.path-->
+  	<tpd.path>parent/tpd</tpd.path>
+<!-- 
+Repository default path for archive is defined by in:
+https://github.com/eclipse/tycho/blob/tycho-2.3.0/tycho-p2/tycho-p2-repository-plugin/src/main/java/org/eclipse/tycho/plugins/p2/repository/AbstractRepositoryMojo.java
+-->
+
+  	<repo.outputDirectory>${project.build.directory}/repository</repo.outputDirectory>
+
+  </properties>
+
+  <build>
+    <!-- 
+  	<resources>
+  		<resource><directory>site</directory></resource>
+  	</resources>
+  	 -->
+  	<plugins>
+  		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+  			<executions>
+  			<!-- No Help
+  				<execution>
+  					<id>include-online-help</id>
+  					<goals><goal>copy-resources</goal></goals>
+  					<phase>prepare-package</phase>
+  					<configuration>
+						<resources>
+							<resource>
+								<directory>../../${help.res.path}</directory>
+							</resource>
+						</resources>
+  						<outputDirectory>${repo.outputDirectory}/help</outputDirectory>
+  					</configuration>
+  				</execution>
+  				  	 -->
+  				<execution>
+  					<id>publish-tpd</id>
+  					<goals><goal>copy-resources</goal></goals>
+  					<phase>prepare-package</phase>
+  					<configuration>
+						<resources>
+							<resource>
+								<directory>../../${tpd.path}</directory>
+								<includes>
+									<include>**/*.tpd</include>
+								</includes>
+							</resource>
+						</resources>
+  						<outputDirectory>${repo.outputDirectory}/tpd</outputDirectory>
+  					</configuration>
+  				</execution>
+  			</executions>
+  			<configuration>
+  				<outputDirectory>${repo.outputDirectory}</outputDirectory>
+  			</configuration>
+		</plugin>
+  	</plugins>
+  </build>
+
+</project>

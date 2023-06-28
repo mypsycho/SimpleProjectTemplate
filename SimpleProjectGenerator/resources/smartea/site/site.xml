@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/%inject:project.fullname%.common.feature_1.0.0.qualifier.jar" id="%inject:project.fullname%.common.feature" version="1.0.0.qualifier"/>
+   <feature url="features/%inject:project.fullname%.rcp.feature_1.0.0.qualifier.jar" id="%inject:project.fullname%.rcp.feature" version="1.0.0.qualifier"/>
+   <feature url="features/%inject:project.fullname%.server.feature_1.0.0.qualifier.jar" id="%inject:project.fullname%.server.feature" version="1.0.0.qualifier"/>
+</site>

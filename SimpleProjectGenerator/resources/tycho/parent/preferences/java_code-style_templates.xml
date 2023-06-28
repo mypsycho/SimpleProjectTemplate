@@ -31,7 +31,7 @@
 		id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment">/*******************************************************************************
   Copyright (c) ${year} %inject:project.provider%. All rights reserved.
  
-  %inject:project.copyright%
+  %inject:project.license%
  
   Contributors:
    Obeo - initial API and implementation

@@ -13,6 +13,7 @@
  *******************************************************************************/
 package com.obeo.project.generator;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -28,53 +29,77 @@ import java.util.stream.Stream;
  */
 public class SgObjects {
 
-    public static String getRequiredProperty(Properties config, String key) {
-        String result = config.getProperty(key);
-        verify(result != null && !result.isBlank(), "No such property + " + key);
-        return result;
-    }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes"}) // handle legacy
-    public static Stream<Map.Entry<String, String>> toStream(Properties it) {
-        return ((Stream) it.entrySet().stream());
-    }
-    
-    
-    public static void verify(boolean condition, String message) {
-        if (condition) {
-            throw new IllegalArgumentException(message);
-        }
-    }
-    
-    public static Properties getCfgContent(Path file, boolean optional) {
-        if (!Files.exists(file)) {
-            verify(optional, "No such file: " + file);
-            return new Properties();
-        }
-        
-        Properties configContent = new Properties();
-        try(InputStream in = Files.newInputStream(file)) {
-            configContent.load(in);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-        verify(optional || !configContent.isEmpty(), "No content in properties : " + file);
-        return configContent;
-    }
-    
-    public static interface UnsafeCall {
-        void run() throws Exception;
-    }
-    public static void unsafe(UnsafeCall task) {
-        try {
-            task.run();
-        } catch(IOException e) {
-            throw new UncheckedIOException(e);
-        } catch(RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
+	public static String getRequiredProperty(Properties config, String key) {
+		String result = config.getProperty(key);
+		verify(result != null, "No such property + " + key);
+		return result;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" }) // handle legacy
+	public static Stream<Map.Entry<String, String>> toStream(Properties it) {
+		return ((Stream) it.entrySet().stream());
+	}
+
+	public static void verify(boolean condition, String message) {
+		if (!condition) {
+			throw new IllegalArgumentException(message);
+		}
+	}
+
+	public static Properties getCfgContent(Path file, boolean optional) {
+		if (!Files.exists(file)) {
+			verify(optional, "No such file: " + file);
+			return new Properties();
+		}
+
+		Properties configContent = new Properties();
+		try (InputStream in = Files.newInputStream(file)) {
+			configContent.load(in);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+		if (configContent.isEmpty()) {
+			verify(optional, "No content in properties : " + file);
+		}
+		return configContent;
+	}
+
+	public static interface UnsafeCall {
+		void run() throws Exception;
+	}
+
+	public static void unsafe(UnsafeCall task) {
+		try {
+			task.run();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new UncheckedIOException(e);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	
+	public static boolean isNullOrEmptyOrBlank(String string) {
+		return string == null || string.isEmpty() || string.trim().isEmpty();
+	}
+
+	public static final void deleteFileOrDirectory(String path) {
+		File fileToDelete = new File(path);
+		if (fileToDelete.exists()) {
+			if (fileToDelete.isDirectory()) {
+				File[] files = fileToDelete.listFiles();
+				if (files != null) {
+					for (File file : files) {
+						deleteFileOrDirectory(file.getAbsolutePath());
+					}
+				}
+			}
+			fileToDelete.delete();
+		}
+	}
 }
