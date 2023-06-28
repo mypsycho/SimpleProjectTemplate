@@ -2,19 +2,18 @@ package com.obeo.project.generator;
 
 import static com.obeo.project.generator.SgConstants.CFG_EXTENSION;
 import static com.obeo.project.generator.SgConstants.DEFAULT_BINARIES;
-import static com.obeo.project.generator.SgConstants.FOLDER_PARAMS_SEPARATOR_IN_TEMPLATE_DESC;
-import static com.obeo.project.generator.SgConstants.PARAMS_SEPARATOR_IN_TEMPLATE_DESC_ENTRY;
-import static com.obeo.project.generator.SgConstants.PATH_SEPARATOR;
-import static com.obeo.project.generator.SgConstants.PATTERN_PARAM_VALUE_IN_TEMPLATE_DESC_ENTRY;
-import static com.obeo.project.generator.SgConstants.PARAM_PREFIX;
-import static com.obeo.project.generator.SgConstants.TEMPLATE_PROP;
+import static com.obeo.project.generator.SgConstants.INJECT_PREFIX;
 import static com.obeo.project.generator.SgConstants.P0;
 import static com.obeo.project.generator.SgConstants.P1;
+import static com.obeo.project.generator.SgConstants.PARAMS_SEPARATOR;
+import static com.obeo.project.generator.SgConstants.PARAM_VALUE_TAG;
+import static com.obeo.project.generator.SgConstants.PATH_SEPARATOR;
+import static com.obeo.project.generator.SgConstants.TEMPLATE_PROP;
 import static com.obeo.project.generator.SgObjects.getCfgContent;
+import static com.obeo.project.generator.SgObjects.toStream;
 import static com.obeo.project.generator.SgObjects.verify;
 import static com.obeo.project.generator.SgSubstitutions.substitue;
 import static com.obeo.project.generator.SgSubstitutions.substitueValue;
-import static com.obeo.project.generator.SgSubstitutions.canSubstitute;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,6 +37,8 @@ public class SimpleGenerator {
 			.of(System.getProperty("template.binaries", DEFAULT_BINARIES).split(PATH_SEPARATOR));
 
 	Path resources = Path.of(System.getProperty("template.resources", "resources"));
+	
+	
 	Properties configuration;
 	List<TemplateDescription> templates;
 	Path targetLocation;
@@ -62,21 +61,21 @@ public class SimpleGenerator {
 		System.out.println("\nGenerating project '" + targetLocation + "' using templates '"
 				+ templates.stream().map(it -> it.id).collect(Collectors.joining(",")) + "'");
 
-		Properties current0 = new Properties(configuration);
+		Properties current = new Properties(configuration);
 		
-		current0.put("project.root", targetLocation.toAbsolutePath().normalize().toString());
-		current0.put("project.year", ""+Calendar.getInstance().get(Calendar.YEAR));
-		current0.put("user.name", System.getProperty("user.name"));
+		// Built-in
+		current.put("project.root", targetLocation.toAbsolutePath().normalize().toString());
+		current.put("project.year", String.valueOf( Calendar.getInstance().get(Calendar.YEAR)));
+		current.put("user.name", System.getProperty("user.name"));
+		
+		// Explicit user value can override
+		current.putAll(configuration);
+		
+        System.out.println("\nInjecting default properties");
+        templates.forEach(it -> it.inject(current));
 
-		templates.forEach(it -> {
-			Properties current = new Properties(current0);
-			
-			System.out.println("\nInjecting properties from " + it.id);
-			SgSubstitutions.inject(it.config, current);
-            
-            System.out.println("\n----------Applying properties from " + it.id + "----------");
-			it.apply(current);
-		});
+        System.out.println("\nApplying templates");
+        templates.forEach(it -> it.apply(current));
 		
 	}
 
@@ -94,6 +93,21 @@ public class SimpleGenerator {
 			verify(!config.isEmpty() && Files.exists(content), "No generation content for template : " + id);
 		}
 
+
+	    public void inject(Properties target) {
+	        toStream(config)
+                .filter(it -> SgSubstitutions.isInject(it.getKey()))
+                // The inject_prefix based key name must not exist in root (or base, or user)
+                // properties
+                .forEach(it -> {
+                    String key = it.getKey().substring(INJECT_PREFIX.length()).trim();
+                    if (!target.containsKey(key)) {
+                        target.setProperty(key, it.getValue());
+                    }
+                });
+	    }
+
+		
 		void apply(Properties current) {
 			substitue(content, targetLocation, current);
 			// copy all files
@@ -102,61 +116,67 @@ public class SimpleGenerator {
 			// TODO-later see how it works in practice
 			// Create text for xml, properties, URI ??
 			// Apply rule from templateDescriptor
-			for (Object key : config.keySet()) {
+			for (String key : config.stringPropertyNames()) {
 			
-				if (!SgSubstitutions.isInject(key)) {
-					if(SgSubstitutions.isDeleteCommand(config.getProperty((String)key))) {
-						String finalTarget = (String)key;
-						if (canSubstitute((String)key,P0,P1)) {
-							finalTarget = substitueValue((String)key, current, P0, P1, new ArrayList<>());
-							SgObjects.verify(finalTarget != null, "Cannot substitute Path:" + key);
-						}
-						SgSubstitutions.deleteFileOrDirectory(targetLocation.resolve(finalTarget).normalize().toAbsolutePath().toString());
-					} else {	
-						TemplateEntryDescription templateEntryDesciption = new TemplateEntryDescription(key.toString(),
-								config.get(key).toString());
-						Properties currentPlus = new Properties(current);
-						currentPlus.putAll(templateEntryDesciption.entryConfig);
-						substitue(resources.resolve(templateEntryDesciption.sourceRelativePath),
-								targetLocation.resolve(templateEntryDesciption.entryKey), currentPlus);
-					}
+				if (SgSubstitutions.isInject(key)) {
+				    continue; // skip
+				}
+
+				if (isDeleteEntry(key)) {
+					String path = substitueValue(key, current, P0, P1, new ArrayList<>());
+					SgObjects.unsafe(() -> SgObjects.delete(targetLocation.resolve(path)));
+
+				} else {	
+					TemplateEntryDescription descr = new TemplateEntryDescription(key,
+							config.getProperty(key), current);
+
+					substitue(resources.resolve(descr.template),
+							targetLocation.resolve(descr.target), 
+							descr.context);
 				}
 				
-				
 			}
+		}
+
+		boolean isDeleteEntry(String key) {
+		    String cfg = config.getProperty(key);
+		    return cfg != null 
+		            && SgConstants.DELETE_COMMAND.equals(cfg.trim());
 		}
 	}
 
 	class TemplateEntryDescription {
 		// Folder/project to create
-		final String entryKey;
+		final String target;
 		// Where to locate files to create in the Folder to create
-		final String sourceRelativePath;
+		final String template;
 		// Parameters to substitute
-		final Properties entryConfig;
+		final Properties context;
 
-		TemplateEntryDescription(String entryKey, String entryValue) {
-			verify(!SgObjects.isNullOrEmptyOrBlank(entryKey), "Invalid template entry description key : [" + entryKey + "]");
-			verify(!SgObjects.isNullOrEmptyOrBlank(entryValue),
-					"Invalid template entry description value mapped to key=[" + entryKey + "]: [" + entryValue + "]");
-			this.entryKey = entryKey.trim();
-			entryConfig = new Properties();
-			if (entryValue.contains(FOLDER_PARAMS_SEPARATOR_IN_TEMPLATE_DESC)) {
-				String[] values = entryValue.split(Pattern.quote(FOLDER_PARAMS_SEPARATOR_IN_TEMPLATE_DESC));
-				sourceRelativePath = values[0].trim();
-				for (int i = 1; i < values.length; i++) {
-					if (values[i].contains(PARAMS_SEPARATOR_IN_TEMPLATE_DESC_ENTRY)) {
-						Matcher matcher = PATTERN_PARAM_VALUE_IN_TEMPLATE_DESC_ENTRY.matcher(values[i]);
-						if (matcher.matches()) {
-							entryConfig.put(PARAM_PREFIX
-									+ (matcher.group(1).trim()), matcher.group(2).trim());
-						}
-					}
-				}
-			} else {
-				sourceRelativePath = entryValue.trim();
+		TemplateEntryDescription(String key, String value, Properties parentContext) {
+
+			verify(!SgObjects.isNullOrEmptyOrBlank(value), "No value for template entry:" + key);
+			target = key.trim();
+			context = new Properties(parentContext);
+			
+			List<String> args = Stream.of(value.split(PARAMS_SEPARATOR))
+			        .map(it -> it.trim())
+			        .collect(Collectors.toList());
+			template = args.get(0); // TODO better, 
+			args.remove(0);
+			for (String arg : args) {
+			    int valuePos = arg.indexOf(PARAM_VALUE_TAG);
+			    if (valuePos == -1) {
+			        System.out.println("Invalid argument is ignored for: " + target);
+			    } else {
+			        context.setProperty(arg.substring(0, valuePos).trim(), 
+			            arg.substring(valuePos + 1, arg.length()).trim());
+			    }
 			}
+
 		}
+		
+
 	}
 
 	public static void main(String[] args) {

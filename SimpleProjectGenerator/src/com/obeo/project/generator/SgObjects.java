@@ -13,12 +13,14 @@
  *******************************************************************************/
 package com.obeo.project.generator;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Stream;
@@ -88,18 +90,22 @@ public class SgObjects {
 		return string == null || string.isEmpty() || string.trim().isEmpty();
 	}
 
-	public static final void deleteFileOrDirectory(String path) {
-		File fileToDelete = new File(path);
-		if (fileToDelete.exists()) {
-			if (fileToDelete.isDirectory()) {
-				File[] files = fileToDelete.listFiles();
-				if (files != null) {
-					for (File file : files) {
-						deleteFileOrDirectory(file.getAbsolutePath());
-					}
-				}
-			}
-			fileToDelete.delete();
-		}
+	public static final void delete(Path res) throws IOException {
+	    Files.walkFileTree(res, new SimpleFileVisitor<>() {
+          @Override
+          public FileVisitResult postVisitDirectory(Path dir, IOException exc) 
+                  throws IOException {
+              Files.delete(dir);
+              return FileVisitResult.CONTINUE;
+          }
+          
+          @Override
+          public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) 
+                  throws IOException {
+              Files.delete(file);
+              return FileVisitResult.CONTINUE;
+          }
+      });
+
 	}
 }

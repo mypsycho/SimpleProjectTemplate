@@ -6,19 +6,16 @@
  *******************************************************************************/
 package com.obeo.project.generator;
 
-import static com.obeo.project.generator.SgConstants.DELETE_COMMAND;
 import static com.obeo.project.generator.SgConstants.F0;
 import static com.obeo.project.generator.SgConstants.F1;
 import static com.obeo.project.generator.SgConstants.INJECT_PREFIX;
 import static com.obeo.project.generator.SgConstants.P0;
 import static com.obeo.project.generator.SgConstants.P1;
 import static com.obeo.project.generator.SgConstants.UTF8;
-import static com.obeo.project.generator.SgObjects.toStream;
 import static com.obeo.project.generator.SgObjects.unsafe;
 import static com.obeo.project.generator.SgObjects.verify;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -43,22 +40,10 @@ public class SgSubstitutions {
 				&& source.indexOf(f1, before + f0.length()) > -1;
 	}
 
-	public static boolean isInject(Object key) {
-		return key instanceof String prop && prop.startsWith(INJECT_PREFIX);
-	}
+	public static boolean isInject(String prop) {
 
-	public static boolean isDeleteCommand(String value) {
-		return DELETE_COMMAND.equals(value.trim().toLowerCase());
-	}
-
-	public static Properties inject(Properties local, Properties target) {
-		toStream(local)
-				.filter(it -> isInject(it.getKey())
-						&& target.getProperty(it.getKey().substring(INJECT_PREFIX.length())) == null)
-				// The inject_prefix based key name must not exist in root (or base, or user)
-				// properties
-				.forEach(it -> target.setProperty(it.getKey().substring(INJECT_PREFIX.length()), it.getValue()));
-		return target;
+		return prop.startsWith(INJECT_PREFIX)
+		        && !prop.substring(INJECT_PREFIX.length()).isBlank();
 	}
 
 	public static Path substituePath(Path path, Properties config) {
@@ -134,7 +119,7 @@ public class SgSubstitutions {
 
 	public static String substitueFileContent(Path src, Properties config) {
 		try {
-			String content = Files.readString(src, Charset.forName(UTF8));
+			String content = Files.readString(src, UTF8);
 			return substitueValue(content, config, F0, F1, new ArrayList<>());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -145,6 +130,6 @@ public class SgSubstitutions {
 
 	public static final void deleteFileOrDirectory(String path) {
 		System.out.println("__\nDeleting  File or Directory:\t" + path);
-		SgObjects.unsafe(() -> SgObjects.deleteFileOrDirectory(path));
+		
 	}
 }

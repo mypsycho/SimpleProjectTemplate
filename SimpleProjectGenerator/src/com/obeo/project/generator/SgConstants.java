@@ -6,9 +6,7 @@
  *******************************************************************************/
 package com.obeo.project.generator;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
+import java.nio.charset.Charset;
 
 /**
  * SgConstants of SimpleProjectGenerator.
@@ -33,18 +31,12 @@ public class SgConstants {
 	public static final String F0 = "%inject:";
 	public static final String F1 = "%";
 
-	public static final String UTF8 = "UTF-8";
-	public static final String FOLDER_PARAMS_SEPARATOR_IN_TEMPLATE_DESC = "|";
-	public static final String PARAMS_SEPARATOR_IN_TEMPLATE_DESC_ENTRY = ">";
+	public static final Charset UTF8 = Charset.forName("UTF-8");
+	public static final String PARAMS_SEPARATOR = "|";
+	public static final char PARAM_VALUE_TAG = '>';
 	
 	public static final String PARAM_PREFIX = "param.";
 
-	public static final String REGEX_PARAM_VALUE_IN_TEMPLATE_DESC_ENTRY = "([^" + PARAMS_SEPARATOR_IN_TEMPLATE_DESC_ENTRY
-			+ "]+)" + PARAMS_SEPARATOR_IN_TEMPLATE_DESC_ENTRY + "(.*)";
-	
-	public static final Pattern PATTERN_PARAM_VALUE_IN_TEMPLATE_DESC_ENTRY = Pattern
-			.compile(REGEX_PARAM_VALUE_IN_TEMPLATE_DESC_ENTRY);
-	
 	public static final String DELETE_COMMAND ="<delete>";
 
 }
