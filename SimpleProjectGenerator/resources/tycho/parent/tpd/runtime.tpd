@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-  Copyright (c) 2023 "%inject:project.provider%. All rights reserved.
+  %inject:project.copyright%
 
   Contributors: 
     Obeo - initial API and implementation.

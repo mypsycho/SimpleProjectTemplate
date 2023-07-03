@@ -1,0 +1,27 @@
+/*******************************************************************************
+
+  %inject:project.copyright%
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "%inject:project.name% - Test"
+
+with requirements
+
+location eclipse "https://download.eclipse.org/releases/2021-06" {
+	org.junit
+	org.eclipse.jdt.feature.group // already dragged by runtime 
+}
+
+
+location "https://download.eclipse.org/capella/core/updates/releases/6.0.0/org.polarsys.capella.test.site" {
+	org.polarsys.capella.test.feature.feature.group 
+	// For documentation purpose: Capella is still based on 
+}
+
+
+location sirius "https://download.eclipse.org/sirius/updates/releases/7.0.4/2021-06" {
+	org.eclipse.sirius.tests.feature.group
+}

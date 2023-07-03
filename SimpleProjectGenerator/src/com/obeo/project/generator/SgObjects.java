@@ -21,8 +21,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -74,23 +76,26 @@ public class SgObjects {
 		try {
 			task.run();
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new UncheckedIOException(e);
 		} catch (RuntimeException e) {
-			e.printStackTrace();
 			throw e;
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
 
 	
-	public static boolean isNullOrEmptyOrBlank(String string) {
-		return string == null || string.isEmpty() || string.trim().isEmpty();
+	public static boolean hasContent(String string) {
+		return string != null && !string.isBlank();
 	}
 
 	public static final void delete(Path res) throws IOException {
+	    if (!Files.exists(res)) {
+	        System.err.println("No delete of missing file: " + res);
+	        return;
+	    }
+	    
+	    System.out.println("Delete: " + res);
 	    Files.walkFileTree(res, new SimpleFileVisitor<>() {
           @Override
           public FileVisitResult postVisitDirectory(Path dir, IOException exc) 
@@ -108,4 +113,19 @@ public class SgObjects {
       });
 
 	}
+	
+	public static List<String> trimmedSplit(String values, String sep) {
+        return Stream.of(values.split(sep))
+                .map(it -> it.trim())
+                .collect(Collectors.toList());
+	}
+	
+	public static String basename(Path path) {
+	    return path.getFileName().toString().split("\\.(?=[^\\.]+$)")[0];
+	}
+	
+    public static String extension(Path path) {
+        String[] parts = path.getFileName().toString().split("\\.(?=[^\\.]+$)");
+        return parts.length > 1 ? parts[1] : null;
+    }
 }

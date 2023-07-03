@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    %inject:project.copyright%
+    
+    Contributors: 
+      Obeo - initial API and implementation.
+-->
+<project>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>%inject:project.fullname%</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../parent</relativePath>
+	</parent>
+
+	<artifactId>%inject:project.fullname%.vpdsl</artifactId>
+	<packaging>eclipse-plugin</packaging>
+	<name>%inject:project.label% VP Description</name>
+
+</project>

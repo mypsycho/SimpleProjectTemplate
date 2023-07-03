@@ -1,0 +1,37 @@
+/* %inject:project.copyright%
+ *
+ * Contributors:
+ *    Obeo - initial API and implementation
+ */
+/**
+ * Ecore Data of Viewpoint %inject:project.name%.
+ * 
+ * @author: %inject:user.name%
+ */
+Data %inject:project.name%.data {
+	
+	/*
+	 * Commons elements
+	 */
+	Class %inject:project.prefix%Element {
+		superClass 
+			external modellingcore.ModelElement, // Id is required for REC/RPL.
+		 	external emde.ElementExtension
+		 
+		abstract: true
+	}
+	
+	
+	Class %inject:project.prefix%NamedElement {
+		superClass 
+			external capellacore.NamedElement,
+			%inject:project.prefix%Element
+		abstract: true
+	}
+	
+	//
+	// vptext hint: EEnum must follow EClass (Gammar constraint)
+	//
+	// Enumeration MyEnum { v1, v2  }
+
+}

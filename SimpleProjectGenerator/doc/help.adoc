@@ -1,0 +1,59 @@
+= Simple Project Generator
+
+
+== Creating a configuration
+
+In the folder where the generation must be performed, create a `*.properties` file
+
+Each entry is a property for templates files.
+
+=== Built-in entry
+
+Following entry are generated automatically.
+
+project.root:: 
+ Folder name of generation
+ 
+project.id::
+ Basename of generation properties file
+
+project.year:: 
+ Current year
+
+user.name::
+ Login of user
+
+
+=== Common configuration
+
+The required configuration depends of applicable template. +
+However most of cases use following properties
+
+[source, properties]
+----
+
+template = <list of templates> ex: tycho;Eclipse2021-01;emf
+
+project.name = Technical name
+project.label = <Label for printable element>
+ 
+project.prefix = <Prefix for class name or shortcuts>
+project.extension = <for model file>
+
+project.fullname = <qualified name used for unique identification> 
+project.path = <qualified name with '/' as segment separator> 
+
+project.provider = <Legal name of the compony>
+project.license = <license ex:> Eclipse EPL 2.0
+
+# Name for configuration files. Example (Java Formatter, checkstyle, ...)
+project.profile = <ProviderId>Dev
+
+project.url = <URL for feature> http://www.aaa-inc.com/solutions/mydemo/
+
+----
+
+
+
+== Generating the project
+

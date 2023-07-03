@@ -6,6 +6,37 @@ Simple Menu Item: *Window > Perspective*
 === Plugin-help
 Detail at https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/guide/ua_help_content_command_authoring.htm
 
+=== Images
+
+By default, images use relative path to document like in HTML.
+
+But eclipse can provide a URL using this syntax: `<img src="PLUGINS_ROOT/org.eclipse.help/command_link.svg">`+
+This path is based on JAR target structure.
+
+To create a PDF from 
+
+
+=== Styles
+
+Path or path-likes: `/project-name/**`
+Menu path : *Window > Show View*
+Preferences page: Use Interactive link '>' separator: General > Appearance
+
+=== Preferences template
+
+[cols="1,3"]
+|===
+| Option           | Description
+
+s| <header label>
+a| <Description of field role>. +
+   <Allowed or expected values>. +
+   <Limitations>.
+
+|===
+
+
+
 === Interactive link
 
 For header, create a `docinfo.html` and add:
@@ -21,4 +52,3 @@ link:javascript:executeCommand('org.eclipse.ui.perspectives.showPerspective(org.
 
 Show Preferences:
 link:javascript:executeCommand('org.eclipse.ui.window.preferences(preferencePageId=org.eclipse.ui.preferencePages.Views)')[Show a preference page]
-

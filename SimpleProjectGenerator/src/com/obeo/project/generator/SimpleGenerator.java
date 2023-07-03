@@ -3,17 +3,17 @@ package com.obeo.project.generator;
 import static com.obeo.project.generator.SgConstants.CFG_EXTENSION;
 import static com.obeo.project.generator.SgConstants.DEFAULT_BINARIES;
 import static com.obeo.project.generator.SgConstants.INJECT_PREFIX;
-import static com.obeo.project.generator.SgConstants.P0;
-import static com.obeo.project.generator.SgConstants.P1;
 import static com.obeo.project.generator.SgConstants.PARAMS_SEPARATOR;
+import static com.obeo.project.generator.SgConstants.PARAM_PREFIX;
 import static com.obeo.project.generator.SgConstants.PARAM_VALUE_TAG;
 import static com.obeo.project.generator.SgConstants.PATH_SEPARATOR;
 import static com.obeo.project.generator.SgConstants.TEMPLATE_PROP;
 import static com.obeo.project.generator.SgObjects.getCfgContent;
 import static com.obeo.project.generator.SgObjects.toStream;
+import static com.obeo.project.generator.SgObjects.trimmedSplit;
 import static com.obeo.project.generator.SgObjects.verify;
-import static com.obeo.project.generator.SgSubstitutions.substitue;
-import static com.obeo.project.generator.SgSubstitutions.substitueValue;
+import static com.obeo.project.generator.SgSubstitutions.substitueAll;
+import static com.obeo.project.generator.SgSubstitutions.substituePath;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,170 +22,229 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SimpleGenerator {
 
-	static Map<String, Function<String, String>> PROPERTIES_FORMAT = Map.of("inject", it -> it
-	// XML use CDATA
-	// Properties is touchy
-	);
+    private List<String> missingProperties = new ArrayList<>();
 
-	List<String> binExtensions = List
-			.of(System.getProperty("template.binaries", DEFAULT_BINARIES).split(PATH_SEPARATOR));
+    static Map<String, Function<String, String>> PROPERTIES_FORMAT = Map.of("inject", 
+        it -> it
+        // XML use CDATA
+        // Properties is touchy
+    );
 
-	Path resources = Path.of(System.getProperty("template.resources", "resources"));
-	
-	
-	Properties configuration;
-	List<TemplateDescription> templates;
-	Path targetLocation;
+    Path resources = Path.of(System.getProperty("template.resources", "resources"));
 
-	SimpleGenerator(Path locationProperties) {
-		this(locationProperties.getParent(), getCfgContent(locationProperties, true));
-	}
+    String id;
+    Properties configuration;
+   
+    Path targetLocation;
 
-	SimpleGenerator(Path location, Properties cfg) {
-		configuration = cfg;
-		targetLocation = location;
+    List<TemplateDescription> templates;
 
-		templates = Stream.of(cfg.getProperty(TEMPLATE_PROP, "").split(PATH_SEPARATOR))
-				.filter(it -> !SgObjects.isNullOrEmptyOrBlank(it)).map(it -> new TemplateDescription(it)).toList();
+    SimpleGenerator(Path cfgFile) {
 
-		verify(!templates.isEmpty(), "No 'template' in properties");
-	}
+        id = SgObjects.basename(cfgFile);
+        configuration = getCfgContent(cfgFile, true);
+        targetLocation = cfgFile.getParent();
 
-	void perform() {
-		System.out.println("\nGenerating project '" + targetLocation + "' using templates '"
-				+ templates.stream().map(it -> it.id).collect(Collectors.joining(",")) + "'");
+        templates = Stream.of(configuration.getProperty(TEMPLATE_PROP, "")
+            .split(PATH_SEPARATOR))
+            .filter(it -> SgObjects.hasContent(it))
+            .map(it -> new TemplateDescription(it.trim())).toList();
 
-		Properties current = new Properties(configuration);
-		
-		// Built-in
-		current.put("project.root", targetLocation.toAbsolutePath().normalize().toString());
-		current.put("project.year", String.valueOf( Calendar.getInstance().get(Calendar.YEAR)));
-		current.put("user.name", System.getProperty("user.name"));
-		
-		// Explicit user value can override
-		current.putAll(configuration);
-		
+        verify(!templates.isEmpty(), "No 'template' in properties");
+    }
+
+
+    public class GenContext implements SgSubstitutions.Context {
+        final Properties config;
+
+        public GenContext(Properties cfg) {
+            config = cfg;
+        }
+
+        @Override
+        public String getProperty(String name) {
+            String result =  config.getProperty(name);
+            if (result == null) {
+                notifyMissingProp(name);
+            }
+            return result;
+        }
+        
+        @Override
+        public Path getRoot() {
+            return targetLocation;
+        }
+
+        protected void notifyMissingProp(String name) {
+            if (!missingProperties.contains(name)) {
+                missingProperties.add(name);
+                System.err.print("No such property: " + name);
+            }
+        }
+
+    }
+
+    void perform() {
+        System.out.println("\nGenerating project '" 
+                + targetLocation + "' using templates '"
+                + configuration.getProperty(TEMPLATE_PROP, "") + "'");
+
+        Properties current = new Properties();
+
+        // Built-in
+        current.put("project.root", targetLocation.getFileName().toString());
+        current.put("project.id", id);
+        
+        current.put("project.year", String.valueOf( Calendar.getInstance().get(Calendar.YEAR)));
+        current.put("user.name", System.getProperty("user.name"));
+
         System.out.println("\nInjecting default properties");
         templates.forEach(it -> it.inject(current));
 
+        // Explicit user value can override built-in and injections.
+        current.putAll(configuration);
+        
+        GenContext globalContext = new GenContext(current);
         System.out.println("\nApplying templates");
-        templates.forEach(it -> it.apply(current));
-		
-	}
+        templates.forEach(it -> it.apply(globalContext));
+    }
 
-	class TemplateDescription {
+    
+    class TemplateDescription {
 
-		final String id;
-		final Properties config;
-		final Path content;
+        final String id;
+        final Properties config;
+        final Path content;
 
-		TemplateDescription(String templateId) {
-			verify(!SgObjects.isNullOrEmptyOrBlank(templateId), "Invalid template value : [" + templateId + "]");
-			id = templateId;
-			config = getCfgContent(resources.resolve(id + CFG_EXTENSION), false);
-			content = resources.resolve(id);
-			verify(!config.isEmpty() && Files.exists(content), "No generation content for template : " + id);
-		}
+        TemplateDescription(String templateId) {
+            verify(SgObjects.hasContent(templateId), 
+                "Invalid template value : [" + templateId + "]");
+            id = templateId;
+            config = getCfgContent(resources.resolve(id + CFG_EXTENSION), true);
+            content = resources.resolve(id);
+            verify(!config.isEmpty() || Files.exists(content), 
+                "No generation content for template : " + id);
+        }
 
 
-	    public void inject(Properties target) {
-	        toStream(config)
+        public void inject(Properties context) {
+            toStream(config)
                 .filter(it -> SgSubstitutions.isInject(it.getKey()))
                 // The inject_prefix based key name must not exist in root (or base, or user)
                 // properties
                 .forEach(it -> {
-                    String key = it.getKey().substring(INJECT_PREFIX.length()).trim();
-                    if (!target.containsKey(key)) {
-                        target.setProperty(key, it.getValue());
-                    }
+                    context.setProperty(it.getKey().substring(INJECT_PREFIX.length()), 
+                        it.getValue());
                 });
-	    }
+        }
 
-		
-		void apply(Properties current) {
-			substitue(content, targetLocation, current);
-			// copy all files
-			// from templateContent to targetLocation
-			// applying substitution
-			// TODO-later see how it works in practice
-			// Create text for xml, properties, URI ??
-			// Apply rule from templateDescriptor
-			for (String key : config.stringPropertyNames()) {
-			
-				if (SgSubstitutions.isInject(key)) {
-				    continue; // skip
-				}
 
-				if (isDeleteEntry(key)) {
-					String path = substitueValue(key, current, P0, P1, new ArrayList<>());
-					SgObjects.unsafe(() -> SgObjects.delete(targetLocation.resolve(path)));
+        void apply(GenContext current) {
+            
+            // Creates files using reusable templates.
+            applyConfig(current, (it, target) -> {
+                if (!SgConstants.DELETE_COMMAND.equals(it.getValue())
+                        && SgObjects.hasContent(it.getValue())) {  
+                    TemplateEntryDescription descr = new TemplateEntryDescription(it.getKey(),
+                        it.getValue(), current.config);
 
-				} else {	
-					TemplateEntryDescription descr = new TemplateEntryDescription(key,
-							config.getProperty(key), current);
+                    descr.apply(resources, target);
+                }
+            });
+            
+            // Creates files overriding reusable templates.
+            substitueAll(content, targetLocation, current);
 
-					substitue(resources.resolve(descr.template),
-							targetLocation.resolve(descr.target), 
-							descr.context);
-				}
-				
-			}
-		}
+            // Delete unwanted files from templates
+            applyConfig(current, (it, target) -> {
+                if (SgConstants.DELETE_COMMAND.equals(it.getValue())) {
+                    SgObjects.unsafe(() -> SgObjects.delete(target));
+                }
+            });
 
-		boolean isDeleteEntry(String key) {
-		    String cfg = config.getProperty(key);
-		    return cfg != null 
-		            && SgConstants.DELETE_COMMAND.equals(cfg.trim());
-		}
-	}
+        }
+        
+        private void applyConfig(GenContext current, BiConsumer<Map.Entry<String, String>, Path> task) {
+            toStream(config)
+                .filter(it -> !SgSubstitutions.isInject(it.getKey()))
+                .forEach(it -> {
+    
+                    Path path = substituePath(Path.of(it.getKey()), current);
+                    Path target = targetLocation.resolve(path);
+    
+                    task.accept(it, target);
+    
+                });
+        }
+    }
 
-	class TemplateEntryDescription {
-		// Folder/project to create
-		final String target;
-		// Where to locate files to create in the Folder to create
-		final String template;
-		// Parameters to substitute
-		final Properties context;
+    
+    class TemplateEntryDescription extends GenContext {
 
-		TemplateEntryDescription(String key, String value, Properties parentContext) {
+        // Where to locate files to create in the Folder to create
+        final List<String> templates;
 
-			verify(!SgObjects.isNullOrEmptyOrBlank(value), "No value for template entry:" + key);
-			target = key.trim();
-			context = new Properties(parentContext);
-			
-			List<String> args = Stream.of(value.split(PARAMS_SEPARATOR))
-			        .map(it -> it.trim())
-			        .collect(Collectors.toList());
-			template = args.get(0); // TODO better, 
-			args.remove(0);
-			for (String arg : args) {
-			    int valuePos = arg.indexOf(PARAM_VALUE_TAG);
-			    if (valuePos == -1) {
-			        System.out.println("Invalid argument is ignored for: " + target);
-			    } else {
-			        context.setProperty(arg.substring(0, valuePos).trim(), 
-			            arg.substring(valuePos + 1, arg.length()).trim());
-			    }
-			}
+        TemplateEntryDescription(String key, String value, Properties parentContext) {
+            super(new Properties(parentContext));
+            List<String> args = trimmedSplit(value, PARAMS_SEPARATOR);
+            templates = trimmedSplit(args.get(0), PATH_SEPARATOR);
 
-		}
-		
+            // TODO better use a list ?
+            args.remove(0);
 
-	}
+            for (String arg : args) {
+                int valuePos = arg.indexOf(PARAM_VALUE_TAG);
+                if (valuePos == -1) {
+                    System.out.println("Invalid argument is ignored for: " + key);
+                } else {
+                    config.setProperty(PARAM_PREFIX + arg.substring(0, valuePos).trim(), 
+                        arg.substring(valuePos + 1, arg.length()).trim());
+                }
+            }
+        }
 
-	public static void main(String[] args) {
-		verify(args.length == 1, "1 parameter is expected: properties-based configuration");
-		
-		System.out.println("Begin generation");
-		SimpleGenerator gen = new SimpleGenerator(Path.of(args[0]));
-		gen.perform();
-		System.out.println("\nEnd of generation");
-	}
+        /**
+         * Does some actions.
+         * <p>
+         * Details of behavior.
+         * </p>
+         *
+         * @param resources
+         * @param target
+         */
+        public void apply(Path resources, Path target) {
+            templates.forEach(it -> substitueAll(resources.resolve(it), target, this));
+        }
+
+        private List<String> missingParams = new ArrayList<>();
+
+        @Override
+        public void notifyMissingProp(String name) {
+            if (name.startsWith(PARAM_PREFIX)) {
+                if (!missingParams.contains(name)) {
+                    missingParams.add(name);
+                    System.err.print("No such property: " + name);
+                }
+            } else {
+                super.notifyMissingProp(name);
+            }
+        }
+
+    }	
+
+    public static void main(String[] args) {
+        verify(args.length == 1, "1 parameter is expected: properties-based configuration");
+
+        System.out.println("Begin generation");
+        SimpleGenerator gen = new SimpleGenerator(Path.of(args[0]));
+        gen.perform();
+        System.out.println("\nEnd of generation");
+    }
 
 }

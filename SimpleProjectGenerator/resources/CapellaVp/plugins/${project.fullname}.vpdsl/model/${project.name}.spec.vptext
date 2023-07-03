@@ -1,0 +1,17 @@
+/* %inject:project.copyright%
+ *
+ * Contributors:
+ *    Obeo - initial API and implementation
+ */
+/**
+ * Viewpoint to extend Capella with %inject:project.label% elements.
+ * 
+ * @author: %inject:user.name%
+ */
+Viewpoint %inject:project.name% {
+	name: "%inject:project.name%"
+	Data %inject:project.name%.data
+	// Services: add actions
+	Diagrams %inject:project.name%.diagram
+	Configuration %inject:project.name%.conf
+}

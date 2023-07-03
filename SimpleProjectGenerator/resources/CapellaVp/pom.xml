@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+  %inject:project.copyright%
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+	<!-- Reminder:
+	
+	+ To quickly create a product: 
+	mvn package -Dmaven.test.skip=true -Dgit.dirty=ignore
+	
+	+ To quickly test: 
+	mvn package -DnoReleng=true  -Dgit.dirty=ignore
+
+    + To change version:
+	mvn org.eclipse.tycho:tycho-versions-plugin:set-version  -DnewVersion=2.0.0-SNAPSHOT
+	
+	Other options:
+	-Dmaven.test.failure.ignore=true       Ignore tests results
+	-Dmaven.test.skip=true                 No tests part
+	-Dtycho.releng.skip=true               No features or update-site
+	-Dtp.mode=build-local                  Using alternative TP
+	-Dgit.dirty=warning                    No git constraint
+	-Dtycho.localArtifacts=ignore          Avoid local built artifacts (for CI)
+	-DdebugPort=5555                       (tycho-surefire only) Wait for remote debugger
+	-Dtycho.showEclipseLog=true            Log on console
+	-Dtycho.tests.patterns=**/MyTest.java  Launch only 1 test
+
+	-->
+	
+	<licenses>
+	    <!-- TODO: Confirm
+		<license>
+			<name>EPL 2</name>
+		</license>
+		-->
+	</licenses>
+
+	<groupId>%inject:project.fullname%</groupId>
+	<artifactId>container</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<name>POM Container</name>
+
+	<properties>
+		<tycho.version>2.7.5</tycho.version>
+	</properties>
+
+
+	<modules>
+		<module>parent</module>
+
+		<!-- Module including non-osgi libraries -->
+
+		<!-- Module including generation -->
+		<module>plugins/%inject:project.fullname%.vpdsl</module>
+		<module>plugins/%inject:project.fullname%</module>
+		<module>plugins/%inject:project.fullname%.model</module>
+		<module>plugins/%inject:project.fullname%.model.edit</module>
+		<module>plugins/%inject:project.fullname%.fc</module>
+		<module>plugins/%inject:project.fullname%.af</module>
+		<module>plugins/%inject:project.fullname%.contextual.explorer</module>
+		<module>plugins/%inject:project.fullname%.model.cdo</module>
+		
+		<!-- Module without code generation -->
+		<module>plugins/%inject:project.fullname%.commons</module>
+		<module>plugins/%inject:project.fullname%.design</module>
+		<module>plugins/%inject:project.fullname%.rules.validation</module>
+		<module>plugins/%inject:project.fullname%.ui</module>
+		<!-- Add if not provided 
+		<module>plugins/%inject:project.fullname%.help</module>
+		-->
+	</modules>
+	
+	
+	<profiles>
+	
+		<profile>
+		    <!-- 
+			By default, tests are executed.
+			use -Dmaven.test.skip=true to disable.
+			-->
+			<id>tests</id>
+			<activation>
+				<property>
+					<name>maven.test.skip</name>
+					<value>!true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>tests/%inject:project.fullname%.commons.tests</module>
+			</modules>
+		</profile>
+		
+		<profile>
+		    <!-- 
+			By default, tests are executed.
+			use -Dmaven.test.skip=true to disable.
+			-->
+			<id>releng</id>
+			<activation>
+				<property>
+					<name>tycho.releng.skip</name>
+					<value>!true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>docs/dev</module>
+				<module>releng/%inject:project.fullname%.feature</module>
+				<module>releng/%inject:project.fullname%.cdo.feature</module>
+				<module>releng/%inject:project.fullname%.dev.feature</module>
+				<module>releng/%inject:project.fullname%.site</module>
+			</modules>
+		</profile>
+	
+	</profiles>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-versions-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<artifacts>container,parent</artifacts>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	
+</project>
+

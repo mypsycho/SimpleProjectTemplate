@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    %inject:project.copyright%
+    
+    Contributors: 
+      Obeo - initial API and implementation.
+-->
+
+<project>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>%inject:project.fullname%</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../parent</relativePath>
+	</parent>
+
+	<artifactId>%inject:project.fullname%.dev.feature</artifactId>
+	<packaging>eclipse-feature</packaging>
+	<name>%inject:project.label% EGF Feature</name>
+
+	<properties>
+		<!-- EGF is only descriptors. -->
+		<source.feature.skip>true</source.feature.skip>
+	</properties>
+	
+</project>

@@ -1,0 +1,13 @@
+// Relative path is need for HTML
+:res-path: ../..
+ifdef::include-path[]
+:res-path: {include-path}
+endif::include-path[]
+
+:ico: image:{res-path}/images/platform
+
+== Creation of a Project
+
+{vpdsl}/ECU.png[] Project can be created with the wizard: +
+   _File > New > %inject:project.name% Project_ 
+

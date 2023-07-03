@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
 
-  Copyright (c) 2023  "%inject:project.provider%. All rights reserved.
+  %inject:project.copyright%
 
   Contributors: 
     Obeo - initial API and implementation.
@@ -105,6 +105,7 @@
 				</property>
 			</activation>
 			<modules>
+				<module>docs/dev</module>
 				<module>releng/%inject:project.fullname%.feature</module>
 				<module>releng/%inject:project.fullname%.site</module>
 			</modules>

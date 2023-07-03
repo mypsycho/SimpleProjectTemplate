@@ -23,16 +23,18 @@ public class SgConstants {
 	public static final String TEMPLATE_PROP = "template";
 
 	public static final String INJECT_PREFIX = "<inject>";
-	public static final String PATH_SEPARATOR = ",";
+	public static final String PATH_SEPARATOR = ";";
 
+	// Tags for path
 	public static final String P0 = "${";
 	public static final String P1 = "}";
 
+    // Tags for file content
 	public static final String F0 = "%inject:";
 	public static final String F1 = "%";
 
 	public static final Charset UTF8 = Charset.forName("UTF-8");
-	public static final String PARAMS_SEPARATOR = "|";
+	public static final String PARAMS_SEPARATOR = "\\|"; // regex must be separated
 	public static final char PARAM_VALUE_TAG = '>';
 	
 	public static final String PARAM_PREFIX = "param.";

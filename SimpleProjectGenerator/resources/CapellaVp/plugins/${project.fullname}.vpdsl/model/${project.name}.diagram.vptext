@@ -1,0 +1,21 @@
+/* %inject:project.copyright%
+ *
+ * Contributors:
+ *    Obeo - initial API and implementation
+ */
+/**
+ * Diagrams for Viewpoint %inject:project.name%.
+ * 
+ * @author: %inject:user.name%
+ */
+Diagrams %inject:project.name%.diagram {
+	
+	DiagramExtension "%inject:project.prefix%PabDiagramExtension" {
+		extended-diagram: PhysicalArchitectureBlank
+	}
+
+	Diagram "%inject:project.name%Diagram" {
+		domain-context: external pa.PhysicalComponent
+	}
+
+}

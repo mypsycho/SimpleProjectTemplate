@@ -1,0 +1,59 @@
+
+== Plugin EGF FCore (*.fc)
+
+This plugin is only used for Kit-Alpha generation.
+It should not be added to Standard Feature.
+(Eclipse EGF is not included in Capella)
+
+
+== Change in *.model.edit (*.java)
+
+return label == null \|\| label\.length\(\) == 0 \? "\[" \+ getString\("_UI_\w+_type"\) \+ "\]" : label; //\$NON-NLS-1\$ //\$NON-NLS-2\$ //\$NON-NLS-3\$
+->
+return super.getText(object);
+
+
+(\t \* @generated)(\R\t \*/\R\t@Override\R\tpublic String getText\(Object object\) \{)
+->
+$1-NOT$2
+
+
+== Change in *.contextual.explorer
+
+'*.contextual.explorer' is generated for amalgam but can be easily adapted for Capella Browser.
+
+=== Manifest
+org.eclipse.amalgam.explorer.contextual.core -> org.polarsys.capella.common.ui.toolkit.browser
+
+=== plugin.xml
+
+- org.eclipse.amalgam.explorer.contextual.core.contentProviderCategory ->
+org.polarsys.capella.common.ui.toolkit.browser.contentProviderCategory
+
+- targetExplorerId -> targetBrowserId
+- CurrentElementExplorer -> CurrentElementBrowser
+- ReferencingElementExplorer -> ReferencingElementBrowser
+- ReferencedElementExplorer -> ReferencedElementBrowser
+
+=== *.java
+org.eclipse.amalgam.explorer.contextual.core.query.IQuery
+-> org.polarsys.capella.common.helpers.query.IQuery
+
+// Generated on \d{2}.\d{2}.\d{4} at \d{2}:\d{2}:\d{2}
+-> // Generated on __.__.____ at __:__:__
+
+import org.polarsys.capella.common.helpers.query.IQuery;\Rimport org.polarsys.capella.common.helpers.query.IQuery;
+-> import org.polarsys.capella.common.helpers.query.IQuery;
+
+== Simple meta-model update
+
+When the meta-model is updated, some files can be reverted directly.
+The incremental generation fails for them.
+
+Revert:
+* <vp>
+ - .classpath
+ - build.properties
+ - models/*.generationchain
+* <vp>.af: all
+* <vp>.fc: all

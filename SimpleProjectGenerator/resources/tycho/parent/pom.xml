@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
 
-  Copyright (c) 2023 "%inject:project.provider%. All rights reserved.
+  %inject:project.copyright%
 
   Contributors: 
     Obeo - initial API and implementation.
@@ -460,7 +460,7 @@ for p2-metadata in feature
 				<rcptt.suite.name>_suite.name:undefined_</rcptt.suite.name>
 				
 				<product.name>%inject:project.fullname%.aut-rcptt</product.name>
-				<product.archive>%inject:project.root%Rcptt</product.archive>
+				<product.archive>%inject:project.id%Rcptt</product.archive>
 				
 				<!-- rcptt tests should be in: tests/rcptt/<project_name> -->
 				<rcptt.root.path>../../..</rcptt.root.path>

@@ -17,13 +17,10 @@
    </license>
 
    <plugin
-         id="%inject:project.fullname%.%inject:param.plugin%"
+         id="%inject:project.fullname%"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-
-
 
 </feature>

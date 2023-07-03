@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Copyright (c) 2023 Siemens EDA. All rights reserved. 
+	Contributors: 
+		Obeo - initial API and implementation.
+-->
+<project>
+	<modelVersion>4.0.0</modelVersion>
+
+<!-- 
+Note on help editing:
+- it's not possible to refer to icon in plugin as the documentation must be available in web server.
+To simplify icon updates, they must not be tangled with asciidoc tree and respect organization provided
+by original plugin.
+
+- link between pages ??? using xref: https://docs.asciidoctor.org/pdf-converter/latest/interdocument-xrefs/
+See https://github.com/asciidoctor/asciidoctor-maven-plugin/issues/319 for hint.
+
+- for single PDF, generate adoc from toc file using "include::target[leveloffset=offset]".
+
+-->
+
+	<groupId>%inject:project.fullname%</groupId>
+	<artifactId>documentation</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<defaultGoal>process-resources</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+
+				<executions>
+					<execution>
+						<id>asciidoc-to-html</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<!-- 
+						<configuration>
+							<sourceDocumentName>specification.adoc</sourceDocumentName>
+						</configuration>
+						 -->
+					</execution>
+				</executions>
+				<configuration>
+					<requires>
+						<require>asciidoctor-diagram</require>
+					</requires>
+				
+					<sourceDirectory>src</sourceDirectory>
+					<relativeBaseDir>true</relativeBaseDir><!-- Basedir for each doc. -->
+					<preserveDirectories>true</preserveDirectories>
+					
+					<!-- No need to copy images, they are included at build -->
+					
+					<backend>pdf</backend>
+					<doctype>book</doctype>
+					<!--
+					Scenarios for linking vs embedding assets:
+					Link to both stylesheets and images::
+						- don't set embedAssets option
+						- set linkcss attribute to true
+						- set imagesdir attribute to path relative to AsciiDoc source file
+						<attributes>
+							<linkcss>true</linkcss>
+							<imagesdir>./images</imagesdir>
+						</attributes>
+					Embed stylesheets and images::
+						- set embedAssets option to true
+						- don't set linkcss attribute
+						- set imagesdir attribute to path relative to project root
+						<embedAssets>true</embedAssets>
+						<attributes>
+							<imagesdir>src/docs/asciidoc/images</imagesdir>
+						</attributes>
+					Link to stylesheets but embed images::
+						- set embedAssets option to true
+						- set linkcss attribute to true
+						- set imagesdir attribute to path relative to project root
+						<embedAssets>true</embedAssets>
+						<attributes>
+							<linkcss>true</linkcss>
+							<imagesdir>src/docs/asciidoc/images</imagesdir>
+						</attributes>
+					Embed stylesheets but link images (default)::
+						- don't set embedAssets option
+						- don't set linkcss attribute
+						- set imagesdir attribute to path relative to AsciiDoc source file
+						<attributes>
+							<imagesdir>./images</imagesdir>
+						</attributes>
+					IMPORTANT: When you enable image embedding, you must qualify the path with imagesdir, as shown above.
+					-->
+					<attributes>
+						<source-highlighter>rouge</source-highlighter>
+						<!-- same as: .asciidoctorconfig.adoc -->
+						<imagesdir>${project.basedir}/images</imagesdir>
+						<includesdir>${project.basedir}</includesdir>
+						<!-- asciidoctor-diagram uses basedir by default -->
+						<imagesoutdir>${project.build.directory}/generated-diagrams</imagesoutdir> 
+						
+						<pagenums/>
+						<toc/>
+						<idprefix/><!-- set the idprefix to blank -->
+						<idseparator>-</idseparator>
+						<icons>font</icons>
+						
+						<pdf-theme>default-sans-with-font-fallbacks</pdf-theme>
+						<!-- 
+						// :pdf-theme: basic
+// :pdf-themesdir: {asciidoctorconfigdir}/.adoc_settings
+// :pdf-fontsdir: {asciidoctorconfigdir}/.adoc_settings/fonts
+
+Emojy font at
+https://fonts.google.com/download?family=Noto%20Emoji
+
+Unfortunately, Adobe support for Emoji is very limited.
+
+						 -->
+						 
+						 <!-- 
+						<pdf-theme>basic</pdf-theme>
+						<pdf-themesdir>${project.basedir}/.adoc_settings</pdf-themesdir>
+						<pdf-fontsdir>${project.basedir}/.adoc_settings/fonts</pdf-fontsdir>
+						 -->
+					</attributes>
+				</configuration>
+
+			</plugin>
+			
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.asciidoctor</groupId>
+					<artifactId>asciidoctor-maven-plugin</artifactId>
+					<version>2.2.2</version>
+
+					<dependencies>
+					<!-- Use the default versions: (qualified)
+						<dependency>
+							<groupId>org.jruby</groupId>
+							<artifactId>jruby</artifactId>
+							<version>9.3.8.0</version>
+						</dependency>
+						<dependency>
+							<groupId>org.asciidoctor</groupId>
+							<artifactId>asciidoctorj</artifactId>
+							<version>2.5.7</version>
+						</dependency>
+					-->
+						<dependency>
+							<groupId>org.asciidoctor</groupId>
+							<artifactId>asciidoctorj-pdf</artifactId>
+							<version>2.3.4</version>
+						</dependency>
+						
+						<dependency>
+							<groupId>org.asciidoctor</groupId>
+							<artifactId>asciidoctorj-diagram</artifactId>
+							<version>2.2.1</version>
+						</dependency>
+					</dependencies>
+					
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		
+	</build>
+
+</project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="%inject:project.fullname%.cdo.feature"
+      label="%inject:project.label% Feature"
+      version="1.0.0.qualifier">
+
+   <description url="%descriptionURL">
+      %description
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import feature="%inject:project.fullname%.feature" version="1.0.0.qualifier"/>
+   </requires>
+
+   <plugin id="%inject:project.fullname%.model.cdo" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+         
+</feature>

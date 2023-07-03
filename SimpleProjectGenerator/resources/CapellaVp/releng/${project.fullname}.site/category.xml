@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+
+   <feature id="%inject:project.fullname%.feature">
+      <category name="%inject:project.fullname%.default.category"/>
+   </feature>
+   <feature id="%inject:project.fullname%.cdo.feature">
+      <category name="%inject:project.fullname%.cdo.category"/>
+   </feature>
+   <feature id="%inject:project.fullname%.feature.source">
+      <category name="%inject:project.fullname%.sdk.category"/>
+   </feature>
+   <feature id="%inject:project.fullname%.dev.feature">
+      <category name="%inject:project.fullname%.sdk.category"/>
+   </feature>
+   
+   <category-def name="%inject:project.fullname%.default.category" label="%inject:project.label% by %inject:project.provider%">
+      <description>
+        %inject:project.label%
+      </description>
+   </category-def>
+   
+   <category-def name="%inject:project.fullname%.cdo.category" label="%inject:project.label% by %inject:project.provider% (T4C)">
+      <description>
+         Collaboring on remote Capella Models with extension (Requires T4C).
+      </description>
+   </category-def>
+   
+   <category-def name="%inject:project.fullname%.sdk.category" label="%inject:project.label% by %inject:project.provider% (SDK)">
+      <description>
+         Resources for developpers.
+      </description>
+   </category-def>
+</site>

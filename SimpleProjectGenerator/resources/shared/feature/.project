@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>%inject:project.fullname%.%inject:param.name%.feature</name>
+	<name>%inject:project.fullname%%inject:param.variant%.feature</name>
 	<comment></comment>
 	<projects>
 	</projects>

@@ -1,0 +1,18 @@
+/* %inject:project.copyright%
+ *
+ * Contributors:
+ *    Obeo - initial API and implementation
+ */
+/**
+ * Services of Viewpoint %inject:project.name%.
+ * 
+ * @author: %inject:user.name%
+ */
+Rules %inject:project.name%.rules {
+	// Rule RuleOne type Java: not in a EMF context ...
+	// Usage: inject of a ModelAccessor and ModelManager  
+}
+
+Services %inject:project.name%.services {
+	// Service is an action on a selection
+}

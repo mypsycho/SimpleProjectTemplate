@@ -1,0 +1,82 @@
+// This document is extracted from Eclipse projet 'POOSL'.
+// https://github.com/eclipse/poosl/blob/main/docs/Developer/TargetPlaform.adoc
+// It is available under the terms of the Eclipse Public License 2.0
+// https://www.eclipse.org/legal/epl-2.0/
+// SPDX-License-Identifier: EPL-2.0
+
+== Managing Target Plaftorm
+
+=== Usage
+
+A Target Platform is a set of Eclipse identified Features and Plugins.
+
+It must be defined for:
+
+* Maven/tycho to build classpaths for sources compilation and tests execution.
+
+* Developer IDE to compile and run configuration (product or tests)
+
+
+=== Editing Target platform
+
+Target Platforms are stored as _*.target_ files but are not easily editable:
+
+* They are in XML.
+
+* They require strict versions, no default or range constraints.
+
+* Editor is based on wizard performing a lot of internet access.
+
+* Editor does not handle well feature and plugins mixture.
+
+Currently, the best option is to use the Target Platform Definition Editor. +
+Based on textual representation, the editor created _*.tpd_ files.
+
+They can:
+
+* be organized by features,
+
+* reused using 'includes' directive,
+
+* managed in git.
+
+
+More information can be found at:
+https://github.com/eclipse-cbi/targetplatform-dsl
+
+Limitation: they cannot be used directly by Eclipse IDE or Maven/tycho. +
+They must be transformed into _*.target_ file using 'create Target Definition' action.
+
+=== List of Descriptions
+
+[plantuml, Target-Plateform-Definition, png]     
+....
+left to right direction 
+artifact runtime.tpd
+artifact test.tpd
+artifact dev.tpd
+artifact build.tpd
+
+note top of build.tpd : "To use in Maven"
+
+artifact sdk.tpd
+
+note top of sdk.tpd : "To use in Eclipse"
+
+runtime.tpd <-- build.tpd
+test.tpd <-- build.tpd
+build.tpd <-- sdk.tpd
+dev.tpd <-- sdk.tpd
+....
+
+
+There are 2 Target Platform descriptions in this project.
+
+* _build.target_: Used by Maven POM for batch building.
+
+* _sdk.target_: Used by Eclipse IDE for real-time compilation and debugging. +
+ It includes at least _build.target_ but also sources and debug tools like Aql 
+ inspector or Eclipse Spy.
+
+To created _*.target_ from _*.tpd_ use contextual action '_Create Target Definition File_'.
+

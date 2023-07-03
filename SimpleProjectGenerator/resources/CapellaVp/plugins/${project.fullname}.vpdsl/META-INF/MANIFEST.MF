@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Automatic-Module-Name: %inject:project.fullname%.vpdsl
+Bundle-SymbolicName: %inject:project.fullname%.vpdsl;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Localization: plugin
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
+Require-Bundle: 
+ org.polarsys.kitalpha.resourcereuse,
+ org.polarsys.capella.common.data.core.gen

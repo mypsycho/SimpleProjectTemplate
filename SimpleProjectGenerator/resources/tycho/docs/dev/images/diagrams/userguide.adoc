@@ -1,0 +1,49 @@
+// title break macro
+:n: pass:q[<br>]
+// forcing indentation
+:__: {nbsp}{nbsp}
+
+= Siemens EDA Software {n} VSE Analysis : User Guide
+// Author line
+//Freddy K. Simo <fksimo@obeo.fr>
+:revnumber: v1.0
+:revdate: 2023-06-26
+:revremark: Version 1.0
+:doctype: book
+
+:sectnums:
+:sectnumlevels: 1
+// PDF use a specific chapter prefix
+:chapter-label: Section
+
+:toc:
+:toc-title: Summary
+
+:help-dir: {includesdir}/../../plugins/com.siemens.eda.vseanalysis.help
+:help-src: {help-dir}/src
+:include-path: {help-dir}
+
+
+== Model
+
+include::{help-src}/edition/creating_project.adoc[leveloffset=+1]
+
+include::{help-src}/edition/edit_pab_diagram.adoc[leveloffset=+1]
+
+include::{help-src}/edition/edit_swc_diagram.adoc[leveloffset=+1]
+
+include::{help-src}/edition/edit_properties.adoc[leveloffset=+1]
+
+== Simulation
+
+include::{help-src}/simulation/preferences.adoc[leveloffset=+1]
+
+include::{help-src}/simulation/run.adoc[leveloffset=+1]
+
+include::{help-src}/simulation/configurations.adoc[leveloffset=+1]
+
+== Data analysis
+
+include::{help-src}/analysis/view_simulation_data.adoc[leveloffset=+1]
+
+include::{help-src}/analysis/edit_expressions.adoc[leveloffset=+1]

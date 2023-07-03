@@ -4,57 +4,68 @@ import static com.obeo.project.generator.SgConstants.P0;
 import static com.obeo.project.generator.SgConstants.P1;
 import static com.obeo.project.generator.SgSubstitutions.substitueValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+
+import com.obeo.project.generator.SgSubstitutions;
 
 public class SgTests {
 
-	@Test
-	public void substitueValueTest() {
-		Properties config = new Properties();
+    private final Properties config = new Properties();
+    private final SgSubstitutions.Context ctxt = new SgSubstitutions.Context() {
 
-		assertEquals("value", substitueValue("value", config, P0, P1, new ArrayList<String>()));
+        @Override
+        public String getProperty(String name) {
+            return config.getProperty(name);
+            
+        }
+
+        @Override
+        public Path getRoot() {
+            return Path.of(".");            
+        }
+        
+    };
+    
+    private String evaluate(String text) {
+        return substitueValue(text, ctxt, P0, P1, new ArrayList<String>());
+    }
+    
+	@Test @Timeout(value = 1)
+	public void substitueValueTest() {
+
+
+		assertEquals("value", evaluate("value"));
 
 		config.put("a", "va");
-		assertEquals("va", substitueValue(esp("a"), config, P0, P1, new ArrayList<String>()));
+		assertEquals("va", evaluate(esp("a")));
 
-		assertEquals("xva", substitueValue("x" + esp("a"), config, P0, P1, new ArrayList<String>()));
+		assertEquals("xva", evaluate("x" + esp("a")));
 
-		assertEquals("vava", substitueValue(esp("a") + esp("a"), config, P0, P1, new ArrayList<String>()));
+		assertEquals("vava", evaluate(esp("a") + esp("a")));
 
 		config.put("b", "vb");
-		assertEquals("vavb", substitueValue(esp("a") + esp("b"), config, P0, P1, new ArrayList<String>()));
+		assertEquals("vavb", evaluate(esp("a") + esp("b")));
 
-		assertEquals("vaxvb", substitueValue(esp("a") + "x" + esp("b"), config, P0, P1, new ArrayList<String>()));
+		assertEquals("vaxvb", evaluate(esp("a") + "x" + esp("b")));
 
 		config.put("c", esp("a") + "vc");
-		assertEquals("vavc", substitueValue(esp("c"), config, P0, P1, new ArrayList<String>()));
+		assertEquals("vavc", evaluate(esp("c")));
 
 		config.put("d", esp("c") + "vd");
-		assertEquals("vavcvd", substitueValue(esp("d"), config, P0, P1, new ArrayList<String>()));
+		assertEquals("vavcvd", evaluate(esp("d")));
 
-		config.put("a", esp("c") + "va");
-		IllegalArgumentException exception = null;
-		try {
-			// When circular dependences among keys
-			substitueValue(esp("a"), config, P0, P1, new ArrayList<String>());
-		} catch (IllegalArgumentException e) {
-			exception = e;
-		}
-		assertNotNull(exception);
-
-		exception = null;
-		try {
-			// When circular dependences among keys
-			substitueValue(esp("c"), config, P0, P1, new ArrayList<String>());
-		} catch (IllegalArgumentException e) {
-			exception = e;
-		}
-		assertNotNull(exception);
+		config.put("a", esp("c") + "va"); // circular
+		
+		assertEquals("${a}vcva", evaluate(esp("a")));
+		
+		assertEquals("${c}vavc", evaluate(esp("c")));
+	      
 
 		config.put("a", "va");
 
@@ -65,27 +76,15 @@ public class SgTests {
 		// matches.
 		// In the below assertion, just like "d" which depends on "c", "e" also depends
 		// on "c", but there is no circular dependences.
-		assertEquals("vavcvd" + "vavcve", substitueValue(esp("d") + esp("e"), config, P0, P1, new ArrayList<String>()));
+		assertEquals("vavcvd" + "vavcve", evaluate(esp("d") + esp("e")));
 
 		config.put("x", esp("y") + "vx");
 		config.put("y", esp("z") + "vy");
 		config.put("z", esp("x") + "vz");
-		exception = null;
-		try {
-			// When circular dependences among keys
-			substitueValue(esp("x"), config, P0, P1, new ArrayList<String>());
-		} catch (IllegalArgumentException e) {
-			exception = e;
-		}
-		assertNotNull(exception);
-		exception = null;
-		try {
-			// When circular dependences among keys
-			substitueValue(esp("z"), config, P0, P1, new ArrayList<String>());
-		} catch (IllegalArgumentException e) {
-			exception = e;
-		}
-		assertNotNull(exception);
+		
+        assertEquals("${x}vzvyvx", evaluate(esp("x")));
+        assertEquals("${z}vyvxvz", evaluate(esp("z")));   
+
 	}
 
 	static String esp(String value) {

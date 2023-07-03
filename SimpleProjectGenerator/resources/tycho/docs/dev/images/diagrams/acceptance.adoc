@@ -1,0 +1,257 @@
+// title break macro
+:n: pass:q[<br>]
+// forcing indentation
+:__: {nbsp}{nbsp}
+
+= Siemens EDA Software {n} VSE Analysis : Acceptance Tests
+// Author line
+//Freddy K. Simo <fksimo@obeo.fr>
+:revnumber: v1.0
+:revdate: 2023-05-03
+:revremark: Version Draft
+:doctype: book
+
+:sectnums:
+:sectnumlevels: 1
+// PDF use a specific chapter prefix
+:chapter-label: Section
+
+:toc:
+:toc-title: Summary
+
+== Getting started
+
+=== Setting up the environment
+
+Follow the 
+_Siemens EDA Software 
+ VSE Analysis : Installation guide_ in order to setup the environment that will be used for acceptance tests.
+ 
+=== Creating a Capella Project with the VSE extension
+
+Run:
+File -> New -> Other... -> _Select/search "Capella Project for VSE Analysis"_ -> _Click on Next button_ -> _Enter the project name_ -> _Follow the wizard to finish_. +
+A new project with the VSEAnalysis viewpoint is created.
+
+=== Viewing Preferences
+Run:
+Window -> Preferences -> _Enter "VSE" to filter and select "VSE Analysis"_. +
+The opened window should look like:
+
+image::{includesdir}/acceptance/captures/vse_analysis_preferences.png[align="center",scaledwidth=70]
+
+=== Creating a Debug Configuration 
+Run:
+Debug Configurations -> _Right click on "VSE Analysis"_ -> New Configuration. +
+The created frame should look like:
+
+image::{includesdir}/acceptance/captures/vse_analysis_debug_configuration.png[align="center",scaledwidth=70]
+
+=== Viewing Help
+Run:
+Help -> Help Contents +
+In the opened window, the **Contents** section should contain the following:
+
+image::{includesdir}/acceptance/captures/vse_analysis_help.png[scaledwidth=50]
+
+In the following, _i_ is a positive integer when it appears in a string starting and ending with '<' and '>' symbols respectively, unless otherwise specified.
+
+== [PAB] Physical System tests
+
+=== [PAB] Physical System, Vse Analysis Layer tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action | Expected result  
+| PAB_VSE_AL0
+| Activate the layer "VSE Analysis" if it is not already active.
+| A group "VSE Analysis" appears in the palette:
+image:{includesdir}/acceptance/captures/palette_pab_analysis_layer.png[align="center",scaledwidth=150]
+|===
+
+
+==== ECU, SOC, CPU Cluster and CPU Core tools tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action{n}(Tool name in Palette to execute) | Expected result{n}(Diagram element)   
+| PAB_VSE_EC0 |ECU | An ECU with a default label   <ECU i>
+| PAB_VSE_SO0 |SOC | A Soc (with a default label <Soc i>) inside an ECU    
+| PAB_VSE_CL0 |CPU Cluster | A CpuCluster with a default label <CpuCluster i> inside a SOC
+| PAB_VSE_CO0 |CPU Core |A  CpuCore (with a default label <CpuCore i>) inside a CPU Cluster
+3+| After running these four tools, the final result should look like:{n}
+image:{includesdir}/acceptance/captures/ecu_soc_cpucluster_cpucore_diagram_elements.png[align="center",scaledwidth=250]
+|===
+
+
+==== Software Component and Runnable Entity tools tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action{n}(Tool name in Palette to execute) | Expected result{n}(Diagram element)   
+| PAB_VSE_SC0 | Software Component | A Software Component (with a default label <SWC i>) inside a CPU Core 
+| PAB_VSE_RE0 | Runnable Entity | A Runnable Entity (with a default label <RunnableEntity i>) inside a Software Component
+3+| After running these two tools, the final result should look like:{n}
+image:{includesdir}/acceptance/captures/swc_runnable_entity_diagram_elements.png[align="center",scaledwidth=200]
+|===
+
+
+==== Ethernet switch and CAN bus tools tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action{n}(Tool name in Palette to execute) | Expected result{n}(Diagram element)   
+| PAB_VSE_ES0 | Ethernet switch | An Ethernet switch (with a default label <EthSwitch i>) inside the PAB diagram 
+| PAB_VSE_CB0 | CAN bus   | A CAN bus (with a default label <CanBus i>) inside the PAB diagram 
+3+| After running these two tools, the final result should look like:{n}
+image:{includesdir}/acceptance/captures/eth_switch_can_bus_diagram_elements.png[align="center",scaledwidth=200]
+|===
+
+
+==== Connections (Interfaces) between Software Components tools tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action{n}(Tool name in Palette to execute) | Expected result{n}(Diagram element)   
+| PAB_VSE_CSC
+| Connect S/W Components
+| An interface or a link (with a default label <SwcInterface i>) between two ComponentPorts of 2 Software Components
+| PAB_VSE_CTE
+| Connect through a Bus _(applied on an Ethernet Switch)_
+| An interface or a link (with a default label <SwcInterface i>) between two ComponentPorts of 2 Software Components passing through an intermediate ComponentPort of an Ethernet Switch
+| PAB_VSE_CTB
+| Connect through a Bus _(applied on a CAN Bus)_
+| An interface or a link (with a default label <SwcInterface i>) between two ComponentPorts of 2 Software Components passing through an intermediate ComponentPort of a CAN Bus
+3+| After running these three tools, the final result should look like:{n}
+image:{includesdir}/acceptance/captures/swc_connections_diagram_elements.png[align="center",scaledwidth=250]
+|===
+
+==== Create Data Access,  Merge into SWC, Release from bus, and Apply or remove extension tools tests
+[options="header",cols="1,2,3"]
+|===
+| ID | Action{n}(Tool name in Palette to execute) | Expected result{n}(Diagram element)   
+| PAB_VSE_CDA
+| Create Data Access
+| A data access or a link from a FunctionOuputPort of a RunnableEntity to one of the output ComponentPort of the Software Component containing the RunnableEntity.
+Or a data access to a FunctionInputPort of a RunnableEntity from one of the input ComponentPort of the Software Component containing the RunnableEntity.
+| PAB_VSE_MIS
+| Merge into SWC
+| The Swc Name of the source (when applying the tool) Software Component becomes the same as the label of the target (when applying the tool) Software Component. The Capella name of the source is also modified.
+| PAB_VSE_RFB
+| Release from bus
+| An interface or a link that used to pass through an intermediate Ethernet Switch's or CAN Bus's ComponentPort, is no longer passed. That interface remains directly between two ComponentPorts of 2 Software Components
+| PAB_VSE_ARE
+| Apply or remove extension
+| If the target element was (resp. was not) a VSE element, it is no longer (resp is now) a VSE element. The icon of the target element also changes.
+|===
+
+
+=== [PAB] Physical System, Vse Parameters Layer tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action | Expected result  
+| PAB_VSE_PL0
+| Activate the layer "VSE Parameters" if it is not already active.
+| In the group "VSE Analysis" in the palette, appears at the bottom, a subgroup "Exchange Scale (Port)" (to unfold):
+image:{includesdir}/acceptance/captures/palette_pab_parameters_layer.png[align="center",scaledwidth=150]
+| PAB_VSE_PLX
+| Using the above subgroup, apply each of the 6 tools on the proper diagram node
+| A diagram node titled "VSE Parameters" appears in the diagram with a dashed line to the target element (when applying the tool). That diagram node also contains an attribute acting as the parameter.
+|===
+
+== [SWC] Physical System tests
+
+This is about the synchronized diagram that focuses on Software Components, RunnableEntities and their connections (interfaces).
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action | Expected result 
+| SWC_VSE_PAL | Create an [SWC] diagram | The palette should look like:
+image:{includesdir}/acceptance/captures/palette_pab_swc_default_palette.png[align="center",scaledwidth=150]
+| SWC_VSE_INT
+| Create a link (or an interface), if not already existing, between 2 Software Components in the [PAB] diagram
+| In the [SWC] diagram, a new a diagram node with the same label (<SwcInterface i>) as in the [PAB] diagram appears:
+image:{includesdir}/acceptance/captures/palette_pab_swc_interfaces.png[align="center",scaledwidth=200]
+|===
+
+
+=== [SWC] Physical System, Vse Analysis Layer tests
+
+==== Create Data Access and Add parts into SWC tools tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action{n}(Tool name in Palette to execute) | Expected result{n}(Diagram element)   
+| SWC_VSE_CDA
+| Create Data Access
+| A data access or a link from a FunctionOuputPort of a RunnableEntity to one of the output ComponentPort of the Software Component containing the RunnableEntity.
+Or a data access to a FunctionInputPort of a RunnableEntity from one of the input ComponentPort of the Software Component containing the RunnableEntity.
+| SWC_VSE_APS
+| Add parts into SWC
+| The source Software Component (when applying the tool) gets and adds to its own structure, the structure (i.e.RunnnableEntities, incoming and outgoing ComponentPorts) of the target Software Component (when applying the tool).
+Interfaces that were existing between the target and other Software Components are moved between the source and these other Software Components. The target disappears in the diagram. 
+|===
+
+==== Timing Event and  Data Received Event tools tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action{n}(Tool name in Palette to execute) | Expected result{n}(Diagram element)   
+| SWC_VSE_TIE | Timing Event | A TimingEvent (with a default label <TimingEvent i>) appears as an attribute in a RunnableEntity (the target when applying the tool)
+| SWC_VSE_DRE | Data Received Event  | A DataReceivedEvent (with a default label <DataReceivedEvent i>) appears as an attribute in a RunnableEntity (the target when applying the tool)
+3+| After running these two tools (on the same RunnableEntity), the final result should look like:{n}
+image:{includesdir}/acceptance/captures/swc_runnableentities_events.png[align="center"]
+|===
+
+
+==== Constant Data, Random Data and Custom Data tools tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID |Action{n}(Tool name in Palette to execute) | Expected result{n}(Diagram element)   
+|SWC_VSE_COD
+| Constant Data
+| A FixedData (with a default label <FixedData i : <DataType>[<Length>]>) appears as an attribute in a Software Interface (the target when applying the tool)
+| SWC_VSE_RAD
+| Random Data
+| A RandomData (with a default label <RandomData i : <DataType>[<Length>]>) appears as an attribute in a Software Interface (the target when applying the tool)
+| SWC_VSE_CUD
+| Custom Data
+| A CustomData (with a default label <CustomData i : <DataType>[<Length>]>) appears as an attribute in a Software Interface (the target when applying the tool)
+3+| After running these three tools (on the same Software Interface), the final result should look like:{n}
+image:{includesdir}/acceptance/captures/swc_interfaces_data.png[align="center"]
+|===
+
+
+=== [SWC] Physical System, Vse Parameters Layer tests
+
+[options="header",cols="1,2,3"]
+|===
+| ID | Action | Expected result  
+| SWC_VSE_PL0
+| Activate the layer "VSE Parameters" if it is not already active
+| In the group "Software Elements" in the palette, appears at the bottom, a subgroup "MIPS calculation (Runnable)" (to unfold):
+image:{includesdir}/acceptance/captures/palette_pab_swc_parameters_layer.png[align="center"]
+| SWC_VSE_PLX
+| Using the above subgroup, apply each of the 3 tools on the proper diagram node
+| A diagram node titled "VSE Parameters" appears in the diagram with a dashed line to the target element (when applying the tool). That diagram node also contains an attribute acting as the parameter.
+|===
+
+
+== VSE Analysis XML generation tests
+[options="header",cols="1,2,3"]
+|===
+| ID | Action | Expected result  
+| VSE_XML_GEN  
+a| . Load the test project (VseAnalysisTestProject located in the folder `resources/withVseParameters` of the plugin `com.siemens.eda.vseanalysis.runtime.test`)
+  . Edit Preferences, in particular, set the "Customization Script" field to "main.py"; set also the "VSE executable" field to the path of the file "vserun.bat" located in the `vsestub` directory
+  . Create a new Debug Configuration, set Simulation time to 10, set WireShark to false
+  . Run the created Debug Configuration
+| Ensure the content of the generated XML file is the same as the XML file allVSEParametersConfig.xml located in the folder `resources/withVseParameters/XmlTransformationVseParametersTest/Expected` of the plugin `com.siemens.eda.vseanalysis.runtime.test`
+| VSE_XML_NGE
+a| . Run the first three steps above (of the test VSE_XML_GEN)
+   . Edit Preferences, unset the "VSE executable" field
+   . Run the created Debug Configuration
+| Ensure no XML file is generated and an error is displayed because of a missing (or invalid) "VSE executable" field value
+|===

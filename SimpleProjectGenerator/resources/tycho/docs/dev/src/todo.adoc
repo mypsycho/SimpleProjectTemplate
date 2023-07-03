@@ -1,0 +1,8 @@
+Create stub for
+
+ . acceptance.adoc
+ . architecture.adoc
+ . installation.adoc
+ . specification.adoc
+ . TargetPlaform.adoc
+ . userguide.adoc

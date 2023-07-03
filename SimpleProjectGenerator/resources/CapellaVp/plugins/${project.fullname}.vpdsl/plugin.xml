@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<extension
+	     point="org.polarsys.kitalpha.resourcereuse.resources">
+	  <resource
+	        domain="vpdsl"
+	        id="%inject:project.fullname%.vpdsl.description"
+	        tags="vpdesc"
+	        name="%inject:project.name%"
+	        path="/%inject:project.fullname%.vpdsl/model/%inject:project.name%.vpdesc"/>
+
+	  <resource
+	        domain="vpdsl"
+	        id="%inject:project.fullname%.vpdsl.resource.%inject:project.name%.spec"
+	        tags="Viewpoint"
+	        name="spec"
+	        path="/%inject:project.fullname%.vpdsl/model/%inject:project.name%.spec.vptext"/>
+
+	  <resource
+	        domain="vpdsl"
+	        id="%inject:project.fullname%.vpdsl.resource.%inject:project.name%.data"
+	        tags="Viewpoint"
+	        name="data"
+	        path="/%inject:project.fullname%.vpdsl/model/%inject:project.name%.data.vptext"/>
+
+	  <resource
+	        domain="vpdsl"
+	        id="%inject:project.fullname%.vpdsl.resource.%inject:project.name%.conf"
+	        tags="Viewpoint"
+	        name="conf"
+	        path="/%inject:project.fullname%.vpdsl/model/%inject:project.name%.conf.vptext"/>
+
+	  <resource
+	        domain="vpdsl"
+	        id="%inject:project.fullname%.vpdsl.resource.%inject:project.name%.%inject:project.name%.diagram"
+	        tags="Viewpoint"
+	        name="diagram"
+	        path="/%inject:project.fullname%.vpdsl/model/%inject:project.name%.diagram.vptext"/>
+
+	  <resource
+	        domain="vpdsl"
+	        id="%inject:project.fullname%.vpdsl.resource.%inject:project.name%.%inject:project.name%.services"
+	        tags="Viewpoint"
+	        name="services"
+	        path="/%inject:project.fullname%.vpdsl/model/%inject:project.name%.services.vptext"/>
+	</extension>
+</plugin>

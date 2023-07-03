@@ -1,0 +1,38 @@
+/*
+ * %inject:project.copyright%
+ *
+ * Contributors:
+ *    Obeo - initial API and implementation
+ * 
+ */
+/**
+ * Generation configuration of Viewpoint %inject:project.name%.
+ * 
+ * @author: %inject:user.name%
+ */
+Configuration %inject:project.name%.conf {
+	target "CDO for Capella"
+	project %inject:project.fullname%
+	nsuri "%inject:project.vpurl%"
+	release {
+		version : 1.0.0.qualifier
+		description : "%inject:project.label%"
+		execution environments : "JavaSE-%inject:project.java%"
+	}
+	generation {
+		data (
+			Model: true
+			Edit: true
+			Editor: false
+			Test: false
+			Javadoc: false
+			OverwriteEcore: true
+		)
+		diagram (
+			OverwriteOdesign: false // no merge mechanism
+		)
+		documentation (
+			EcoreToHtml: false
+		)
+	}
+}

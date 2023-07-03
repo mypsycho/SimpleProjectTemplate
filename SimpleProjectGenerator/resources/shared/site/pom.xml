@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
-    Copyright (c) 2023 Obeo. All rights reserved. 
+    %inject:project.copyright%
     Contributors: 
       Obeo - initial API and implementation.
 -->

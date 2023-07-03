@@ -1,0 +1,8 @@
+Copy and adapt
+
+${project.fullname}.commons
+${project.fullname}.design
+
+from
+
+CapellaVp\plugins

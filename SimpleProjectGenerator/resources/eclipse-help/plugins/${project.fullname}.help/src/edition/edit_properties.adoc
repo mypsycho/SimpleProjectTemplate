@@ -1,0 +1,35 @@
+// Relative path is need for HTML
+:res-path: ../..
+ifdef::include-path[]
+:res-path: {include-path}
+endif::include-path[]
+
+:ico: image:{res-path}/images/icons
+
+== Editing of properties
+
+TODO how to edit properties.
+
+
+=== Software Component elements
+
+[options="header",cols="1,1,3",grid=rows]
+|===
+| Type | Field | Description
+
+   | {ico}/Type1.png[] SWC Interface
+   | ComponentExchange (Direct) +
+     ComponentPort (Routed)
+   | Buffer Size
+   | Dimension of Buffer for Data transfer
+
+.3+| {vpdsl}/FixedData.png[] FixedData
+.3+| - 
+   | Data Type
+   | Content type for this element
+   | Length
+   | Dimension of the data according its type
+   | Default Value
+   | Transfered content
+
+|===

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  %inject:project.copyright%
+
+  Contributors:
+     Obeo - initial API and implementation
+-->
+<toc label="%inject:project.label%">
+   <topic label="Model">
+      <topic href="html/edition/creating_project.html" label="Create a VSE Project" />
+      <topic href="html/edition/edit_properties.html"  label="Edit Elements properties" />
+   </topic>
+</toc>

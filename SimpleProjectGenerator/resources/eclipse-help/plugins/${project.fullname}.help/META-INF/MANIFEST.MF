@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: %inject:project.fullname%.help;singleton:=true
+Bundle-Version: 1.2.0.qualifier
+Bundle-Vendor: %providerName
+Automatic-Module-Name: %inject:project.fullname%.help
+Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
+Require-Bundle: org.eclipse.help

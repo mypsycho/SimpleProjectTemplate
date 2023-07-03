@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Automatic-Module-Name: %inject:project.fullname%.design
+Bundle-SymbolicName: %inject:project.fullname%.design;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Localization: plugin
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
+Bundle-Activator: %inject:project.fullname%.design.Activator
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Require-Bundle: 
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.sirius,
+ org.eclipse.sirius.common.acceleo.aql,
+ org.eclipse.sirius.diagram,
+ org.polarsys.capella.core.sirius.analysis,
+ org.polarsys.kitalpha.ad.services,
+ %inject:project.fullname%,
+ %inject:project.fullname%.model,
+ %inject:project.fullname%.commons
+Export-Package: 
+ %inject:project.fullname%.design
+
