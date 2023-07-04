@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
-	Copyright (c) 2023 Siemens EDA. All rights reserved. 
+	%inject:project.copyright%
+	
 	Contributors: 
 		Obeo - initial API and implementation.
 -->
 <project>
 	<modelVersion>4.0.0</modelVersion>
 
-		<groupId>com.siemens.eda.vseanalysis</groupId>
-		<version>1.2.0-SNAPSHOT</version>
+	<groupId>%inject:project.fullname%</groupId>
+	<version>1.0.0-SNAPSHOT</version>
 
-	<artifactId>com.siemens.eda.vseanalysis.help</artifactId>
+	<artifactId>help-build</artifactId>
 	<packaging>pom</packaging>
-	<name>VSE Analysis Embedded Help</name>
 
 <!-- 
 Note on help editing:

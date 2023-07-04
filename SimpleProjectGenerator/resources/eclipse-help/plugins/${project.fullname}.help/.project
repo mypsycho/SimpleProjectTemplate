@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>com.siemens.eda.vseanalysis.help</name>
+	<name>%inject:project.fullname%.help</name>
 	<comment></comment>
 	<projects>
 	</projects>

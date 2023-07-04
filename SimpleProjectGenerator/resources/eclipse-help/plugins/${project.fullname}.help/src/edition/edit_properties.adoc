@@ -23,7 +23,7 @@ TODO how to edit properties.
    | Buffer Size
    | Dimension of Buffer for Data transfer
 
-.3+| {vpdsl}/FixedData.png[] FixedData
+.3+| {ico}/FixedData.png[] FixedData
 .3+| - 
    | Data Type
    | Content type for this element

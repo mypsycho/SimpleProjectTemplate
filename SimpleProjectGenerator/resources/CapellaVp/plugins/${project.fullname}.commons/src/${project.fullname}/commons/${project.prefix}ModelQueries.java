@@ -16,7 +16,7 @@ import org.osgi.framework.BundleContext;
 import org.polarsys.capella.core.data.capellacore.CapellaElement;
 import org.polarsys.capella.core.data.cs.Part;
 
-import com.siemens.eda.vseanalysis.VseAnalysis.VseElement;
+import %inject:project.fullname%.%inject:project.prefix%Element;
 
 /**
  * Services to queries through %inject:project.name% model.
