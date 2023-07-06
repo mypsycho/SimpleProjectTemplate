@@ -1,15 +1,67 @@
+// ------1---------2---------3---------4---------5---------6---------7---------8---------9
+
 = Simple Project Generator
 
 
-== Creating a configuration
+== Purpose
+
+This tool allows to create quickly projects backbones.
+
+User must create a descriptor for an new project and then launch the generation. +
+The generator uses template files to create the project structure.
+
+As templates can be combined, several profiles can be elaborated in a single set of 
+resources.
+
+[NOTE]
+====
+The solution is not based packaged to facilitate template addition.
+
+The solution has no UI as properties files can be commented at will and offer more 
+freedom to organize descriptors.
+====
+
+
+== Project configuration
 
 In the folder where the generation must be performed, create a `*.properties` file
 
 Each entry is a property for templates files.
 
-=== Built-in entry
 
-Following entry are generated automatically.
+=== Common configuration
+
+The required configuration depends of applicable templates. +
+However, most of them use following properties.
+
+[source, properties]
+----
+
+template = <list of templates> ex: tycho;Eclipse2021-01;emf
+
+project.name = <Technical name>
+project.label = <Label for printable element>
+ 
+project.prefix = <Prefix for class name or shortcuts>
+project.extension = <File extension for model file>
+
+project.fullname = <qualified name used for unique identification> 
+project.path = <qualified name with '/' as segment separator> 
+
+project.provider = <Legal name of the owning actor>
+project.license = <Code license; ex: Eclipse EPL 2.0> 
+
+# Name for configuration files. Example (Java Formatter, checkstyle, ...)
+project.profile = <ProviderId>Dev
+
+project.url = <URL for feature> http://www.aaa-inc.com/solutions/mydemo/
+
+----
+
+
+=== Built-in entries
+
+Following entry are generated automatically. They can be overridden by configuration.
 
 project.root:: 
  Folder name of generation
@@ -24,36 +76,74 @@ user.name::
  Login of user
 
 
-=== Common configuration
 
-The required configuration depends of applicable template. +
-However most of cases use following properties
+== Generating the project backbone
 
-[source, properties]
-----
+The generator uses the properties _template_ to create files using substituable content 
+from _resources_.
 
-template = <list of templates> ex: tycho;Eclipse2021-01;emf
+Each file is created substituting `%inject:*%` sequence by properties value.
 
-project.name = Technical name
-project.label = <Label for printable element>
- 
-project.prefix = <Prefix for class name or shortcuts>
-project.extension = <for model file>
+If _template_ is composed of several path, they are separated by a semi-comma (;) and 
+apply in order.
 
-project.fullname = <qualified name used for unique identification> 
-project.path = <qualified name with '/' as segment separator> 
-
-project.provider = <Legal name of the compony>
-project.license = <license ex:> Eclipse EPL 2.0
-
-# Name for configuration files. Example (Java Formatter, checkstyle, ...)
-project.profile = <ProviderId>Dev
-
-project.url = <URL for feature> http://www.aaa-inc.com/solutions/mydemo/
-
-----
+A template can even be a folder, a properties file or both.
 
 
+=== Template properties Syntax
 
-== Generating the project
+Injection:: 
+  _Syntax_: `<inject>key = value` +
+  Any property starting by `<inject>` will be injected as user properties before any 
+  substitution rule is applied. However explicit user properties will used if defined. +
+  This property works as a default value and can be overridden by template sequence.
+
+Parameterized template::
+  _Syntax_: `targetFile = srcFile1;srcFile2 | param1>value1 | param2>value2`
+  Most of properties associates a target file with a list of sources files. +
+  Target file must be a path relative to generation folder. +
+  Source files is list of resources separated by semi-comma (;). +
+  All properties values are available during the copy but it is possible to add 
+  extra property applicable only for this rule: +
+  Each couple `key>value` is added to the substitution context with `param.` prefix. +
+  For example: if `| name>commons` is set after a source file, `%inject:param.name%` 
+  will replaced by `commons`.
+
+Delete resources::
+  _Syntax_: `targetFile = <delete>`
+  When chaining templates, some created files may come in the way. It is possible to 
+  delete files or folder from executed substitution rules by using special `<delete>`
+  value.
+
+
+=== Template life-cycle
+
+ * *Injecting* properties +
+  Before any substitution rule is applied, *Injection* properties are added to 
+  substitution context.
+ * *Apply* main templates
+ ** *Apply* Parameterized templates
+   Based on from Properties file entries of template.
+ ** *Copy* resources
+   Using resource folder with template name.
+ ** *Delete* resources
+   As indicated in Properties file entries
+
+
+
+== Creating templates
+
+=== Creating simple resources
+
+Create template files in a sub-folder of `resources`, the sub-folder name is to be used 
+as template.
+
+To make a section generic, replace text by `%inject:*%` where '*' is a property from 
+project descriptor.
+
+=== Creating patterns
+
+Create property file in `resources` folder, the file base-name is to be used as template.
+
+See <<Template properties Syntax>> section.
 

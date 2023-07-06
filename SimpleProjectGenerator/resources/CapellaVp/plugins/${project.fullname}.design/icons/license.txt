@@ -1,0 +1,8 @@
+This file lists the origin of used icons.
+It also indicates if an icon is a modification of existing icons.
+
+Source:
+<icon> -> platform:/plugin/org.polarsys.capella.core.data.res.edit/icons/full/obj16/**
+<icon> -> platform:/plugin/org.polarsys.capella.core.data.common.properties/icons/full/obj16/**
+<icon> -> platform:/plugin/org.polarsys.capella.core.sirius.analysis/icons/full/obj16/**
+<icon> -> platform:/plugin/org.polarsys.capella.core.sirius.analysis/description/images/**
