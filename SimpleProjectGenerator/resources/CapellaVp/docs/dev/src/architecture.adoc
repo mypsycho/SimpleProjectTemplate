@@ -1,0 +1,224 @@
+//-------1---------2---------3---------4---------5---------6---------7---------8---------9
+
+// This document is inspired by Eclipse project 'POOSL' documentation.
+// https://github.com/eclipse/poosl/blob/main/docs/Developer/readme.adoc
+// It is available under the terms of the Eclipse Public License 2.0
+// https://www.eclipse.org/legal/epl-2.0/
+// SPDX-License-Identifier: EPL-2.0
+
+// title break macro
+:n: pass:q[<br>]
+// forcing indentation
+:__: {nbsp}{nbsp}
+
+= %inject:project.provider% {n} %inject:project.label% : Architecture
+// Author line
+%inject:user.name%
+:revnumber: v1.0
+:revdate: %inject:project.year%-01-01
+:revremark: Version Draft
+:doctype: book
+
+:sectnums:
+:sectnumlevels: 1
+// PDF use a specific chapter prefix
+:chapter-label:
+
+:toc:
+
+<<<
+
+== Project organization
+
+This organization is following a classic structure for OSGI-project. +
+More details here: +
+http://blog.vogella.com/2015/12/15/pom-less-tycho-builds-for-structured-environments/
+
+[cols="1,3", options="header"]
+.Organization
+|===
+| Name           | Details
+
+| parent         | Pom parent with build configurations.
+| plugins        | List of Eclipse plugins.
+| tests          | List of tests of Eclipse plugins.
+| releng         | Projects for release engineering.
+| tooling        | Tools to monitor or manages specific resources types.
+| docs\dev       | Specifications, UserGuide, Architecture, Guidelines.
+| docs\samples   | Resources for use-cases.
+
+|===
+
+=== Tests
+
+In Eclipse development, unlike common Maven layout, tests are located in a separated 
+compilation unit. +
+This is driven by OSGI architecture.
+
+To have full access to tested classes, test project should be declared as fragment of
+tested plugins. If a test plugin provides utility classes for others plugin, it must be 
+in a plugin.
+
+=== External dependencies
+
+Eclipse development is based on Target Platform assembly. Hints on Target Platform 
+definition are available in xref:../TargetPlaform.adoc[Target platform] .
+
+<<<
+ 
+== Plugin descriptions
+
+`(~)` is a shortcut for `%inject:project.fullname%` prefix.
+
+[cols="1,2", options="header"]
+.Components
+|===
+| Name                   | Description
+
+| `(~).vpdsl`            | Description of Viewpoint: Entry point for generation
+| `(~)`                  | Plugin containing Ecore model (generated).
+| `(~).model`            | Classes of Ecore model (generated).
+| `(~).model.edit`       | Ecore service to edit model (mostly generated).
+| `(~).contextual.explorer` 
+                         | Queries for Capella Semantic Browser.
+| `(~).commons`          | Services used to navigates through the Extension.
+| `(~).design`           | Definition of Representations and diagram extensions for 
+                           Capella.
+| `(~).rules.validation` | Rules to verify model validity.
+| `(~).ui`               | Properties tabs to edit extension attributes.
+| `(~).af`               | Capella Viewpoint declaration (generated).
+| `(~).help`             | Embedded and on-line help.
+
+|===
+
+.Dependencies summary
+
+[plantuml, Dependencies, png]
+....
+include::{includesdir}/images/diagrams/plugin_dependencies.plantuml[]
+....
+
+<<<
+
+== Building the project
+
+**Maven** is required. Building will compile, run tests and assemble an P2 archive for Eclipse
+installation.
+
+Default command is: 
+
+[source,bash]
+----
+mvn clean verify
+----
+
+In continuous integration, activate the batch mode: `-B`
+
+=== Noteworthy options 
+
+They can be set using `-D<option>=<value>` syntax.
+
+[cols="2,1,1,4", options="header"]
+|===
+| Option                    | Type      | Kind      | Action 
+
+| maven.test.failure.ignore | Boolean   | Built-in  | Run tests but ignore failures.
+| maven.test.skip           | Boolean   | Built-in  | No compilation or run for tests.
+| tycho.tests.patterns      | String    | Property  | Focus on 1 test or test group. 
+| debugPort                 | Integer   | Built-in  | Enable remote debug of tycho tests for 
+                                                      provided port.
+| tpd.mode                  | String    | Property  | Use an alternative Target Platform +
+                                                      (default: build)
+| tycho.releng.skip         | Boolean   | Property  | No build of feature or update-site.
+| tycho.localArtifacts=ignore
+                            | default +
+                              ignore    | Built-in  | Excludes locally built artifacts.
+                                                      (Advise for Continuous Integration)
+| git.dirty                 | error +
+                              warning +
+                              dirty     | Property  | Handle uncommitted files.
+|===
+
+=== Unitary testing
+
+In case a test is failing only in Maven, it is possible to launch only 1 tests.
+
+To do so, install locally plugins so tests can use it.
+
+[source,bash]
+----
+mvn install -Dmaven.test.skip=true -Dgit.dirty=warning -Dtycho.releng.skip=true`
+----
+
+then launch specific test:
+
+[source,bash]
+----
+mvn package -f <test.project> -Dgit.dirty=warning -Dtycho.tests.patterns=*/<test.name>.java
+----
+
+If remote debugging is required, use 'debugPort' option.
+
+NOTE: If a plugin source is changed between execution, both command must launched.
+
+
+=== Maven POM editing guideline
+
+* Modules must be listed in root container POM.
+
+* Update 'parent' pom if configuration is applicable for several components.
+Use profile activation to enable specific behaviors according project resources.
+
+=== Updating version
+
+To change version, use following command with proper number:
+
+[source,bash]
+----
+mvn org.eclipse.tycho:tycho-versions-plugin:set-version  -DnewVersion=0.0.0-SNAPSHOT
+----
+
+<<<
+== Development recommendations and hints
+
+=== Development environment
+
+A Oomph setup is available at _/%inject:project.fullname% parent/oomph_.
+Oomph setup provides a convenient description of the Eclipse features to edit this source.
+
+=== Git
+
+On Windows host, ensure 'core.autocrlf = true'. +
+It can be verified/edited in _Windows/Preferences.../Team/git/configuration_
+
+
+=== Extending Capella
+
+Most of API and Capella architecture is described in public Eclipse repository:
+
+https://github.com/eclipse/capella-studio/wiki
+
+Tutorials:
+
+https://github.com/eclipse/capella-studio/wiki/Tutorials
+
+=== Java Source guideline
+
+==== Documentation
+
+At least, every class must have a description of its role and the behavior it ensures.
+
+'public' methods should also have a description unless inherited documentation is enough.
+
+
+==== Encoding, formatting and source paths
+
+See _/%inject:project.fullname% parent/preferences_ folder for detail indications.
+
+==== Internationalization (I18n) in Design
+
+Using id mechanism, i18n labels are automatically set in ODesign. +
+_%inject:project.fullname%.design/plugin.properties_ must be updated accordingly
+
+Capella code is not localized (English in Source code) thus this extension is not.
+However, in the event of such upgrade, prefer MessageFormat usage to String concatenation.

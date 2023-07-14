@@ -59,7 +59,7 @@
 		<requirement name="org.eclipse.m2e.feature.feature.group" />
 		<!-- 
 		<requirement name="org.eclipse.oomph.setup.ui.ide.feature.group" />
- -->
+ 		-->
 		<requirement name="org.eclipse.oomph.workingsets.feature.group" />
 		<requirement name="org.eclipse.oomph.preferences.feature.group" />
 		<requirement name="org.eclipse.oomph.projectconfig.feature.group" />
@@ -67,8 +67,6 @@
 		<requirement name="org.eclipse.oomph.targlets.feature.group" />
 		<requirement name="org.eclipse.oomph.version.feature.group" />
 
-
- 
      	<!--  java dev -->
 		<requirement name="org.eclipse.jdt.feature.group" />
 		<requirement name="org.eclipse.pde.feature.group" />
@@ -128,7 +126,7 @@
 		<requirement name="org.eclipse.fx.ide.feature.feature.group" />
 		
 		<!-- swt or swing -->
-		<repository url="https://download.eclipse.org/windowbuilder/latest/" />
+		<repository url="https://download.eclipse.org/releases/2021-06" />
 		<requirement name="org.eclipse.wb.core.feature.feature.group" />
 		<requirement name="org.eclipse.wb.core.java.feature.feature.group" />
 		<requirement name="org.eclipse.wb.core.ui.feature.feature.group" />

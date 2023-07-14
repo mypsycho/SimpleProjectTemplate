@@ -46,7 +46,7 @@ project.prefix = <Prefix for class name or shortcuts>
 project.extension = <File extension for model file>
 
 project.fullname = <qualified name used for unique identification> 
-project.path = <qualified name with '/' as segment separator> 
+project.fullpath = <qualified name with '/' as segment separator> 
 
 project.provider = <Legal name of the owning actor>
 project.license = <Code license; ex: Eclipse EPL 2.0> 

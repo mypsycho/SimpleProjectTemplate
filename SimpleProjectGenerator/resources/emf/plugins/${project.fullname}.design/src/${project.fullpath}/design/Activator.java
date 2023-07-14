@@ -36,9 +36,9 @@ public class Activator extends AbstractUIPlugin {
     @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
+        
         plugin = this;
         viewpoints.addAll(ViewpointRegistry.getInstance().registerFromPlugin(DESIGN_PATH));
-
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Activator extends AbstractUIPlugin {
     }
 
     /**
-     * Returns the shared instance
+     * Returns the shared instance.
      *
      * @return the shared instance
      */

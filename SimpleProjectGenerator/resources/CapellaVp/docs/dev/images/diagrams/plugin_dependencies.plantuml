@@ -1,0 +1,55 @@
+
+
+frame %inject:project.name%.feature {
+
+	component %inject:project.id% <<generated>> {
+		file %inject:project.name%.ecore
+	}
+	
+	component _.model <<ecore>>
+	_.model .up.> %inject:project.id%
+
+	component _.commons
+	_.commons .up.> _.model
+	
+	component _.model.edit <<ecore_edit>>
+	_.model.edit .up.> _.model
+	
+	component _.design {
+		file %inject:project.name%.odesign
+		note left: Diagrams
+	}
+	_.design .up.> _.model.edit
+	_.design .up.> _.commons
+	_.design .up.> _.runtime
+	
+	component _.ui {
+		note as ui
+		Properties tabs
+		end note
+	}
+	_.ui .up.> _.commons
+	_.ui .up.> _.model.edit
+
+	
+	component _.rules.validation
+	_.rules.validation .up.> _.commons
+	_.rules.validation .up.> _.model.edit
+
+	component _.contextual.explorer
+	_.contextual.explorer ...up.> _.model.edit
+	
+	component _.af <<k@ ViewPoint>> {
+		file %inject:project.name%.vp
+	}
+	_.af .up.> _.design
+	note left of _.af: Viewpoint registry
+	
+	component _.help {
+		collections " *.html"
+	}
+
+}
+
+artifact _.vpdsl <<kit-alpha>> 
+_.vpdsl ~down~> %inject:project.name%.feature

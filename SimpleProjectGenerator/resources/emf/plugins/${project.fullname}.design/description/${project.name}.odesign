@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" 
+	xmlns:xmi="http://www.omg.org/XMI" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" 
+	xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" 
+	xmlns:description_2="http://www.eclipse.org/sirius/table/description/1.1.0" 
+	xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" 
+	xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" 
+	xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" 
+	name="%inject:project.name%" version="12.0.0.2017041100">
+  <ownedViewpoints 
+		name="%inject:project.name%_ID" 
+		label="%%inject:project.prefix%.vp.label" 
+		modelFileExtension="%inject:project.extension%">
+    <ownedJavaExtensions qualifiedClassName="%inject:project.fullname%.commons.%inject:project.prefix%ModelQueries"/>
+    <ownedJavaExtensions qualifiedClassName="%inject:project.fullname%.commons.%inject:project.prefix%ModelEdits"/>
+    <ownedJavaExtensions qualifiedClassName="%inject:project.fullname%.commons.SiriusCommons"/>
+<!--
+    <ownedJavaExtensions qualifiedClassName="org.polarsys.capella.core.sirius.analysis.CsServices"/>
+    <ownedJavaExtensions qualifiedClassName="org.polarsys.capella.core.sirius.analysis.CapellaServices"/>
+    <ownedJavaExtensions qualifiedClassName="org.polarsys.capella.core.sirius.analysis.FaServices"/>
+    <ownedJavaExtensions qualifiedClassName="org.polarsys.capella.core.sirius.analysis.ABServices"/>
+-->
+  </ownedViewpoints>
+  <userColorsPalettes name="%inject:project.name%Palette">
+  </userColorsPalettes>
+</description:Group>
