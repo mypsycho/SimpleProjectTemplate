@@ -115,14 +115,12 @@ public class SgSubstitutions {
                 try (BufferedWriter out = Files.newBufferedWriter(target, UTF8)) {
                     Stream<String> lines = Files.lines(src, UTF8)
                             .map(it -> substitueLine(it, config));
-                    boolean header = true;
+                    
+                    // Always add an newline at end of file,
+                    // but that is better.
                     for (String line : (Iterable<String>) lines::iterator) {
-                        if (header) {
-                            header = false;
-                        } else {
-                            out.newLine();
-                        }
                         out.write(line);
+                        out.newLine();
                     }
                 }
             }
