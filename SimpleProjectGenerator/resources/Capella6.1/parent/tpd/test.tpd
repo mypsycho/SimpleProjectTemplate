@@ -22,6 +22,6 @@ location "https://download.eclipse.org/capella/core/updates/releases/6.0.0/org.p
 }
 
 
-location sirius "https://download.eclipse.org/sirius/updates/releases/7.0.4/2021-06" {
+location sirius "https://download.eclipse.org/sirius/updates/releases/7.1.0/2021-06/" {
 	org.eclipse.sirius.tests.feature.group
 }

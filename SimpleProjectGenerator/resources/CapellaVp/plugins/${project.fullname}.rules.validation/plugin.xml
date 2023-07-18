@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension point="org.eclipse.emf.validation.constraintProviders">
+  	
+  	<!--
+  	Category must start with: "capella.category"
+  	See org.polarsys.capella.core.validation.filter.CapellaConstraintFilter
+  	Created by org.polarsys.capella.core.validation.CapellaValidationActivator.start(BundleContext)
+  	-->
+  	<category
+         id="capella.category.irt.oa.extension"
+         name="%constraint.category.name" />
+    <!--
+    <constraintProvider
+            cache="true"
+            class="TDO"
+            mode="Batch">
+         <package namespaceUri="http://www.irt-systemx.fr/confianceai/capella/OaExtension" />
+    </constraintProvider>
+    -->
+  </extension>
+
+</plugin>

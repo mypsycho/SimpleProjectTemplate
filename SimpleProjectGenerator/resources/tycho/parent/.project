@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>%inject:project.fullname% parent</name>
+	<name>%inject:project.fullname% Parent</name>
 	<comment></comment>
 	<projects>
 	</projects>

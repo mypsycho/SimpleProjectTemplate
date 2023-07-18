@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>%inject:project.fullname% Doc-Dev</name>
+	<name>%inject:project.fullname% Docs-Dev</name>
 	<comment></comment>
 	<projects>
 	</projects>
