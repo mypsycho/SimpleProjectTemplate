@@ -5,7 +5,6 @@
     Contributors: 
       Obeo - initial API and implementation.
 -->
-
 <project>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -16,8 +15,8 @@
 		<relativePath>../../parent</relativePath>
 	</parent>
 
-	<artifactId>%inject:project.fullname%.feature</artifactId>
-	<packaging>eclipse-feature</packaging>
-	<name>%inject:project.label% Feature</name>
+	<artifactId>%inject:project.fullname%.%inject:param.name%</artifactId>
+	<packaging>eclipse-plugin</packaging>
+	<name>%inject:project.label% %inject:param.label%</name>
 
 </project>

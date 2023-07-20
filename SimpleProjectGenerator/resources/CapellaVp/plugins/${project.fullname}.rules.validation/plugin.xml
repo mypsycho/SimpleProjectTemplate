@@ -9,16 +9,16 @@
   	Created by org.polarsys.capella.core.validation.CapellaValidationActivator.start(BundleContext)
   	-->
   	<category
-         id="capella.category.irt.oa.extension"
+         id="capella.category.%inject:project.fullname%"
          name="%constraint.category.name" />
-    <!--
+
     <constraintProvider
             cache="true"
-            class="TDO"
+            class="%inject:project.fullname%.rules.validation.%inject:project.prefix%ConstraintsGroup"
             mode="Batch">
-         <package namespaceUri="http://www.irt-systemx.fr/confianceai/capella/OaExtension" />
+        <package namespaceUri="%inject:project.vpurl%" />
     </constraintProvider>
-    -->
+
   </extension>
 
 </plugin>

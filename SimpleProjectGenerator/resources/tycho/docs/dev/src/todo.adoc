@@ -4,5 +4,5 @@ Create stub for
  . architecture.adoc
  . installation.adoc
  . specification.adoc
- . TargetPlaform.adoc
+ . TargetPlaform.adoc (done)
  . userguide.adoc

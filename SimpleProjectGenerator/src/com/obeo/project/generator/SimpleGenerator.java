@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -84,7 +85,7 @@ public class SimpleGenerator {
         protected void notifyMissingProp(String name) {
             if (!missingProperties.contains(name)) {
                 missingProperties.add(name);
-                System.err.print("No such property: " + name);
+                System.err.println("No such property: " + name);
             }
         }
 
@@ -111,7 +112,7 @@ public class SimpleGenerator {
         current.putAll(configuration);
         
         GenContext globalContext = new GenContext(current);
-        System.out.println("\nApplying templates");
+        System.out.println("\n= Applying templates");
         templates.forEach(it -> it.apply(globalContext));
     }
 
@@ -146,6 +147,12 @@ public class SimpleGenerator {
 
 
         void apply(GenContext current) {
+            System.out.println("== Applying template '" + id + "'");
+            
+            List<String> paths = new ArrayList<>();
+            applyConfig(current, (it, target) -> {
+                paths.add(it.getKey());
+            });
             
             // Creates files using reusable templates.
             applyConfig(current, (it, target) -> {
@@ -173,6 +180,8 @@ public class SimpleGenerator {
         private void applyConfig(GenContext current, BiConsumer<Map.Entry<String, String>, Path> task) {
             toStream(config)
                 .filter(it -> !SgSubstitutions.isInject(it.getKey()))
+                // entry must be sorted to apply container folder before child resource.
+                .sorted(Comparator.comparing(Map.Entry::getKey))
                 .forEach(it -> {
     
                     Path path = substituePath(Path.of(it.getKey()), current);
@@ -219,7 +228,8 @@ public class SimpleGenerator {
          * @param target
          */
         public void apply(Path resources, Path target) {
-            templates.forEach(it -> substitueAll(resources.resolve(it), target, this));
+            templates.forEach(it -> substitueAll(resources.resolve(it), target, 
+                TemplateEntryDescription.this));
         }
 
         private List<String> missingParams = new ArrayList<>();
@@ -229,7 +239,8 @@ public class SimpleGenerator {
             if (name.startsWith(PARAM_PREFIX)) {
                 if (!missingParams.contains(name)) {
                     missingParams.add(name);
-                    System.err.print("No such property: " + name);
+                    System.err.println("No such parameter: " 
+                    + name.substring(PARAM_PREFIX.length()));
                 }
             } else {
                 super.notifyMissingProp(name);

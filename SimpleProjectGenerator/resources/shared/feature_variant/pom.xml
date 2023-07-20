@@ -16,8 +16,8 @@
 		<relativePath>../../parent</relativePath>
 	</parent>
 
-	<artifactId>%inject:project.fullname%.feature</artifactId>
+	<artifactId>%inject:project.fullname%.%inject:param.name%.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
-	<name>%inject:project.label% Feature</name>
+	<name>%inject:project.label% %inject:param.label% Feature</name>
 
 </project>

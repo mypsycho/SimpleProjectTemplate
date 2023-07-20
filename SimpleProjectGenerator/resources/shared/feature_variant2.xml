@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="%inject:project.fullname%.%inject:param.name%.feature"
+      label="%inject:project.label% %inject:param.label% Feature"
+      version="1.0.0.qualifier">
+
+   <description url="%descriptionURL">
+      %description
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <plugin id="%inject:param.plugin1%" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+   <plugin id="%inject:param.plugin2%" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+</feature>

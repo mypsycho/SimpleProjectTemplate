@@ -22,7 +22,7 @@ public class %inject:project.prefix%ModelEdits {
      * @param message to print
      * @return provided element
      */
-    public static final EObject %inject:project.prefix%Debug(EObject it, String message) {
+    public static final EObject to%inject:project.prefix%Debug(EObject it, String message) {
         System.out.println("VSM-Call " + message + ": " + it);  //$NON-NLS-1$ //$NON-NLS-2$
         return it;
     }

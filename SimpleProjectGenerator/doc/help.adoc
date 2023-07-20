@@ -147,3 +147,35 @@ Create property file in `resources` folder, the file base-name is to be used as 
 
 See <<Template properties Syntax>> section.
 
+== List of templates
+
+`tycho` ::
+ Basic structure to edit and compile Eclipse projects. A Oomph model and Target file are 
+ provided to edit, Maven POM are provided to compile. +
+ Common settings are also provided: Java Formatter, template, Save actions, Checkstyle. +
+ Must be used with another TP template (Eclipse2021-06 or Capella6.1)
+ 
+`Eclipse2021-06` ::
+ Target platform and Oomph model for this Eclipse version.
+ 
+`Capella6.1` ::
+ Target platform and Oomph model (including Capella Studio) for this Capella version.
+ 
+`eclipse-help` ::
+ Add an eclipse plugin to write help using `tycho`.
+ 
+`ecore` (_not implemented yet_)::
+ Add plugin to create an ECore model. (Requires `tycho`)
+ 
+`vsm` ::
+ Add eclipse plugins to create a VSM. (Requires `tycho`)
+ 
+`CapellaVP` ::
+ Plugin to create an kit-alpha Viewpoint. (Requires `tycho;Capella*;vsm`)
+
+`s` ::
+
+[NOTE]
+====
+`shared` is not a template. It contains reusable sets of files a template can call.
+====

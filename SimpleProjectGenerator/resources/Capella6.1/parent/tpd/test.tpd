@@ -16,7 +16,7 @@ location eclipse "https://download.eclipse.org/releases/2021-06" {
 }
 
 
-location "https://download.eclipse.org/capella/core/updates/releases/6.0.0/org.polarsys.capella.test.site" {
+location "https://download.eclipse.org/capella/core/updates/releases/6.1.0/org.polarsys.capella.test.site" {
 	org.polarsys.capella.test.feature.feature.group 
 	// For documentation purpose: Capella is still based on 
 }
