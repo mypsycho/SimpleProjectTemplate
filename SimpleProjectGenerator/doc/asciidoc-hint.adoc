@@ -1,10 +1,13 @@
 
-== Authoring syntax
-
-Simple Menu Item: *Window > Perspective*
+== Eclipse Authoring syntax
 
 === Plugin-help
-Detail at https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/guide/ua_help_content_command_authoring.htm
+
+https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/guide/ua_help.htm[Eclipse help]
+
+How to create a interactive help : 
+https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/guide/ua_help_content_command_authoring.htm[Eclipse help - Authoring a command link]
+
 
 === Images
 
@@ -13,20 +16,29 @@ By default, images use relative path to document like in HTML.
 But eclipse can provide a URL using this syntax: `<img src="PLUGINS_ROOT/org.eclipse.help/command_link.svg">`+
 This path is based on JAR target structure.
 
-To create a PDF from 
+To create a PDF from help, see userguide.adoc example (TODO).
 
 
 === Styles
 
-Path or path-likes: `/project-name/**`
-Menu path : *Window > Show View*
-Preferences page: Use Interactive link '>' separator: General > Appearance
+Path, files or path-likes: `/project-name/**`
+
+Menu path: *Window > Show View*
+
+Preferences page: (Use Interactive link and '>' as separator) Select _General > Appearance_
+
+Button: Click *Action* to perform action.
+
+Contextual menu: +
+In popup menu of *Project Explorer* View for selected _Project_, select on *submenu > choice* +
+In *Project Explorer* View, open popup menu of selected _Project_ 
+
 
 === Preferences template
 
 [cols="1,3"]
 |===
-| Option           | Description
+| Option | Description
 
 s| <header label>
 a| <Description of field role>. +

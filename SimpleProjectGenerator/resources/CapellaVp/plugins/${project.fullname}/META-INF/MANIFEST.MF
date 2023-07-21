@@ -7,7 +7,4 @@ Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
-Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .
 Require-Bundle: org.eclipse.emf.ecore
-Export-Package: %inject:project.fullname%.%inject:param.name%

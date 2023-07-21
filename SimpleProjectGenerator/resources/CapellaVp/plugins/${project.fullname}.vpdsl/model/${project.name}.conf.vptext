@@ -13,7 +13,7 @@
 Configuration %inject:project.name%.conf {
 	target "CDO for Capella"
 	project %inject:project.fullname%
-	nsuri "%inject:project.vpurl%"
+	nsuri "%inject:project.ecoreuri%"
 	release {
 		version : 1.0.0.qualifier
 		description : "%inject:project.label%"

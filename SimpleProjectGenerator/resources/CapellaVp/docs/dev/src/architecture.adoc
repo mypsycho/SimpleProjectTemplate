@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: EPL-2.0
 
 // title break macro
-:n: pass:q[<br>]
+:v: pass:q[<br>]
 // forcing indentation
 :__: {nbsp}{nbsp}
 
-= %inject:project.provider% {n} %inject:project.label% : Architecture
+= %inject:project.provider% {v} %inject:project.label% : Architecture
 // Author line
 %inject:user.name%
 :revnumber: v1.0
@@ -45,7 +45,7 @@ http://blog.vogella.com/2015/12/15/pom-less-tycho-builds-for-structured-environm
 | releng         | Projects for release engineering.
 | tooling        | Tools to monitor or manages specific resources types.
 | docs\dev       | Specifications, UserGuide, Architecture, Guidelines.
-| docs\samples   | Resources for use-cases.
+| docs\samples   | Resources for use-cases and demos.
 
 |===
 
@@ -194,12 +194,10 @@ It can be verified/edited in _Windows/Preferences.../Team/git/configuration_
 
 === Extending Capella
 
-Most of API and Capella architecture is described in public Eclipse repository:
-
+Most of API and Capella architecture is described in public Eclipse repository: +
 https://github.com/eclipse/capella-studio/wiki
 
-Tutorials:
-
+Tutorials: +
 https://github.com/eclipse/capella-studio/wiki/Tutorials
 
 === Java Source guideline

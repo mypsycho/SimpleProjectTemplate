@@ -16,7 +16,7 @@
             cache="true"
             class="%inject:project.fullname%.rules.validation.%inject:project.prefix%ConstraintsGroup"
             mode="Batch">
-        <package namespaceUri="%inject:project.vpurl%" />
+        <package namespaceUri="%inject:project.ecoreuri%" />
     </constraintProvider>
 
   </extension>

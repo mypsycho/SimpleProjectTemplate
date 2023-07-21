@@ -14,9 +14,11 @@ Data %inject:project.name%.data {
 	 * Commons elements
 	 */
 	Class %inject:project.prefix%Element {
-		superClass 
-			external modellingcore.ModelElement, // Id is required for REC/RPL.
-		 	external emde.ElementExtension
+		superClass
+			// Id is required for REC/RPL.
+			external modellingcore.ModelElement,
+			// explicit inheritance to simplify ItemProvider
+		 	external emde.ElementExtension 
 		 
 		abstract: true
 	}
@@ -30,7 +32,7 @@ Data %inject:project.name%.data {
 	}
 	
 	//
-	// vptext hint: EEnum must follow EClass (Gammar constraint)
+	// vptext hint: EEnums must follow EClasses (Gammar constraint)
 	//
 	// Enumeration MyEnum { v1, v2  }
 

@@ -1,14 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Automatic-Module-Name: %inject:project.fullname%.%inject:param.name%
-Bundle-SymbolicName: %inject:project.fullname%.%inject:param.name%;singleton:=true
+Automatic-Module-Name: %inject:project.fullname%.af
+Bundle-SymbolicName: %inject:project.fullname%.af;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
 Bundle-ClassPath: .
-Require-Bundle: org.polarsys.kitalpha.ad.viewpoint.ui,
+Require-Bundle: 
+ org.polarsys.kitalpha.ad.viewpoint.ui,
  %inject:project.fullname%,
  %inject:project.fullname%.design
 

@@ -1,0 +1,15 @@
+/*******************************************************************************
+
+  %inject:project.copyright%
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "Team-For-Capella 6.1"
+
+
+location T4C "https://update.obeo.fr/release/team-for-capella/6.1/6.1.0/repository/" {
+	com.thalesgroup.mde.melody.collab.feature.feature.group
+	com.thalesgroup.mde.melody.collab.licbranding.feature.feature.group
+}
