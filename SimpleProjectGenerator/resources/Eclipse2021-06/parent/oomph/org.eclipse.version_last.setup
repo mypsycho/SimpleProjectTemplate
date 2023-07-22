@@ -130,7 +130,6 @@
 		<requirement name="org.eclipse.wb.core.feature.feature.group" />
 		<requirement name="org.eclipse.wb.core.java.feature.feature.group" />
 		<requirement name="org.eclipse.wb.core.ui.feature.feature.group" />
-		<requirement name="org.eclipse.wb.core.xml.feature.feature.group" />
 		<requirement name="org.eclipse.wb.doc.user.feature.feature.group" />
 		<requirement name="org.eclipse.wb.layout.group.feature.feature.group" />
 		<requirement name="org.eclipse.wb.rcp.doc.user.feature.feature.group" />
@@ -139,7 +138,6 @@
 		<requirement name="org.eclipse.wb.swing.doc.user.feature.feature.group" />
 		<requirement name="org.eclipse.wb.swing.feature.feature.group" />
 		<requirement name="org.eclipse.wb.swt.feature.feature.group" />
-		<requirement name="org.eclipse.wb.xwt.feature.feature.group" />
 	</setupTask>
 	
 	<setupTask xsi:type="setup.p2:P2Task" id="langs" label="Language">
