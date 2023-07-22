@@ -2,8 +2,23 @@
 <ecore:EPackage 
 	xmi:version="2.0" 
 	xmlns:xmi="http://www.omg.org/XMI" 
-	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" 
     name="%inject:project.name%" 
-    nsURI="http://www.xprovider.org/%inject:project.name%/emf" 
-    nsPrefix="mm">
+    nsURI="%inject:project.ecoreuri%"
+    nsPrefix="%inject:project.prefix%">
+  <eClassifiers 
+      xsi:type="ecore:EClass" 
+      name="%inject:project.prefix%Element" 
+      abstract="true"/>
+  <eClassifiers 
+      xsi:type="ecore:EClass" 
+      name="%inject:project.prefix%NamedElement"
+      abstract="true" 
+      eSuperTypes="#//%inject:project.prefix%Element">
+    <eStructuralFeatures 
+        xsi:type="ecore:EAttribute" 
+        name="name" lowerBound="1" 
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>
