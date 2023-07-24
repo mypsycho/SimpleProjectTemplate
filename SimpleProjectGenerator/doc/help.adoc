@@ -21,6 +21,7 @@ The solution has no UI as properties files can be commented at will and offer mo
 freedom to organize descriptors.
 ====
 
+<<<
 
 == Project configuration
 
@@ -49,10 +50,10 @@ project.fullname = <qualified name used for unique identification>
 project.fullpath = <qualified name with '/' as segment separator> 
 
 project.provider = <Legal name of the owning actor>
-project.license = <Code license; ex: Eclipse EPL 2.0> 
+project.license = <Code license>; ex: Eclipse EPL 2.0
 
 # Name for configuration files. Example (Java Formatter, checkstyle, ...)
-project.profile = <ProviderId>Dev
+project.profile = <config-name>; ex: <ProviderId>Dev
 
 project.url = <URL for feature> http://www.aaa-inc.com/solutions/mydemo/
 
@@ -75,7 +76,7 @@ project.year::
 user.name::
  Login of user
 
-
+<<<
 
 == Generating the project backbone
 
@@ -118,7 +119,7 @@ Delete resources::
 
 === Template life-cycle
 
- * *Injecting* properties +
+ * *Inject* properties +
   Before any substitution rule is applied, *Injection* properties are added to 
   substitution context.
  * *Apply* main templates
@@ -129,7 +130,7 @@ Delete resources::
  ** *Delete* resources
    As indicated in Properties file entries
 
-
+<<<
 
 == Creating templates
 
@@ -146,6 +147,8 @@ project descriptor.
 Create property file in `resources` folder, the file base-name is to be used as template.
 
 See <<Template properties Syntax>> section.
+
+<<<
 
 == List of templates
 
@@ -164,16 +167,17 @@ See <<Template properties Syntax>> section.
 `eclipse-help` ::
  Add an eclipse plugin to write help using `tycho`.
  
-`ecore` (_not implemented yet_)::
- Add plugin to create an ECore model. (Requires `tycho`)
- 
-`vsm` ::
- Add eclipse plugins to create a VSM. (Requires `tycho`)
+`emf` ::
+ Add eclipse plugins to create an Ecore model and a VSM. (Requires `tycho`)
  
 `CapellaVP` ::
  Plugin to create an kit-alpha Viewpoint. (Requires `tycho;Capella*;vsm`)
 
-`s` ::
+`SmartEA-connect` ::
+ A plugin to connect a external system to a SmartEA server.
+
+`SmartEA-extension` ::
+ Plugins to extend SmartEA on server and client sides.
 
 [NOTE]
 ====

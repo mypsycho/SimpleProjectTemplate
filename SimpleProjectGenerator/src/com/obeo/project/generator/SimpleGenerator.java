@@ -1,7 +1,6 @@
 package com.obeo.project.generator;
 
 import static com.obeo.project.generator.SgConstants.CFG_EXTENSION;
-import static com.obeo.project.generator.SgConstants.DEFAULT_BINARIES;
 import static com.obeo.project.generator.SgConstants.INJECT_PREFIX;
 import static com.obeo.project.generator.SgConstants.PARAMS_SEPARATOR;
 import static com.obeo.project.generator.SgConstants.PARAM_PREFIX;
