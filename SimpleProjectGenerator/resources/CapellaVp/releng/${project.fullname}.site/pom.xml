@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Copyright (c) 2023 IRT SystemX. All rights reserved. 
+    Contributors: 
+      Obeo - initial API and implementation.
+-->
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>%inject:project.fullname%</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.1.1-SNAPSHOT</version>
+		<relativePath>../../parent</relativePath>
+	</parent>
+
+	<artifactId>%inject:project.fullname%.site</artifactId>
+	<packaging>eclipse-repository</packaging>
+	<name>Capella OA Extension Update-Site</name>
+
+
+  <properties>
+  	<root.path>../..</root.path>
+  	<help.plugin>%inject:project.fullname%.help</help.plugin>  	
+  	<help.res.path>plugins/${help.plugin}/html</help.res.path>
+  	<tpd.path>parent/tpd</tpd.path>
+<!-- 
+Repository default path for archive is defined by in:
+https://github.com/eclipse/tycho/blob/tycho-2.3.0/tycho-p2/tycho-p2-repository-plugin/src/main/java/org/eclipse/tycho/plugins/p2/repository/AbstractRepositoryMojo.java
+-->
+
+  	<repo.outputDirectory>${project.build.directory}/repository</repo.outputDirectory>
+
+  </properties>
+
+  <build>
+    <!-- 
+  	<resources>
+  		<resource><directory>site</directory></resource>
+  	</resources>
+  	 -->
+  	<plugins>
+ 	
+  		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+  			<executions>
+  			<!-- No Help
+  				<execution>
+  					<id>include-online-help</id>
+  					<goals><goal>copy-resources</goal></goals>
+  					<phase>prepare-package</phase>
+  					<configuration>
+						<resources>
+							<resource>
+								<directory>../../${help.res.path}</directory>
+							</resource>
+						</resources>
+  						<outputDirectory>${repo.outputDirectory}/help</outputDirectory>
+  					</configuration>
+  				</execution>
+  				  	 -->
+  				<execution>
+  					<id>publish-tpd</id>
+  					<goals><goal>copy-resources</goal></goals>
+  					<phase>prepare-package</phase>
+  					<configuration>
+						<resources>
+							<resource>
+								<directory>../../${tpd.path}</directory>
+								<includes>
+									<include>**/*.tpd</include>
+								</includes>
+							</resource>
+						</resources>
+  						<outputDirectory>${repo.outputDirectory}/tpd</outputDirectory>
+  					</configuration>
+  				</execution>
+  			</executions>
+  			<configuration>
+  				<outputDirectory>${repo.outputDirectory}</outputDirectory>
+  			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>tycho-p2-repository-plugin</artifactId>
+			<configuration>
+				<!-- 
+				in archive-repository, 
+				use tycho version 
+				from tycho-packaging:build-qualifier-aggregator
+				-->
+  				<finalName>${project.artifactId}-${qualifiedVersion}</finalName> <!-- default is ${project.build.finalName} -->
+  			</configuration>
+		</plugin>
+		  	
+		<plugin>
+			<!-- Dropins are easier to deploy on T4C server. -->
+		    <artifactId>maven-antrun-plugin</artifactId>
+		    <executions>
+		        <execution>
+		            <id>dropins</id>
+		            <phase>package</phase>
+		            <goals>
+		                <goal>run</goal>
+		            </goals>
+		            <configuration>
+		            	
+		                <target>
+							<ant antfile="${basedir}/dropins.xml"> <!-- inherit Properties -->
+							</ant>
+		                </target>
+		            </configuration>
+		        </execution>
+		    </executions>
+		</plugin>
+		
+  	</plugins>
+  </build>
+
+</project>

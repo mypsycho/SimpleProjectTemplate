@@ -9,7 +9,7 @@
   	Created by org.polarsys.capella.core.validation.CapellaValidationActivator.start(BundleContext)
   	-->
   	<category
-         id="capella.category.%inject:project.fullname%"
+         id="%inject:validation.category%"
          name="%constraint.category.name" />
 
     <constraintProvider

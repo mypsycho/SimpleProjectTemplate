@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     16 Sep 2022 13:23:45                                                        
+
+     project     
+     description 
+		Create dropin archives once the p2 repository is built.
+		(Only for Maven-Tycho layout)
+		
+     nperansin                                                                
+     ====================================================================== -->
+<project name="%inject:project.fullname%.dropins" default="dropins">
+
+	<property name="qname" value="%inject:project.fullname%" />
+	<property name="p2.name" value="${qname}.site" />
+	<property name="dropins.name" value="${qname}.dropins" />
+
+	<property name="project.build.directory" value="${basedir}/target" />
+
+    <!-- ================================= 
+          target: dropins              
+         ================================= -->
+    <target name="dropins" description="Create dropins ZIPs">
+    	
+    	<echoproperties destfile="${project.build.directory}/dropins.properties" />	
+    	
+    	<!-- Retrieve version from site archive -->
+    	<pathconvert property="dropins.archive" >
+        	<map from="${project.build.directory}/${p2.name}" to="${project.build.directory}/${dropins.name}" />
+        	<fileset dir="${project.build.directory}" includes="${p2.name}-*.zip" />
+    	</pathconvert>
+    	
+    	<delete file="${dropins.archive}" quiet="true" />
+    	
+    	<zip destfile="${dropins.archive}" >
+    		<zipfileset dir="target/repository"
+    			prefix="eclipse"
+    			includes="features/**,plugins/**"
+    			excludes="*/*.source_*" />
+    	</zip>
+    	
+    </target>
+
+</project>

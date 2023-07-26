@@ -29,12 +29,12 @@ T4C (TeamForCapella-6.1.0-<os.arch>.zip) ::
 TeamForCapella_InstallationGuide_6.1.0.pdf ::
   https://update.obeo.fr/release/team-for-capella/6.1/6.1.0/packages/TeamForCapella_InstallationGuide_6.1.0.pdf
 
-Extended Capella (Auriga 6.1) including T4C client-part ::
+Extended Capella (Auriga 6.1) ::
+  This product includes T4C client-parts and plugins deployed by Cloud-4-Capella.
   http://update.obeo.fr/release/auriga/6.1/6.1.0/packages/
 
 Public Capella 6.1.0 ::
   https://github.com/eclipse/capella/releases/tag/v6.1.0
-
 
 <<<
 
@@ -102,11 +102,10 @@ _TeamForCapella_InstallationGuide_6.1.0_.
 After performing either of the above cases,
 
  * In the folder `capella`, edit the file `capella.ini`
- ** Replace the value of the key `-DOBEO_LICENSE_SERVER_CONFIGURATION` with the one 
-    available here: https://obeo-licserver.obeo.fr/
- ** To use this license for connections to T4C from Capella, you must be in the Obeo 
-    intranet network, otherwise, i.e., if you are not (or cannot be) on the Obeo intranet 
-    network, you must request a personal licence.
+ * Add or replace the value of the key `-DOBEO_LICENSE_SERVER_CONFIGURATION=` with the one 
+   available at https://obeo-licserver.obeo.fr/ .
+ ** To use this license, you must be in the Obeo network, otherwise you must request a personal 
+ licence (when having limited internet access).
 
 
 === Running
@@ -117,8 +116,8 @@ As usual :)
 
 == Testing with server and client running
 
-The credentials (login and password) used for testing purposes are located at: 
-`T4C folder/server/configuration/users.properties`.
+The credentials (login and password) used for testing purposes are located at: +
+`server/configuration/users.properties`.
  
 === Connection to T4C from Capella
 The following is also (partially) available in  Section 4.2.2, 3 of 
@@ -126,10 +125,10 @@ _TeamForCapella_InstallationGuide_6.1.0_.
 
 In Capella, 
 
- * Click on Window > Preferences > Sirius > Team collaboration
- * On the entry with Alias equals `Default`, edit and replace `10.0.0.5`, if present, with 
+ * In main menu, click on *Window > Preferences > Sirius > Team collaboration*
+ * On the entry with Alias equals `Default`, edit and replace `10.0.0.5`, if present, with
    `localhost`
- * Apply and close
+ * Click *Apply and close* to finish
 
 
 === Sharing a project on server
@@ -138,9 +137,9 @@ The content of this section is also (partially) available in Section 4.2.3 of
 _TeamForCapella_InstallationGuide_6.1.0_.
 
 IMPORTANT: To activate an extension on a Capella Connected project or a shared Capella 
-project via T4C, the extension must first have been activated in a local project, 
-which will then have been exported to T4C, 
-and only then does the Capella Connected project reference this exported project.
+project via T4C, the extension must first have been activated in a local project, which 
+will then have been exported to T4C, and only then does the Capella Connected project 
+reference this exported project.
 
 In Capella,
 
@@ -149,8 +148,8 @@ In Capella,
  * Activate your extension(s) in the Viewpoint manager view
  * In order to test CDO compliance, create model elements specific to your extension(s) 
    and save
- * Right click on the project > Export > Team for Capella > Capella Project to Remote 
-   Repository > Next
+ * In selected _Project_ menu, click on *Export > Team for Capella > Capella Project to Remote 
+   Repository* and click *Next*
  * Click on Test Connection (use `user1` as the login and password, if required)
  ** The result must be: Repository connection can be established
  * Click on Finish
@@ -164,11 +163,11 @@ _TeamForCapella_InstallationGuide_6.1.0_.
 
 In Capella,
 
- *  In the Capella _Project Explorer_, right click *New > Capella Connected Project*
- *  Click on 'Test Connection' (if required, use `user1` as the login and password)
+ * In the Capella _Project Explorer_, right click *New > Capella Connected Project*
+ * Click on 'Test Connection' (if required, use `user1` as the login and password)
  ** The result must be: "Repository connection can be established"
- *  Select the remote project from the list (it ends with .aird)
- *  Click on Finish
+ * Select the remote project from the list (it ends with .aird)
+ * Click on Finish
  ** If no error is displayed, an eclipse project is created that references the selected 
     shared project
  * Check your extension(s) is/are active
