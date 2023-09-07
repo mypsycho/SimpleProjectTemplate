@@ -8,4 +8,5 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
 Bundle-ClassPath: .
-Require-Bundle: %inject:param.requiredbundles%
+Require-Bundle: 
+ %inject:param.requiredbundles%

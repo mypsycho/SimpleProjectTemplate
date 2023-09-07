@@ -6,4 +6,5 @@ Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: %providerName
 Automatic-Module-Name: %inject:project.fullname%.help
 Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
-Require-Bundle: org.eclipse.help
+Require-Bundle: 
+ org.eclipse.help

@@ -9,5 +9,7 @@ Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Require-Bundle: %inject:param.requiredbundles%
-Export-Package: %inject:project.fullname%.%inject:param.name%
+Require-Bundle: 
+ %inject:param.requiredbundles%
+Export-Package: 
+ %inject:project.fullname%.%inject:param.name%

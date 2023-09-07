@@ -7,4 +7,5 @@ Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
-Require-Bundle: org.eclipse.emf.ecore
+Require-Bundle: 
+ org.eclipse.emf.ecore

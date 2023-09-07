@@ -6,6 +6,9 @@ target/
 .DS_Store
 .directory
 
+# Tycho temp build
+.tycho-consumer-pom.xml
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
