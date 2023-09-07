@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SimpleGenerator {
@@ -54,7 +55,8 @@ public class SimpleGenerator {
         templates = Stream.of(configuration.getProperty(TEMPLATE_PROP, "")
             .split(PATH_SEPARATOR))
             .filter(it -> SgObjects.hasContent(it))
-            .map(it -> new TemplateDescription(it.trim())).toList();
+            .map(it -> new TemplateDescription(it.trim()))
+            .collect(Collectors.toList());
 
         verify(!templates.isEmpty(), "No 'template' in properties");
     }
