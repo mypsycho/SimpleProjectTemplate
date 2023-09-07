@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Automatic-Module-Name: %inject:project.fullname%.design.tool
+Bundle-SymbolicName: %inject:project.fullname%.design.tool;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Localization: plugin
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-RequiredExecutionEnvironment: JavaSE-%inject:project.java%
+Fragment-Host: %inject:project.fullname%.design
+Require-Bundle: 
+ org.mypsycho.emf.modit,
+ org.mypsycho.emf.modit.sirius,
+ org.eclipse.xtext.xbase,
+ org.eclipse.xtend.lib.macro,
+ org.eclipse.xtend.lib,
+ org.junit,
+ org.apache.commons.lang,
+ org.eclipse.sirius.properties.ext.widgets.reference,
+ org.eclipse.sirius.properties,
+ org.polarsys.capella.core.sirius.analysis,
+ org.polarsys.capella.core.sirius.ui,
+ org.polarsys.capella.core.transition.diagram.ui,
+ org.polarsys.capella.core.transition.diagram
+Export-Package: 
+ %inject:project.fullname%.design.description,
+ %inject:project.fullname%.design.tool

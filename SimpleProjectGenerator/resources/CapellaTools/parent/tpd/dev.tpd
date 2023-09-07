@@ -1,0 +1,22 @@
+/*******************************************************************************
+
+  %inject:project.copyright%
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "%inject:project.name% - Dev" 
+
+//
+// Components used only in development env.
+// 
+
+with requirements
+
+include "dev_emf.tpd"
+
+location modit "https://mypsycho.github.io/ModIt/releases/v1.0.0" {
+	org.mypsycho.emf.modit_feature.feature.group
+	org.mypsycho.emf.modit.sirius_feature.feature.group
+}
