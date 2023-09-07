@@ -113,11 +113,11 @@
 		 -->
 	</setupTask>
 	
-	<!-- Devstyle (provide Darkest theme) -->
+	<!-- Devstyle (provide Darkest theme)
 	<setupTask xsi:type="setup.p2:P2Task" id="themes" label="IDE themes">
 		<repository url="http://www.genuitec.com/updates/devstyle/ci/" />
 		<requirement name="com.genuitec.eclipse.theming.core.feature.feature.group" />
-	</setupTask>
+	</setupTask> -->
 	
 	<setupTask xsi:type="setup.p2:P2Task" id="ui" label="UI designer">
 			
@@ -194,10 +194,13 @@
 		<requirement name="org.eclipse.emf.validation.sdk.feature.group" />
 		<requirement name="org.eclipse.gef.sdk.feature.group" />
 
-		<requirement name="org.eclipse.emf.ecoretools.design.feature.group" />
 		<requirement name="org.eclipse.xtext.sdk.feature.group" />
 		<requirement name="org.eclipse.emf.ecore.xcore.sdk.feature.group" />
 		
+		<!-- NPE in 3.3.3 from Release train -->
+		<repository url="https://download.eclipse.org/ecoretools/updates/releases/3.4.0/2021-06/" />
+		<requirement name="org.eclipse.emf.ecoretools.design.feature.group" />
+
 		<!-- We do not reference Sirius from Eclipse release as source in not available -->
 		<repository url="https://download.eclipse.org/sirius/updates/releases/7.1.0/2021-06/" />
 		<requirement name="org.eclipse.sirius.specifier.ide.ui.source.feature.group" />
