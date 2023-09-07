@@ -14,7 +14,7 @@
 	http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description 
 	http://www.eclipse.org/sirius/diagram/description/filter/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/filter"
 	>
-  <viewpoint:DAnalysis uid="_32aGsCe7Ee6ZyNgmoHUM5A" selectedViews="_4Lov0Ce7Ee6ZyNgmoHUM5A _4MJtMCe7Ee6ZyNgmoHUM5A _JZp7ACe8Ee6ZyNgmoHUM5A _JbP2cCe8Ee6ZyNgmoHUM5A" version="15.1.0.202211301600">
+  <viewpoint:DAnalysis uid="_32aGsCe7Ee6ZyNgmoHUM5A" selectedViews="_4MJtMCe7Ee6ZyNgmoHUM5A _JZp7ACe8Ee6ZyNgmoHUM5A _JbP2cCe8Ee6ZyNgmoHUM5A" version="15.1.0.202211301600">
     <semanticResources>%inject:project.name%.ecore</semanticResources>
     <semanticResources>%inject:project.name%.genmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_4MJtMCe7Ee6ZyNgmoHUM5A">
