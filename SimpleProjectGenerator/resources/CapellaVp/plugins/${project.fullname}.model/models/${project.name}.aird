@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:filter="http://www.eclipse.org/sirius/diagram/description/filter/1.1.0" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/filter/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/filter">
+  <viewpoint:DAnalysis uid="_32aGsCe7Ee6ZyNgmoHUM5A" selectedViews="_4MJtMCe7Ee6ZyNgmoHUM5A _JZp7ACe8Ee6ZyNgmoHUM5A _JbP2cCe8Ee6ZyNgmoHUM5A _rKLvYE2REe6BcbiUQHmGsw _u719gE4dEe6PAu-De-sKaA" version="15.1.0.202211301600">
+    <semanticResources>platform:/resource/%25inject:project.fullname%25/models/%25inject:project.name%25.ecore</semanticResources>
+    <semanticResources>%inject:project.name%25.genmodel</semanticResources>
+    <semanticResources>platform:/plugin/org.polarsys.capella.common.data.core.gen/model/ModellingCore.ecore</semanticResources>
+    <semanticResources>platform:/plugin/org.polarsys.kitalpha.emde/model/eMDE.ecore</semanticResources>
+    <semanticResources>platform:/plugin/org.polarsys.capella.core.data.gen/model/CapellaCore.ecore</semanticResources>
+    <semanticResources>platform:/plugin/org.polarsys.capella.core.data.gen/model/CapellaCommon.ecore</semanticResources>
+    <semanticResources>platform:/plugin/org.polarsys.kitalpha.ad.integration.sirius/description/ad.odesign</semanticResources>
+    <semanticResources>environment:/viewpoint</semanticResources>
+    <ownedViews xmi:type="viewpoint:DView" uid="_4MJtMCe7Ee6ZyNgmoHUM5A">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_4Pf8ICe7Ee6ZyNgmoHUM5A" name="%inject:project.name%" repPath="#_4M1psCe7Ee6ZyNgmoHUM5A" changeId="1689939953596">
+        <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
+        <target xmi:type="ecore:EPackage" href="platform:/resource/%inject:project.fullname%/models/%inject:project.name%.ecore#/"/>
+      </ownedRepresentationDescriptors>
+    </ownedViews>
+    <ownedViews xmi:type="viewpoint:DView" uid="_JZp7ACe8Ee6ZyNgmoHUM5A">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Generation']"/>
+    </ownedViews>
+    <ownedViews xmi:type="viewpoint:DView" uid="_JbP2cCe8Ee6ZyNgmoHUM5A">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Review']"/>
+    </ownedViews>
+    <ownedViews xmi:type="viewpoint:DView" uid="_rKLvYE2REe6BcbiUQHmGsw">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.polarsys.kitalpha.emde.diagram/description/extensibility.odesign#//@ownedViewpoints[name='Extensibility']"/>
+    </ownedViews>
+    <ownedViews xmi:type="viewpoint:DView" uid="_u719gE4dEe6PAu-De-sKaA">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.polarsys.kitalpha.ad.integration.sirius/description/ad.odesign#//@ownedViewpoints[name='ad']"/>
+    </ownedViews>
+  </viewpoint:DAnalysis>
+  <diagram:DSemanticDiagram uid="_4M1psCe7Ee6ZyNgmoHUM5A">
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_4P3vkCe7Ee6ZyNgmoHUM5A" source="GMF_DIAGRAMS">
+      <data xmi:type="notation:Diagram" xmi:id="_4P4WoCe7Ee6ZyNgmoHUM5A" type="Sirius" element="_4M1psCe7Ee6ZyNgmoHUM5A" measurementUnit="Pixel">
+        <styles xmi:type="notation:DiagramStyle" xmi:id="_4P4WoSe7Ee6ZyNgmoHUM5A"/>
+      </data>
+    </ownedAnnotationEntries>
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_4RguUCe7Ee6ZyNgmoHUM5A" source="DANNOTATION_CUSTOMIZATION_KEY">
+      <data xmi:type="diagram:ComputedStyleDescriptionRegistry" uid="_4RhVYCe7Ee6ZyNgmoHUM5A"/>
+    </ownedAnnotationEntries>
+    <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
+    <activatedFilters xmi:type="filter:CompositeFilterDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@filters[name='Hide%20derived%20features']"/>
+    <activatedFilters xmi:type="filter:CompositeFilterDescription" href="platform:/plugin/org.polarsys.kitalpha.ad.integration.sirius/description/ad.odesign#//@ownedViewpoints[name='ad']/@ownedRepresentations[name='AD%20diagram']/@filters[name='ModelExtensionFilter']"/>
+    <activatedFilters xmi:type="filter:CompositeFilterDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@filters[name='Hide%20inherited%20references%20(nodes)']"/>
+    <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_4PRSoCe7Ee6ZyNgmoHUM5A"/>
+    <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer"/>
+    <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Package']"/>
+    <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Validation']"/>
+    <target xmi:type="ecore:EPackage" href="platform:/resource/%inject:project.fullname%/models/%inject:project.name%.ecore#/"/>
+  </diagram:DSemanticDiagram>
+</xmi:XMI>
