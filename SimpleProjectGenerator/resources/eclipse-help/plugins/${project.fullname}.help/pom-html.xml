@@ -11,7 +11,7 @@
 	<groupId>%inject:project.fullname%</groupId>
 	<version>1.0.0-SNAPSHOT</version>
 
-	<artifactId>help-build</artifactId>
+	<artifactId>help-generation</artifactId>
 	<packaging>pom</packaging>
 
 <!-- 

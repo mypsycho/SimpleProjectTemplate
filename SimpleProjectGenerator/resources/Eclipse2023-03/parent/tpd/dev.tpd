@@ -14,7 +14,7 @@ target "%inject:project.name% - Dev"
 
 with requirements
 
-location eclipse "https://download.eclipse.org/releases/2021-06" {
+location eclipse "https://download.eclipse.org/releases/2023-03" {
 // Following dependencies are already required by runtime or tests
 // But they are also required for tools.
 

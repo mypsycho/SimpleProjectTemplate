@@ -77,7 +77,7 @@
 		<!-- Module without code generation -->
 		<module>plugins/%inject:project.fullname%.commons</module>
 		<module>plugins/%inject:project.fullname%.design</module>
-		<module>plugins/%inject:project.fullname%.rules.validation</module>
+		<module>plugins/%inject:project.fullname%.validation</module>
 		<module>plugins/%inject:project.fullname%.ui</module>
 		<!-- Add if not provided 
 		<module>plugins/%inject:project.fullname%.help</module>

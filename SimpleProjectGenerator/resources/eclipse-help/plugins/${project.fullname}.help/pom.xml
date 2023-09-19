@@ -31,14 +31,141 @@ See https://github.com/asciidoctor/asciidoctor-maven-plugin/issues/319 for hint.
 - for single PDF, generate adoc from toc file using "include::target[leveloffset=offset]".
 
 -->
- 	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<help.adoc.src>src</help.adoc.src> <!-- same depth as target -->
+		<help.html.target>html</help.html.target> <!-- must matches content of 'toc' eclipse file. -->
 	</properties>
 
-	<modules>
-		 <!-- module allows asciidoctor launch without Tycho dependencies (faster) -->
-		<module>pom-html.xml</module>
-	</modules>
+	<!-- 
+	Cannot use pom-html as a module.
+	Module is on supported for packaging=pom.
+	-->
+
+	<build>
+		<defaultGoal>process-resources</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+
+				<executions>
+					<execution>
+						<id>asciidoc-to-html</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sourceDirectory>${help.adoc.src}</sourceDirectory>
+					<relativeBaseDir>true</relativeBaseDir><!-- Basedir for each doc. -->
+					<preserveDirectories>true</preserveDirectories>
+					<headerFooter>true</headerFooter><!-- Required for admonitions but style is not bared -->
+					<!-- Using target won't do, {src} and {output} must have the same depth -->
+					<outputDirectory>${help.html.target}</outputDirectory>
+					<!-- No need to copy images, they are included at build -->
+					
+					<backend>html5</backend>
+					<!--
+					Scenarios for linking vs embedding assets:
+					Link to both stylesheets and images::
+						- don't set embedAssets option
+						- set linkcss attribute to true
+						- set imagesdir attribute to path relative to AsciiDoc source file
+						<attributes>
+							<linkcss>true</linkcss>
+							<imagesdir>./images</imagesdir>
+						</attributes>
+					Embed stylesheets and images::
+						- set embedAssets option to true
+						- don't set linkcss attribute
+						- set imagesdir attribute to path relative to project root
+						<embedAssets>true</embedAssets>
+						<attributes>
+							<imagesdir>src/docs/asciidoc/images</imagesdir>
+						</attributes>
+					Link to stylesheets but embed images::
+						- set embedAssets option to true
+						- set linkcss attribute to true
+						- set imagesdir attribute to path relative to project root
+						<embedAssets>true</embedAssets>
+						<attributes>
+							<linkcss>true</linkcss>
+							<imagesdir>src/docs/asciidoc/images</imagesdir>
+						</attributes>
+					Embed stylesheets but link images (default)::
+						- don't set embedAssets option
+						- don't set linkcss attribute
+						- set imagesdir attribute to path relative to AsciiDoc source file
+						<attributes>
+							<imagesdir>./images</imagesdir>
+						</attributes>
+					IMPORTANT: When you enable image embedding, you must qualify the path with imagesdir, as shown above.
+					-->
+					<attributes>
+						<source-highlighter>rouge</source-highlighter>
+						<!-- same as .asciidoctorconfig.adoc
+						<imagesdir>./images</imagesdir> -->
+						<!-- asciidoctor-diagram uses basedir by default -->
+						<imagesoutdir>${project.build.directory}/generated-diagrams</imagesoutdir> 						
+						<!-- no toc -->
+						<sectanchors>true</sectanchors> <!-- Add anchor to section -->
+						<idprefix/><!-- set the idprefix to blank -->
+						<idseparator>-</idseparator>
+						<icons>font</icons>
+						<nofooter/> <!-- no generation timestamp at th bottom -->
+						<!-- To extract css (linkcss), several properties are required. -->
+						<stylesheet>${project.basedir}/stylesheet/adoc-github_noMargins.css</stylesheet>
+					</attributes>
+				</configuration>
+
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${help.html.target}</directory>
+							<excludes>
+								<exclude>.gitignore</exclude>
+							</excludes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.asciidoctor</groupId>
+					<artifactId>asciidoctor-maven-plugin</artifactId>
+					<version>2.2.2</version>
+	
+					<!-- Use the default versions: (qualified)
+					
+					<dependencies>
+						<dependency>
+							<groupId>org.jruby</groupId>
+							<artifactId>jruby</artifactId>
+							<version>9.3.8.0</version>
+						</dependency>
+						<dependency>
+							<groupId>org.asciidoctor</groupId>
+							<artifactId>asciidoctorj</artifactId>
+							<version>2.5.7</version>
+						</dependency>
+	
+					</dependencies>
+					-->
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		
+	</build>
 
 </project>

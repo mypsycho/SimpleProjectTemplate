@@ -1,0 +1,16 @@
+/*******************************************************************************
+
+  %inject:project.copyright%
+
+  Contributors: 
+    Obeo - initial API and implementation.
+
+ *******************************************************************************/
+target "%inject:project.name% - Test"
+
+with requirements
+
+location eclipse "https://download.eclipse.org/releases/2023-03" {
+	org.junit
+	org.eclipse.jdt.feature.group // already dragged by runtime 
+}

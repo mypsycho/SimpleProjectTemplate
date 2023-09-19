@@ -54,7 +54,6 @@
 	    <li>SDK for different target environment: J2EE and Eclipse.</li>
 	    <li>Team tools: Git, maven, oomph, mylyn</li>
 	    <li>Documentation and quality: Asciidoc, Checkstyle.</li>
-	    <li>Capella Studio</li>
 	    </ul>
 	    <br/>
 		Thanks to EclipseSource for providing the base of this configuration.<br/>

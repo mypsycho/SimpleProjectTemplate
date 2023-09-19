@@ -14,7 +14,7 @@
 
     <constraintProvider
             cache="true"
-            class="%inject:project.fullname%.rules.validation.%inject:project.prefix%ConstraintsGroup"
+            class="%inject:project.fullname%.validation.%inject:project.prefix%ConstraintsGroup"
             mode="Batch">
         <package namespaceUri="%inject:project.ecoreuri%" />
     </constraintProvider>

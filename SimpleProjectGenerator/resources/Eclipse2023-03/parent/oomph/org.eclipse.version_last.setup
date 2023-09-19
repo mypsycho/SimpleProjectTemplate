@@ -8,7 +8,7 @@
     xsi:schemaLocation="
     http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore
     "
-	name="eclipse_2021_06" label="Eclipse 2021-06" requiredJavaVersion="14"
+	name="eclipse_2023_03" label="Eclipse 2023-03" requiredJavaVersion="14"
 >
 
 <!-- Capella 6 requires Java 11 but is bundled with Java 17 -->
@@ -47,8 +47,8 @@
 	
 	<setupTask xsi:type="setup.p2:P2Task" id="eclipse" label="Eclipse basic">
 		
-		<repository url="https://download.eclipse.org/releases/2021-06" />
-		<repository url="https://download.eclipse.org/technology/epp/packages/2020-06" />
+		<repository url="https://download.eclipse.org/releases/2023-03" />
+		<repository url="https://download.eclipse.org/technology/epp/packages/2023-03" />
 
 		<requirement name="epp.package.modeling" versionRange="[4.6.0,5.0.0)" />
 		<requirement name="org.eclipse.platform.feature.group" versionRange="[4.6.0,5.0.0)" />
@@ -57,16 +57,45 @@
 		<requirement name="org.eclipse.e4.core.tools.feature.feature.group" />
 		<requirement name="org.eclipse.egit.feature.group" />
 		<requirement name="org.eclipse.m2e.feature.feature.group" />
-		<!-- 
-		<requirement name="org.eclipse.oomph.setup.ui.ide.feature.group" />
- 		-->
+		
 		<requirement name="org.eclipse.oomph.workingsets.feature.group" />
 		<requirement name="org.eclipse.oomph.preferences.feature.group" />
 		<requirement name="org.eclipse.oomph.projectconfig.feature.group" />
-		<requirement name="org.eclipse.oomph.setup.sdk.feature.group" />
 		<requirement name="org.eclipse.oomph.targlets.feature.group" />
 		<requirement name="org.eclipse.oomph.version.feature.group" />
-
+		
+		<!-- Mylyn is removed from Simreal-->
+		<repository url="https://download.eclipse.org/mylyn/updates/release/3.26.1" />
+		<!-- Team work: Removed 
+		<requirement name="org.eclipse.mylyn.bugzilla_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.context_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.ide_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.java_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.pde_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn.wikitext_feature.feature.group" />
+		<requirement name="org.eclipse.mylyn_feature.feature.group" />
+		<requirement name="org.eclipse.egit.mylyn.feature.group" />
+ 		-->
+		
+		<requirement name="org.eclipse.oomph.setup.sdk.feature.group" />
+		
+		<!-- We should not use Oomph SDK:
+		It drags mylyn via oomph.setup.mylyn
+		
+		This is the list of meta-model extension included in SDK.
+		<requirement name="org.eclipse.oomph.setup.ui.ide.feature.group" />		
+		<requirement name="org.eclipse.oomph.setup.git.feature.group" />
+		<requirement name="org.eclipse.oomph.setup.jdt.feature.group" />		
+		<requirement name="org.eclipse.oomph.setup.launching.feature.group" />
+		<requirement name="org.eclipse.oomph.setup.maven.feature.group" />
+		<requirement name="org.eclipse.oomph.setup.pde.feature.group" />
+		<requirement name="org.eclipse.oomph.setup.projects.feature.group" />
+		<requirement name="org.eclipse.oomph.setup.projectset.feature.group" />
+		<requirement name="org.eclipse.oomph.setup.targlets.feature.group" />
+		<requirement name="org.eclipse.oomph.setup.workbench.feature.group" />
+		-->
+		
+		
      	<!--  java dev -->
 		<requirement name="org.eclipse.jdt.feature.group" />
 		<requirement name="org.eclipse.pde.feature.group" />
@@ -79,23 +108,15 @@
 		<repository url="https://download.eclipse.org/cbi/tpd/3.0.0-SNAPSHOT/" />
 		<requirement name="org.eclipse.cbi.targetplatform-feature.feature.group" />
 		
-  		<!-- Team work -->
-		<requirement name="org.eclipse.mylyn.bugzilla_feature.feature.group" />
-		<requirement name="org.eclipse.mylyn.context_feature.feature.group" />
-		<requirement name="org.eclipse.mylyn.ide_feature.feature.group" />
-		<requirement name="org.eclipse.mylyn.java_feature.feature.group" />
-		<requirement name="org.eclipse.mylyn.pde_feature.feature.group" />
-		<requirement name="org.eclipse.mylyn.wikitext_feature.feature.group" />
-		<requirement name="org.eclipse.mylyn_feature.feature.group" />
-		<requirement name="org.eclipse.egit.mylyn.feature.group" />
+		
 
-     	<!--  xml and web -->
+		 
+
+     	<!--  xml and web
 		<requirement name="org.eclipse.xsd.sdk.feature.group" />
 		<requirement name="org.eclipse.wst.web_ui.feature.feature.group" />
 		<requirement name="org.eclipse.wst.xml_ui.feature.feature.group" />
-		<!-- 
-		<requirement name="org.eclipse.pde.api.tools.ee.feature.feature.group" />
-		      --> 
+ -->
 	</setupTask>
 	
 
@@ -114,12 +135,12 @@
 		 -->
 	</setupTask>
 	
-	<!-- Devstyle (provide Darkest theme) -->
+	<!-- Devstyle (provide Darkest theme)
 	<setupTask xsi:type="setup.p2:P2Task" id="themes" label="IDE themes">
 		<repository url="http://www.genuitec.com/updates/devstyle/ci/" />
 		<requirement name="com.genuitec.eclipse.theming.core.feature.feature.group" />
 	</setupTask>
-	
+	 -->
 	<setupTask xsi:type="setup.p2:P2Task" id="ui" label="UI designer">
 			
       	<!-- javafx -->
@@ -127,7 +148,7 @@
 		<requirement name="org.eclipse.fx.ide.feature.feature.group" />
 		
 		<!-- swt or swing -->
-		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<repository url="https://download.eclipse.org/releases/2023-03" />
 		<requirement name="org.eclipse.wb.core.feature.feature.group" />
 		<requirement name="org.eclipse.wb.core.java.feature.feature.group" />
 		<requirement name="org.eclipse.wb.core.ui.feature.feature.group" />
@@ -142,7 +163,7 @@
 	</setupTask>
 	
 	<setupTask xsi:type="setup.p2:P2Task" id="langs" label="Language">
-		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<repository url="https://download.eclipse.org/releases/2023-03" />
 	
 		<!-- Java language -->
 		<requirement name="org.eclipse.xtend.sdk.feature.group" />
@@ -166,7 +187,7 @@
 	
 	<setupTask xsi:type="setup.p2:P2Task" id="quality" label="Quality tool">
 
-		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<repository url="https://download.eclipse.org/releases/2023-03" />
 		<requirement name="org.eclipse.eclemma.feature.feature.group" /> <!-- from eclipse dist -->
 
 		<repository url="https://checkstyle.org/eclipse-cs-update-site" />
@@ -188,7 +209,7 @@
 	</setupTask>
 			
 	<setupTask xsi:type="setup.p2:P2Task" id="modeling" label="Eclipse Modeling">
-		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<repository url="https://download.eclipse.org/releases/2023-03" />
 		<requirement name="org.eclipse.emf.sdk.feature.group" />
 		<requirement name="org.eclipse.emf.query.sdk.feature.group" />
 		<requirement name="org.eclipse.emf.transaction.sdk.feature.group" />
@@ -200,7 +221,7 @@
 		<requirement name="org.eclipse.emf.ecore.xcore.sdk.feature.group" />
 		
 		<!-- We do not reference Sirius from Eclipse release as source in not available -->
-		<repository url="https://download.eclipse.org/sirius/updates/releases/7.1.0/2021-06/" />
+		<repository url="https://download.eclipse.org/sirius/updates/releases/7.2.1/2023-03/" />
 		<requirement name="org.eclipse.sirius.specifier.ide.ui.source.feature.group" />
 		<requirement name="org.eclipse.sirius.diagram.elk.sdk.feature.feature.group" />
 		<requirement name="org.eclipse.acceleo.ui.interpreter.feature.group" />
@@ -208,16 +229,16 @@
 		<requirement name="org.eclipse.eef.sdk.feature.source.feature.group" />
 		<requirement name="org.eclipse.sirius.runtime.ide.xtext.source.feature.group" />
 		
-		<repository url="https://download.eclipse.org/modeling/gmp/gmf-runtime/updates/releases/R202211041032/" />
+		<repository url="https://download.eclipse.org/modeling/gmp/gmf-runtime/updates/releases/R202309010720/" />
 		<!-- Not needed; requires org.eclipse.gef.sdk.feature.group:3.14
 		<requirement name="org.eclipse.gmf.runtime.sdk.feature.group" />
 		 -->
-		<requirement name="org.eclipse.gmf.feature.group" versionRange="[1.15.3,1.16)"/>
+		<requirement name="org.eclipse.gmf.feature.group" versionRange="1.15.3"/>
          
-		<repository url="https://download.eclipse.org/modeling/gmp/gmf-notation/updates/releases/R202211151334/" />
+		<repository url="https://download.eclipse.org/modeling/gmp/gmf-notation/updates/releases/R202211151334" />
 		<requirement name="org.eclipse.gmf.runtime.notation.feature.group" versionRange="1.13.1"/>
          
-        <repository url="https://download.eclipse.org/elk/updates/releases/0.7.1/" />
+        <repository url="https://download.eclipse.org/elk/updates/releases/0.8.1/" />
 		<requirement name="org.eclipse.elk.feature.feature.group" />
 		<requirement name="org.eclipse.elk.algorithms.feature.feature.group" />
          
@@ -226,12 +247,12 @@
 	<setupTask xsi:type="setup.p2:P2Task" id="modeling-extras" label="Eclipse Modeling extra">
 
 		<!-- Editing Acceleo -->
-		<repository url="https://download.eclipse.org/sirius/updates/releases/7.1.0/2021-06/" />
+		<repository url="https://download.eclipse.org/sirius/updates/releases/7.2.1/2023-03/" />
 	    <requirement name="org.eclipse.sirius.runtime.ide.ui.acceleo.feature.group" />
 		<requirement name="org.eclipse.sirius.runtime.acceleo.feature.group" />
 		<requirement name="org.eclipse.sirius.specifier.ide.ui.acceleo.feature.group" />
 
-		<repository url="https://download.eclipse.org/releases/2021-06" />
+		<repository url="https://download.eclipse.org/releases/2023-03" />
 		<requirement name="org.eclipse.xtext.sdk.feature.group" />
 
 		<!-- Tools for ELK debugging -->
