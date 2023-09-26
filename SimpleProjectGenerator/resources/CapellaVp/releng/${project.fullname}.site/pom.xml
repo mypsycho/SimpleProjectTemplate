@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
-    Copyright (c) 2023 IRT SystemX. All rights reserved. 
+    %inject:project.copyright%
     Contributors: 
       Obeo - initial API and implementation.
 -->
@@ -10,13 +10,13 @@
 	<parent>
 		<groupId>%inject:project.fullname%</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.1.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../../parent</relativePath>
 	</parent>
 
 	<artifactId>%inject:project.fullname%.site</artifactId>
 	<packaging>eclipse-repository</packaging>
-	<name>Capella OA Extension Update-Site</name>
+	<name>%inject:project.label% Update-Site</name>
 
 
   <properties>

@@ -26,7 +26,7 @@ import org.polarsys.kitalpha.emde.model.EmdePackage
  * generated model.
  * </p>
  *
- * @author nperansin
+ * @author %inject:user.name%
  *
  */
 class DesignReverse extends DesignToolBase {

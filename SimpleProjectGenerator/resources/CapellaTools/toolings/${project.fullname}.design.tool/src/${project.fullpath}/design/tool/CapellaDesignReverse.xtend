@@ -18,7 +18,7 @@ import org.mypsycho.modit.emf.sirius.tool.SiriusReverseIt
  * generated model.
  * </p>
  *
- * @author nperansin
+ * @author %inject:user.name%
  *
  */
 class CapellaDesignReverse extends DesignToolBase {

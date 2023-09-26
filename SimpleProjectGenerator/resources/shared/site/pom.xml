@@ -14,15 +14,15 @@
 		<relativePath>../../parent</relativePath>
 	</parent>
 
-	<artifactId>%inject:project.fullname%.update</artifactId>
+	<artifactId>%inject:project.fullname%.site</artifactId>
 	<packaging>eclipse-repository</packaging>
 	<name>%inject:project.label% Update-Site</name>
 
 
   <properties>
   	<root.path>../..</root.path>
-  	<!--  >help.plugin>fr.irt_systemx.confianceai.capella.oax.help</help.plugin>  	
-  	<help.res.path>plugins/${help.plugin}/html</help.res.path-->
+  	<help.plugin>%inject:project.fullname%.help</help.plugin>  	
+  	<help.res.path>plugins/${help.plugin}/html</help.res.path>
   	<tpd.path>parent/tpd</tpd.path>
 <!-- 
 Repository default path for archive is defined by in:
@@ -80,6 +80,20 @@ https://github.com/eclipse/tycho/blob/tycho-2.3.0/tycho-p2/tycho-p2-repository-p
   				<outputDirectory>${repo.outputDirectory}</outputDirectory>
   			</configuration>
 		</plugin>
+		
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>tycho-p2-repository-plugin</artifactId>
+			<configuration>
+				<!-- 
+				in archive-repository, 
+				use tycho version 
+				from tycho-packaging:build-qualifier-aggregator
+				-->
+  				<finalName>${project.artifactId}-${qualifiedVersion}</finalName> <!-- default is ${project.build.finalName} -->
+  			</configuration>
+		</plugin>
+		
   	</plugins>
   </build>
 

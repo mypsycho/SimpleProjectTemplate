@@ -15,7 +15,7 @@ import org.mypsycho.modit.emf.sirius.tool.ODesignVerifications
  * directly.
  * </p>
  *
- * @author nperansin
+ * @author %inject:user.name%
  */
 class DesignVerification extends DesignToolBase {
 

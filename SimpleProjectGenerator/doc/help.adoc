@@ -2,6 +2,8 @@
 
 = Simple Project Generator
 
+:doctype: book
+:toc:
 
 == Purpose
 
@@ -33,7 +35,7 @@ Each entry is a property for templates files.
 === Common configuration
 
 The required configuration depends of applicable templates. +
-However, most of them use following properties.
+However, most of them use following properties:
 
 [source, properties]
 ----
@@ -59,6 +61,39 @@ project.url = <URL for feature> http://www.aaa-inc.com/solutions/mydemo/
 
 ----
 
+=== Common Properties List
+
+template ::
+  Comma separated list of template to apply. (always required)
+
+project.name ::
+  Technical name of the project. Used when only simple name is needed.
+project.label ::
+  Printable name of the project. Appears in Feature name or compilation.
+ 
+project.prefix ::
+  Prefix for class name or shortcuts
+project.extension ::
+  File extension (only for model file)
+
+project.fullname ::
+  Qualified name used for unique identification. (Component name) 
+project.fullpath ::
+  Qualified name with '/' as segment separator. Used for unique Path.
+
+project.provider ::
+  Legal name of the software owner. OBEO when unset.
+project.license ::
+  Code license name. _Eclipse EPL 2.0_ when unset.
+
+project.profile ::
+  Name to identify configuration such as formatter.
+
+project.url ::
+  Public URL mainly for Features description.
+
+
+
 
 === Built-in entries
 
@@ -83,13 +118,43 @@ user.name::
 The generator uses the properties _template_ to create files using substituable content 
 from _resources_.
 
-Each file is created substituting `%inject:*%` sequence by properties value.
 
-If _template_ is composed of several path, they are separated by a semi-comma (;) and 
-apply in order.
+=== Application
 
-A template can even be a folder, a properties file or both.
+The launcher *ProjectGenerator* from Eclipse Run Configuration can be use to start the 
+generation. +
+A popup Dialog will ask for Project Properties file. +
+It only requires Java 11.
 
+=== Behavior
+
+Each file from templates is created substituting `%inject:*%` sequence by properties value.
+
+If _template_ is composed of several paths, they are separated by a semi-comma (;) and 
+applied in order.
+
+A template targets a folder, a properties file (without extension) or both. If a template
+is composed of both content, Properties file is applied before the folder as Properties 
+rules use generic resources that can be overridden.
+
+
+<<<
+
+== Creating templates
+
+=== Creating simple resources
+
+Create template files in a sub-folder of `resources`, the sub-folder name is to be used 
+as template.
+
+To make a section parametrable, replace text by `%inject:*%` where '*' is a property from 
+project descriptor.
+
+=== Creating templates from 
+
+Create a property file in `resources` folder, the file base-name is to be used as template.
+
+Each line must conform to the <<Template properties Syntax>>.
 
 === Template properties Syntax
 
@@ -130,23 +195,6 @@ Delete resources::
  ** *Delete* resources
    As indicated in Properties file entries
 
-<<<
-
-== Creating templates
-
-=== Creating simple resources
-
-Create template files in a sub-folder of `resources`, the sub-folder name is to be used 
-as template.
-
-To make a section generic, replace text by `%inject:*%` where '*' is a property from 
-project descriptor.
-
-=== Creating patterns
-
-Create property file in `resources` folder, the file base-name is to be used as template.
-
-See <<Template properties Syntax>> section.
 
 <<<
 
@@ -158,8 +206,8 @@ See <<Template properties Syntax>> section.
  Common settings are also provided: Java Formatter, template, Save actions, Checkstyle. +
  Must be used with another TP template (Eclipse2021-06 or Capella6.1)
  
-`Eclipse2021-06` ::
- Target platform and Oomph model for this Eclipse version.
+`Eclipse2021-06`, `Eclipse2023-03` ::
+ Target platforms and Oomph models for those Eclipse versions.
  
 `Capella6.1` ::
  Target platform and Oomph model (including Capella Studio) for this Capella version.
@@ -183,3 +231,15 @@ See <<Template properties Syntax>> section.
 ====
 `shared` is not a template. It contains reusable sets of files a template can call.
 ====
+
+==  Templates combination
+
+Without being exhaustive, following combinations can be used for templates:
+
+ * `tycho;Eclipse2021-06;eclipse-help` : For plugins and embedded help.
+ * `tycho;Eclipse2021-06;emf;eclipse-help` : For Sirius-based Modeler with EMF DSL on 
+  *Eclipse 2021-06*.
+ * `tycho;Capella6.1;emf;CapellaVp` : For Capella extension with Kit-alpha viewpoint.
+ *  `SmartEA-connector` : For a SmartEA connector.
+ *  `SmartEA-extension` : For a SmartEA extension. (Client and Server plugins)
+

@@ -117,6 +117,9 @@ public class SimpleGenerator {
         templates.forEach(it -> it.apply(globalContext));
     }
 
+    void injectToContext(Properties context, String key, String value) {
+        context.setProperty(key.substring(INJECT_PREFIX.length()), value);
+    }
     
     class TemplateDescription {
 
@@ -140,10 +143,7 @@ public class SimpleGenerator {
                 .filter(it -> SgSubstitutions.isInject(it.getKey()))
                 // The inject_prefix based key name must not exist in root (or base, or user)
                 // properties
-                .forEach(it -> {
-                    context.setProperty(it.getKey().substring(INJECT_PREFIX.length()), 
-                        it.getValue());
-                });
+                .forEach(it -> injectToContext(context, it.getKey(), it.getValue()));
         }
 
 

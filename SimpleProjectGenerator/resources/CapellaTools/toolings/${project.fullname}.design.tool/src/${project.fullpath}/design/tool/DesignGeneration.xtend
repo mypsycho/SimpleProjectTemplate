@@ -17,7 +17,7 @@ import %inject:project.fullname%.design.description.%inject:project.prefix%Desig
  * directly.
  * </p>
  *
- * @author nperansin
+ * @author %inject:user.name%
  */
 class DesignGeneration extends DesignToolBase {
 

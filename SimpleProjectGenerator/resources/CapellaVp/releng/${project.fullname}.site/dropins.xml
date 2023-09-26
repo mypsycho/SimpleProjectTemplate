@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ====================================================================== 
-     16 Sep 2022 13:23:45                                                        
+     %inject:project.copyright%                                                        
 
-     project     
      description 
 		Create dropin archives once the p2 repository is built.
 		(Only for Maven-Tycho layout)
 		
-     nperansin                                                                
+     %inject:user.name%                                                                
      ====================================================================== -->
 <project name="%inject:project.fullname%.dropins" default="dropins">
 
