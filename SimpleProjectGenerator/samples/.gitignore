@@ -1,0 +1,4 @@
+# Ignore everything but the descriptor.
+*/*
+# 1 depth pattern
+!/*/*.properties
