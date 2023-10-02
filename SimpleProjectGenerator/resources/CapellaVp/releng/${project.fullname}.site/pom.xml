@@ -42,6 +42,25 @@ https://github.com/eclipse/tycho/blob/tycho-2.3.0/tycho-p2/tycho-p2-repository-p
   	<plugins>
  	
   		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>tycho-p2-repository-plugin</artifactId>
+			<configuration>
+				<!-- 
+				in archive-repository, 
+				use tycho version 
+				from tycho-packaging:build-qualifier-aggregator
+				-->
+  				<finalName>${project.artifactId}-${qualifiedVersion}</finalName> <!-- default is ${project.build.finalName} -->
+  			</configuration>
+		</plugin>
+		
+		<!-- 
+			Lifecycle hint on 'eclipse-repository' :
+			Explicit 'prepare-package' executions happen after built-in 'tycho::assemble-repository' call
+			and before 'tycho::assemble-repository' call 
+		-->
+		
+  		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-resources-plugin</artifactId>
   			<executions>
@@ -82,33 +101,35 @@ https://github.com/eclipse/tycho/blob/tycho-2.3.0/tycho-p2/tycho-p2-repository-p
   			</configuration>
 		</plugin>
 		<plugin>
-			<groupId>org.eclipse.tycho</groupId>
-			<artifactId>tycho-p2-repository-plugin</artifactId>
-			<configuration>
-				<!-- 
-				in archive-repository, 
-				use tycho version 
-				from tycho-packaging:build-qualifier-aggregator
-				-->
-  				<finalName>${project.artifactId}-${qualifiedVersion}</finalName> <!-- default is ${project.build.finalName} -->
-  			</configuration>
-		</plugin>
-		  	
-		<plugin>
-			<!-- Dropins are easier to deploy on T4C server. -->
 		    <artifactId>maven-antrun-plugin</artifactId>
 		    <executions>
 		        <execution>
+		            <id>content-index</id>
+		            <phase>prepare-package</phase>
+		            <goals><goal>run</goal></goals>
+		            <configuration>
+		                <target>
+							<!-- 
+							Extract content.xml created by assemble-repository
+							It is the only element from content.jar
+							-->
+							<unzip src="${repo.outputDirectory}/content.jar" dest="${repo.outputDirectory}/" />
+							<xslt style="content2html.xsl" 
+								in="${repo.outputDirectory}/content.xml" 
+								out="${repo.outputDirectory}/index.html" />
+							<delete file="${repo.outputDirectory}/content.xml" />
+		                </target>
+		            </configuration>
+		        </execution>
+		        
+		        <!-- Dropins are easier to deploy on T4C server. -->
+		        <execution>
 		            <id>dropins</id>
 		            <phase>package</phase>
-		            <goals>
-		                <goal>run</goal>
-		            </goals>
+		            <goals><goal>run</goal></goals>
 		            <configuration>
-		            	
 		                <target>
-							<ant antfile="${basedir}/dropins.xml"> <!-- inherit Properties -->
-							</ant>
+							<ant antfile="${basedir}/dropins.xml" /> <!-- inherit Properties -->							
 		                </target>
 		            </configuration>
 		        </execution>

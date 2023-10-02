@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- 
-
-Ant call:
-
-<echo message="Creating human readable index.html" />
-<unzip src="${site.p2.dir}/content.jar" dest="${site.p2.dir}" />
-<xslt style="xsl/content2html.xsl" in="${site.p2.dir}/content.xml" out="${site.p2.dir}/index.html" />
-<delete file="${site.p2.dir}/content.xml" />
-
- -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="html" omit-xml-declaration="yes" indent="yes"/>
   <xsl:strip-space elements="*"/>
@@ -30,6 +20,14 @@ Ant call:
       <h1>
         <xsl:value-of select="@name"/>
       </h1>
+      <p>
+        This update is created using following Target Platform descriptions:
+        <ul>
+          <li><a href="tpd/runtime.tpd">runtime</a>: Dependencies for executing components.</li>
+          <li><a href="tpd/build.tpd">runtime</a>: Dependencies for building and testing components.</li>
+          <li><a href="tpd/sdk.tpd">runtime</a>: Dependencies to debug components.</li>
+        </ul> 
+      </p>
       <p>
         <em>For information about installing or updating software, see the
           <a
