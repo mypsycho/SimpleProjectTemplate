@@ -147,8 +147,8 @@ rules use generic resources that can be overridden.
 Create template files in a sub-folder of `resources`, the sub-folder name is to be used 
 as template.
 
-To make a section parametrable, replace text by `%inject:*%` where '*' is a property from 
-project descriptor.
+To make a section parametrable, replace text by `%inject:*%` where '*' is a property name 
+from project descriptor.
 
 === Creating templates from 
 
@@ -161,8 +161,9 @@ Each line must conform to the <<Template properties Syntax>>.
 Injection:: 
   _Syntax_: `<inject>key = value` +
   Any property starting by `<inject>` will be injected as user properties before any 
-  substitution rule is applied. However explicit user properties will used if defined. +
-  This property works as a default value and can be overridden by template sequence.
+  substitution rule is applied. However explicit user properties will be used if defined. +
+  This property works as a default value and can even be overridden by other template 
+  according to the chosen sequence.
 
 Parameterized template::
   _Syntax_: `targetFile = srcFile1;srcFile2 | param1>value1 | param2>value2`
@@ -174,6 +175,17 @@ Parameterized template::
   Each couple `key>value` is added to the substitution context with `param.` prefix. +
   For example: if `| name>commons` is set after a source file, `%inject:param.name%` 
   will replaced by `commons`.
+  
+[NOTE]
+====
+
+Reminder on Properties syntax: +
+Using '\' at the end of line allows to split 1 property into several lines. + 
+'\n' must be explicit newlines. +
+Regular '\' must be doubled ( \\ ) to escape special characters.
+
+====
+
 
 Delete resources::
   _Syntax_: `targetFile = <delete>`
